@@ -1,2 +1,3 @@
 # Ticketer
-Tickets tickets tickets!!!
+
+Es un aplicacion web para gestionar tickets de proyectos
