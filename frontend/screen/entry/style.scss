@@ -1,0 +1,22 @@
+.entry {
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.entryContainer {
+    display: flex;
+    height: 600px;
+    width: 1000px;
+    border-radius: 0.3rem;
+    overflow: hidden;
+
+}
+
+.entryTwo{
+    height: 100%;
+    width: 50%;
+    background: green;
+}

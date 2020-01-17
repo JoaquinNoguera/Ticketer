@@ -1,4 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Entry from './screen/entry';
 
-ReactDOM.render(<div> HOLA react</div>, document.getElementById('app-root'));
+ReactDOM.render(<Entry/>, document.getElementById('app-root'));

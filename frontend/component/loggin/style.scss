@@ -1,0 +1,29 @@
+.logginContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    background: #bdc3c7;
+    position: relative;
+}
+
+.logginForm{
+    margin: 25px;
+    flex-direction: column;
+    width: calc(100% - 25px);
+    display: flex;
+}
+
+.logginInput{
+    width: 100%;
+    height: 25px;
+}
+
+.logginButton {
+
+    margin: 10px auto;
+    height: 40px;
+    width: 150px;
+}
