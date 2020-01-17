@@ -1,0 +1,15 @@
+.colaboratorContainer{
+    display: flex;
+    width: 100%;
+    position: relative;
+    h3 {
+        margin: 20px;
+    }
+    border: 0.5px solid black;
+}
+
+.colaboratorButton{
+    margin: 20px;
+    position: absolute;
+    right: 0px;
+}

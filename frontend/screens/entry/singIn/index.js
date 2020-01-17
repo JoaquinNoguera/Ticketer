@@ -1,1 +1,1 @@
-export {default} from './singIn';
+export {default} from './singin';
