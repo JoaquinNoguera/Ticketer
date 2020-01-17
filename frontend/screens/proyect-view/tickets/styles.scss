@@ -1,0 +1,23 @@
+#proyect_view-tickets-tabs {
+    display: flex;
+    flex-direction: row;
+}
+
+#proyect_view-tickets-view {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.proyect_view-tickets-tab {
+    display: inline-block;
+    padding: .2em;
+
+    background-color: #ededed;
+    cursor: pointer;
+}
+
+.proyect_view-tickets-tab-active {
+    background-color: red;
+    cursor: default;
+}

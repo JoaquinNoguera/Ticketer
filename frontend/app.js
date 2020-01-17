@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Entry from './screen/entry';
 
-ReactDOM.render(<Entry/>, document.getElementById('app-root'));
+import ProyectView from './screens/proyect-view';
+
+ReactDOM.render(<ProyectView />, document.getElementById('app-root'));

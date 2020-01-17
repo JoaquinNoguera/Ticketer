@@ -2,12 +2,11 @@ import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route,
-    withRouter
+    Route
   } from "react-router-dom";
-import Welcome from '../../component/welcome';
-import Loggin from '../../component/loggin';
-import SingIn from '../../component/singIn';
+import Welcome from './welcome';
+import Loggin from './loggin';
+import SingIn from './singIn';
 import './style.scss';
 
 export default function Entry () {

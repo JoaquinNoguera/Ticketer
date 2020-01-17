@@ -1,0 +1,25 @@
+#proyect_view-actions {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+#proyect_view-add_ticket {
+    height: 60px;
+    width: 60px;
+
+    border-radius: 50%;
+
+    position: absolute;
+
+    bottom: 1em;
+    right: 1em;
+
+    background-color: blue;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    box-shadow: 10px 10px 17px -7px rgba(0,0,0,0.75);
+}

@@ -1,0 +1,16 @@
+.dashboard-proyect {
+    margin: 1em;
+
+    background-color: #ededed;
+
+    position: relative;
+    overflow: auto;
+    padding-left: .5em;
+}
+
+.dashboard-proyect-abandon {
+    position: absolute;
+
+    bottom: .5em;
+    right: .5em;
+}
