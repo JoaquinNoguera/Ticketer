@@ -22,6 +22,7 @@ module.exports = {
     },
     devtool: 'source-map',
     devServer: {
+        open: true,
         historyApiFallback: true,
         contentBase: path.resolve(__dirname, 'build/frontend'),
         port: 3000

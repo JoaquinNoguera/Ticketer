@@ -1,0 +1,34 @@
+.welcomeContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 50%;
+    background: #2c3e50;
+    position: relative;
+}
+
+.welcomeBotton{
+    position: absolute;
+    height: 20px;
+    width: 60px;
+    left: calc(100% - 60px);
+}
+.welcomeContainerText{
+    margin: 50px;
+    text-align: justify;
+    color: #f1f1f1;
+}
+.welcomeBottonLoggin {
+    bottom: 200px;
+}
+
+.welcomeBottonSingIn {
+    bottom: 160px;
+}
+
+.welcomeSpan {
+    color: #f1f1f1;
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+}
