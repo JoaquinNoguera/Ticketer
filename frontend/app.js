@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import ProyectView from './screens/proyect-view';
+import NavBar from './components/navbar';
+import './styles.scss'
 
-ReactDOM.render(<ProyectView />, document.getElementById('app-root'));
+ReactDOM.render(<NavBar />, document.getElementById('app-root'));
