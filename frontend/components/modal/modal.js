@@ -13,10 +13,11 @@ class Modal extends React.Component {
 
                 <div 
                     className='modal-background'
-                    onClick={ onFocusLoss }
+                    onClick={ event => { event.stopPropagation(); onFocusLoss() } }
                 >
                     <div 
                         className={ `modal-root ${ className || '' }` }
+                        onClick={ event => event.stopPropagation() }
                         { ...otherProps }
                     >
                         { children }
