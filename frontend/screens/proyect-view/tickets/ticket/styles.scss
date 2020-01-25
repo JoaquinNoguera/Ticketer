@@ -1,8 +1,10 @@
 .proyect_view-tickets-ticket {
     height: 120px;
     width: 200px;
-
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    overflow: hidden;
     background-color: #ededed;
-
     margin: .5em;
 }
