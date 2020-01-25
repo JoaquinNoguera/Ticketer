@@ -6,14 +6,14 @@ import {
   } from "react-router-dom";
 import Welcome from './welcome';
 import Loggin from './loggin';
-import SingIn from './singIn';
+import SingIn from './sign-in';
+
 import './style.scss';
 
 export default function Entry () {
     return(
         <div className="entry">
             <div className="entryContainer">
-            <Router>
                 <Switch>
                     <Route exact path ="/loggin">
                         <Welcome/>
@@ -24,7 +24,6 @@ export default function Entry () {
                         <SingIn/>
                     </Route>
                 </Switch>
-            </Router>    
             </div>
         </div>
     )

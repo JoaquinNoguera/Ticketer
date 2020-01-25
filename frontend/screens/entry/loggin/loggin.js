@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
 
@@ -28,14 +29,14 @@ export default function Loggin(props){
                     "
                 />
                 
-                <button 
+                <Link to='/proyects'><button 
                     type="submit"
                     className="
                         logginButton
                     "
                 >
                     Login
-                </button>
+                </button></Link>
             </form>
         </div>
     )

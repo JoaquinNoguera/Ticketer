@@ -1,0 +1,18 @@
+.dashboard-create_proyect-modal {
+    display: flex;
+    flex-direction: row;
+}
+
+#create-proyect-modal-input {
+    margin-right: 1em;
+}
+
+#create-proyect-modal-button {
+    align-self: flex-end;
+}
+
+#create-proyect-modal-close {
+    margin-left: .2em;
+
+    align-self: flex-end;
+}

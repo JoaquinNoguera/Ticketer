@@ -1,22 +1,53 @@
 import React from 'react';
 import Proyect from './proyect';
+import CreateProyectModal from './create-proyect-modal';
 
 import './styles.scss';
 
 class Dashboard extends React.Component {
+    state = {
+        proyects: [
+            { id: 1, name: 'Tu puta madre' },
+            { id: 3, name: 'Tu puta madre re entangada' },
+            { id: 67, name: 'El nuevo Facebook' },
+            { id: 101, name: 'Dominacion mundial' }
+        ],
+        showCreateProyectModal: false
+    }
+
+    handleCreateProyectClick = () => {
+        this.setState(state => ({ showCreateProyectModal: !state.showCreateProyectModal }));
+    }
+
+    handleCreateProyectCanceled = () => {
+        this.setState({ showCreateProyectModal: false });
+    }
 
     render () {
-        return (
-            <div>
-                <h1> Proyectos </h1>
+        const { proyects, showCreateProyectModal } = this.state;
 
-                <div id="dashboard-actions"><button id='dashboard-create-proyect'> + Crear proyecto </button></div>
+        return (
+            <div id='dashboard' >
+                <h2> Proyectos </h2>
+
+                <div id="dashboard-actions">
+                    <button id='dashboard-create-proyect' onClick={ this.handleCreateProyectClick }> + Crear proyecto </button>
+                </div>
+
+                <CreateProyectModal 
+                show={ showCreateProyectModal } 
+                onAccept={ this.handleCreateProyectCanceled } 
+                onCancel={ this.handleCreateProyectCanceled } 
+                />
 
                 <div>
-                    <Proyect name='Big Bertha' />
-                    <Proyect name='kuklux' />
-                    <Proyect name='GTA 8' />
-                    <Proyect name='Proyect #4' />
+                    { proyects.map(proyect => (
+                        <Proyect
+                            key={ proyect.id }
+                            id={ proyect.id }
+                            name={ proyect.name }
+                        />
+                    )) }
                 </div>
             </div>
         );

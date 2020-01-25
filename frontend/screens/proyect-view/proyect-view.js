@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Tickets from './tickets';
 
@@ -8,12 +9,12 @@ class ProyectView extends React.Component {
 
     render () {
         return (
-            <div>
+            <div id='proyect_view'>
                 <h2> Titulo del proyecto </h2>
 
                 <div id="proyect_view-actions">
                     <button> Configurar (solo creador) </button>
-                    <button> Volver al dashboard </button>
+                    <Link to='/proyects' ><button> Volver al dashboard </button></Link>
                 </div>
 
                 <Tickets></Tickets>

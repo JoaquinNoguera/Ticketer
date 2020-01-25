@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Link } from 'react-router-dom';
 
 import './styles.scss';
 
@@ -20,14 +21,13 @@ class UserDropdown extends React.Component {
 
         const toRender = [ children ];
 
-        console.log(children);
-
         if (show) {
             toRender.push(ReactDOM.createPortal(
 
                 <div id='navbar-user-dropdown' style={ this.state.dropdownStyle }>
-                    <div className='navbar-user-dropdown-item' > Cerrar sesion </div>
-                    <div className='navbar-user-dropdown-item' > Configuracion </div>
+                    <Link to='/loggin' >
+                        <div className='navbar-user-dropdown-item' > Cerrar sesion </div>
+                    </Link>
                 </div>
                 
             , document.getElementById('popup-root')));

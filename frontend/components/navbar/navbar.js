@@ -19,7 +19,7 @@ class NavBar extends React.Component {
     
         return (
             <div id='navbar' >
-                <h2> Ticketer </h2>
+                <h1> Ticketer </h1>
                 
                 <UserDropdown id='navbar-username' show={ showUserDropdown }>
                     <button onClick={ this.handleUserButtonClick }> { userName } </button>

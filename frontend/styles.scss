@@ -2,6 +2,11 @@ body {
     margin: 0px;
 }
 
+a {
+    text-decoration: none !important;
+    color: inherit;
+}
+
 #popup-root {
     position: absolute;
     top: 0;
@@ -10,4 +15,14 @@ body {
     left: 0;
 
     pointer-events: none;
+    
+    z-index: 100;
+}
+
+#proyect_view {
+    margin: 0 1em 0 1em;
+}
+
+#dashboard {
+    margin: 0 1em 0 1em;
 }

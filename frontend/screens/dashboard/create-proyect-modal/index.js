@@ -1,0 +1,1 @@
+export { default } from './create-proyect-modal';

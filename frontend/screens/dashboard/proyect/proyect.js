@@ -1,13 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import './styles.scss'
 
-const Proyect = function ({ name }) {
+const Proyect = function ({ name, id }) {
 
     return (
         <div className='dashboard-proyect'>
-        <h3>{ name } </h3>
-        <button className='dashboard-proyect-abandon'> Darse de baja </button> 
+            <h3>{ name } </h3>
+            <div className='dashboard-proyect-actions' >
+                <Link to={`/proyect/${ id }`} ><button > Abrir </button></Link>
+                <button> Darse de baja </button>
+            </div>
         </div>
     );
 }

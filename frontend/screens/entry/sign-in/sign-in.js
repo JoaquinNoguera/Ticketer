@@ -1,4 +1,5 @@
-import React from './node_modules/react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import './style.scss';
 
 export default function SingIn(){
@@ -36,14 +37,14 @@ export default function SingIn(){
                     "
                 />
                 
-                <button 
+                <Link to='/proyects' ><button 
                     type="submit"
                     className="
                         singinButton
                     "
                 >
                     Sing In
-                </button>
+                </button></Link>
             </form>
         </div>
     );
