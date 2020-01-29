@@ -89,7 +89,7 @@ class ProyectView extends React.Component {
                 <h2> Titulo del proyecto </h2>
 
                 <div id="proyect_view-actions">
-                    <button> Configurar (solo creador) </button>
+                    <Link to={`/proyect/${ this.props.match.params.proyectId }/settings`} ><button> Configurar (solo creador) </button></Link>
                     <Link to='/proyects' ><button> Volver al dashboard </button></Link>
                 </div>
 
