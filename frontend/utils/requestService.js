@@ -19,4 +19,11 @@ const httpRequest = async function (url, options) {
 
 }
 
-export default httpRequest;
+const mockHttpRequest = async function(url, options) {
+    switch (url) {
+        case '/api/login': return {
+            token: 'valido'
+        }
+    }
+}
+export default mockHttpRequest;
