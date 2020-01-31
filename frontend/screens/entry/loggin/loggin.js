@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import httpRequest from '../../../utils/requestService';
 
 import './style.scss';
-
+import { Redirect } from 'react-router-dom';
 
 export default class Loggin extends React.Component {
     
@@ -29,11 +28,11 @@ export default class Loggin extends React.Component {
                 password: this.state.password
             })
         })
-        .then(_=> console.log('loged in'))
+        .then(user => this.props.onLogIn(user))
         .catch(_=> console.log('not loged in'));
     }
 
-    render () {
+    render () { if (this.props.logedIn) return <Redirect to='projects' />
 
         const { username, password } = this.state;
 

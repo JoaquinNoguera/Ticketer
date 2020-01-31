@@ -13,28 +13,80 @@ import ProyectView from './screens/proyect-view';
 import ProjectSettings from './screens/proyect-settings';
 import Dashboard from './screens/dashboard';
 import Entry from './screens/entry';
+import ProtectedRoute from './components/protected-route';
 
 import './styles.scss'
 
 class App extends React.Component {
 
+    state = {
+        logedIn: false
+    }
+
+    constructor (props) {
+        super(props);
+
+        window.on401 = this.handle401;
+    }
+
+    handle401 = () => {
+        console.log('No hay autentificado');
+        this.setState({ logedIn: false });
+    }
+
+    handleLogIn = (user) => {
+        console.log(`user ${ user.name } loged in`);
+        this.setState({ logedIn: true });
+    }
+
+    handleLogOut = () => {
+        this.setState({ logedIn: false });
+    }
+
     render () {
+        const { logedIn } = this.state;
+
         return (
             <Router>
                 <Switch>
-                    <Route exact path='/(loggin|singin)'>
-                        <Entry></Entry>
+                    <Route exact path='/(login|singin)'>
+                        <Entry 
+                            logedIn={ logedIn }
+                            onLogIn={ this.handleLogIn }
+                        />
                     </Route>
                     
-                    <Route>
-                        <NavBar></NavBar>
+                    <ProtectedRoute
+                        logedIn={ logedIn }
+                    >
+                        <NavBar
+                            onLogOut={ this.handleLogOut }
+                        />
                         <Switch>
-                            <Route exact path='/proyect/:proyectId' component={ ProyectView } />
-                            <Route exact path='/proyects' component={ Dashboard } />
-                            <Route exact path='/proyect/:proyectId/settings' component={ ProjectSettings } />
-                            <Route path='/' component={ Entry } />
+                            <Route
+                                exact 
+                                path='/project/:projectId'
+                            >
+                                <ProyectView />
+                            </Route>
+
+                            <Route
+                                exact 
+                                path='/projects'
+                            >
+                                <Dashboard />
+                            </Route>
+
+                            <Route
+                                exact 
+                                path='/project/:projectId/settings'
+                            >
+                                <ProjectSettings />
+                            </Route>
                         </Switch>
-                    </Route>
+                    </ProtectedRoute>
+
+                    <Route path='/' component={ Entry } />
                 </Switch>
             </Router>
         );

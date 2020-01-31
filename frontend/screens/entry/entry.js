@@ -10,14 +10,14 @@ import SingIn from './sign-in';
 
 import './style.scss';
 
-export default function Entry () {
+export default function Entry ({ onLogIn, logedIn }) {
     return(
         <div className="entry">
             <div className="entryContainer">
                 <Switch>
-                    <Route exact path ="/loggin">
+                    <Route exact path ="/login">
                         <Welcome/>
-                        <Loggin/>
+                        <Loggin onLogIn={ onLogIn } logedIn={ logedIn } />
                     </Route>
                     <Route exact path ="/singin">
                         <Welcome/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import Tickets from './tickets';
 
@@ -13,8 +13,8 @@ class ProyectView extends React.Component {
                 <h2> Titulo del proyecto </h2>
 
                 <div id="proyect_view-actions">
-                    <Link to={`/proyect/${ this.props.match.params.proyectId }/settings`} ><button> Configurar (solo creador) </button></Link>
-                    <Link to='/proyects' ><button> Volver al dashboard </button></Link>
+                    <Link to={`/project/${ this.props.match.params.projectId }/settings`} ><button> Configurar (solo creador) </button></Link>
+                    <Link to='/projects' ><button> Volver al dashboard </button></Link>
                 </div>
 
                 <Tickets></Tickets>
@@ -25,4 +25,4 @@ class ProyectView extends React.Component {
     }
 }
 
-export default ProyectView;
+export default withRouter(ProyectView);

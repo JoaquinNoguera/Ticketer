@@ -21,7 +21,11 @@ class NavBar extends React.Component {
             <div id='navbar' >
                 <h1> Ticketer </h1>
                 
-                <UserDropdown id='navbar-username' show={ showUserDropdown }>
+                <UserDropdown 
+                    id='navbar-username' 
+                    show={ showUserDropdown }
+                    onLogOut={ this.props.onLogOut }
+                >
                     <button onClick={ this.handleUserButtonClick }> { userName } </button>
                 </UserDropdown>
             </div>

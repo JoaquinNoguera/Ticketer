@@ -1,14 +1,14 @@
 import React from 'react';
 import './style.scss';
 import Colaborator from './colaborator';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-export default function ProjectSettings(props){
+const ProjectSettings = function(props){
     return(
         <div className="settingContainer">
             <h1> Setting </h1>
 
-            <Link to={ `/proyect/${ props.match.params.proyectId }` } ><button> Volver al proyecto </button></Link>
+            <Link to={ `/project/${ props.match.params.proyectId }` } ><button> Volver al proyecto </button></Link>
             <button className="settingButtonDelete"> delete </button>
 
             <hr/>
@@ -38,3 +38,5 @@ export default function ProjectSettings(props){
         </div>
     );
 }
+
+export default withRouter(ProjectSettings);

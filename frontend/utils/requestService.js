@@ -20,10 +20,34 @@ const httpRequest = async function (url, options) {
 }
 
 const mockHttpRequest = async function(url, options) {
-    switch (url) {
-        case '/api/login': return {
-            token: 'valido'
+    const waitFor = ms => (new Promise(resolve => setTimeout(resolve, ms)));
+
+    /*
+    if (!!window.on401){
+        window.on401();
+        throw {
+            code: 401,
+            message: 'No se ha autenticado'
         }
+    }
+    */
+
+    await waitFor(250);
+
+    switch (url) {
+        case '/api/login':
+            const body = JSON.parse(options.body);
+            
+            if (body.username === 'admin' &&  body.password === 'admin')
+                return {
+                    id: 123,
+                    name: 'Usuario'
+                }
+            else
+                throw {
+                    code: 401,
+                    message: 'Credenciales incorrectas'
+                }
     }
 }
 export default mockHttpRequest;

@@ -9,7 +9,7 @@ const Proyect = function ({ name, id }) {
         <div className='dashboard-proyect'>
             <h3>{ name } </h3>
             <div className='dashboard-proyect-actions' >
-                <Link to={`/proyect/${ id }`} ><button > Abrir </button></Link>
+                <Link to={`/project/${ id }`} ><button > Abrir </button></Link>
                 <button> Darse de baja </button>
             </div>
         </div>

@@ -17,7 +17,7 @@ class UserDropdown extends React.Component {
     }
     
     render () {
-        const { show, children, ...otherProps } = this.props;
+        const { show, children, onLogOut, ...otherProps } = this.props;
 
         const toRender = [ children ];
 
@@ -25,8 +25,8 @@ class UserDropdown extends React.Component {
             toRender.push(ReactDOM.createPortal(
 
                 <div id='navbar-user-dropdown' style={ this.state.dropdownStyle }>
-                    <Link to='/loggin' >
-                        <div className='navbar-user-dropdown-item' > Cerrar sesion </div>
+                    <Link to='/login' >
+                        <div className='navbar-user-dropdown-item' onClick={ onLogOut } > Cerrar sesion </div>
                     </Link>
                 </div>
                 
