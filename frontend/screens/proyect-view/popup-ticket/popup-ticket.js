@@ -1,13 +1,18 @@
 import React from 'react';
 import Modal from '../../../components/modal'
+import {onChangeState} from '../../../utils/utils';
 import './styles.scss';
 
 export default class PopupTicket extends React.Component {
     
     constructor(props){
         super(props);
+        const {id, body, description} = props;
         this.state = {
             edit: false,
+            id: id,
+            body: body,
+            description: description
         }
         this.onChangeEdit = this.onChangeEdit.bind(this);
     }
@@ -19,8 +24,8 @@ export default class PopupTicket extends React.Component {
     }
 
     render(){
-        const {show, onChangeShow, id, body, description} = this.props;
-        const {edit} = this.state;
+        const {show, onChangeShow, forCreate, addTiket} = this.props;
+        const {edit, id, body, description} = this.state;
         return(
             <Modal 
                 show = {show}
@@ -37,23 +42,47 @@ export default class PopupTicket extends React.Component {
                     </h1>
 
                     {
-                        (edit) ?
+                        (edit || forCreate) ?
                         (
                             <>
                             <textarea 
                             value={description}
                             className = 'popupTicketInputD '
+                            onChange = {(e) => {
+                                onChangeState.call(this,e,"description");
+                            }}
                             />
                             <hr/>
-                            <textarea 
-                            value={body}
+                            <textarea
+                            value={body} 
                             className = 'popupTicketInputB'
+                            onChange = {(e) => {
+                                onChangeState.call(this,e,"body");
+                            }}
                             />
-                               <button 
-                                onClick={this.onChangeEdit}
-                            > 
-                                guardar 
-                            </button>
+                               {
+                                   (forCreate) ? (
+                                        <button 
+                                            onClick={() => {
+                                                addTiket({
+                                                id: id,
+                                                description: description,
+                                                body: body,
+                                                category: 0,
+                                            })
+                                            }}
+                                        > 
+                                            Crear
+                                        </button>
+                                   ): (
+                                    <button 
+                                        onClick={this.onChangeEdit}
+                                    > 
+                                        Guardar 
+                                    </button>
+                                   )
+                               }
+                              
                             </>
                         ) :
                         (
@@ -73,4 +102,10 @@ export default class PopupTicket extends React.Component {
         )
     }
     
+}
+PopupTicket.defaultProps = {
+    id: 999,
+    description: "",
+    body: "",
+    forCreate: false,
 }
