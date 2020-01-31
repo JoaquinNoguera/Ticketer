@@ -1,10 +1,10 @@
 import React from 'react';
-import httpRequest from '../../../utils/requestService';
+import withRequest from '../../../utils/requestService';
 
 import './style.scss';
 import { Redirect } from 'react-router-dom';
 
-export default class Loggin extends React.Component {
+class Loggin extends React.Component {
     
     state = {
         username: '',
@@ -21,11 +21,13 @@ export default class Loggin extends React.Component {
     }
 
     handleFormSubmit = () => {
-        httpRequest('/api/login', {
+        const{username,password} = this.state;
+        console.log(this.props);
+        this.props.httpRequest('/api/login', {
             method: 'POST',
             body: JSON.stringify({
-                username: this.state.username,
-                password: this.state.password
+                username: username,
+                password: password
             })
         })
         .then(user => this.props.onLogIn(user))
@@ -74,3 +76,5 @@ export default class Loggin extends React.Component {
         );
     }
 }
+
+export default withRequest(Loggin);
