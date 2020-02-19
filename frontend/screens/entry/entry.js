@@ -21,7 +21,7 @@ export default function Entry ({ onLogIn, logedIn }) {
                     </Route>
                     <Route exact path ="/singin">
                         <Welcome/>
-                        <SingIn/>
+                        <SingIn onLogIn={ onLogIn } logedIn={ logedIn }/>
                     </Route>
                 </Switch>
             </div>
