@@ -1,18 +1,25 @@
 import React from 'react';
 import Proyect from './proyect';
 import CreateProyectModal from './create-proyect-modal';
+import whitRequest from '../../utils/requestService';
 
 import './styles.scss';
 
 class Dashboard extends React.Component {
+    
     state = {
-        proyects: [
-            { id: 1, name: 'Tu puta madre' },
-            { id: 3, name: 'Tu puta madre re entangada' },
-            { id: 67, name: 'El nuevo Facebook' },
-            { id: 101, name: 'Dominacion mundial' }
-        ],
-        showCreateProyectModal: false
+        showCreateProyectModal: false,
+        projects: []
+    }
+
+    componentDidMount(){
+        this.props.httpRequest('/api/projects', {
+            method: 'GET',
+        })
+        .then(projects => this.setState({
+            projects: projects
+        }))
+        .catch(_=> console.log('error'));
     }
 
     handleCreateProyectClick = () => {
@@ -24,7 +31,7 @@ class Dashboard extends React.Component {
     }
 
     render () {
-        const { proyects, showCreateProyectModal } = this.state;
+        const { projects, showCreateProyectModal } = this.state;
 
         return (
             <div id='dashboard' >
@@ -41,11 +48,11 @@ class Dashboard extends React.Component {
                 />
 
                 <div>
-                    { proyects.map(proyect => (
+                    { projects.map(project => (
                         <Proyect
-                            key={ proyect.id }
-                            id={ proyect.id }
-                            name={ proyect.name }
+                            key={ project.id }
+                            id={ project.id }
+                            name={ project.name }
                         />
                     )) }
                 </div>
@@ -54,4 +61,4 @@ class Dashboard extends React.Component {
     }
 }
 
-export default Dashboard;
+export default whitRequest(Dashboard);

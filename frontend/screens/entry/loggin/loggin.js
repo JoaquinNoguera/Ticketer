@@ -6,11 +6,12 @@ import { Redirect } from 'react-router-dom';
 
 class Loggin extends React.Component {
     
+  
     state = {
-        username: '',
-        password: ''
+            username: '',
+            password: ''
     }
-
+   
     handleInputChange = (event) => {
         let field = '';
         switch (event.target.id) {
