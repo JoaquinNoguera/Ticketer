@@ -13,6 +13,8 @@ function createListTikets(tikets,option) {
             id = {id}
             description = {description}
             body = {body}
+            state= {category}
+            owner='Jere'
             />);
             }
         }

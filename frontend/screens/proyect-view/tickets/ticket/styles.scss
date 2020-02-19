@@ -1,11 +1,15 @@
 .proyect_view-tickets-ticket {
-    height: 120px;
     width: 200px;
     display: flex;
     flex-direction: column;
+    flex-shrink: 2;
     padding: 15px;
     overflow: hidden;
     background-color: #ededed;
     margin: .5em;
+}
+
+.proyect_view-tickets-ticket-description {
+    flex-grow: 1;
 }
 

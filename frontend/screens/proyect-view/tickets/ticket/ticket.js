@@ -1,6 +1,7 @@
 import React from 'react';
-import './styles.scss'
 import PopupTicket from '../../popup-ticket'
+import { categories as ticketState } from '../../../../utils';
+import './styles.scss';
 
 class Ticket extends React.Component {
 
@@ -9,23 +10,43 @@ class Ticket extends React.Component {
         this.state = {
             show: false,
         }
-        this.onChangeShow = this.onChangeShow.bind(this);
+        
+        this.actionButton = {
+            delete: <button> Eliminar </button>,
+            take: <button> Tomar </button>,
+            leave: <button> Dejar </button>,
+            markSolved: <button> Listo </button>,
+            restore: <button> Restaurar </button>
+        }
     }
     
-    onChangeShow(){
+    onChangeShow = () => {
         this.setState((state)=>({
             show: !state.show,
         }))
     }
 
+    renderButtons = (state, owner) => {
+        switch(state) {
+            case ticketState.PENDING:
+                return [ this.actionButton.take, this.actionButton.delete ];
+            case ticketState.TAKEN:
+                return [ owner, this.actionButton.leave, this.actionButton.markSolved ];
+            case ticketState.SOLVED:
+                return [ owner, this.actionButton.delete, this.actionButton.take, this.actionButton.restore ];
+        }
+    }
+
     render(){
-        const {id, description, body} = this.props;
-        const {show} = this.state;
+        const { id, description, body, state = ticketState.SOLVED, owner } = this.props;
+        const { show } = this.state;
         return (
-            <>
             <div className='proyect_view-tickets-ticket' onClick={this.onChangeShow}>
                 <h2> #{id} </h2>
-                <p> {description} </p>
+                <p className='proyect_view-tickets-ticket-description'> {description} </p>
+
+                <div>{ this.renderButtons(state, owner) }</div>
+
                 <PopupTicket 
                     id={id}
                     show={show}
@@ -34,7 +55,6 @@ class Ticket extends React.Component {
                     onChangeShow = {this.onChangeShow}
                 />
             </div>
-            </>
         );
     }
 }
