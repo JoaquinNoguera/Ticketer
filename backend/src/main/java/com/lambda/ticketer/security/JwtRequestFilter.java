@@ -44,19 +44,20 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                if (userDetails != null) {
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                            new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+
 
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
+                    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
-                Cookie cookie = new Cookie("token",jwt);
-                cookie.setMaxAge(120);
-                response.addCookie(cookie);
-
-
+                    Cookie cookie = new Cookie("token",jwt);
+                    cookie.setMaxAge(120);
+                    response.addCookie(cookie);
+                }
             }
 
             filterChain.doFilter(request,response);

@@ -25,13 +25,13 @@ public class JwtUtils {
     }
 
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(String username){
 
         Date expiresAt = new Date();
         expiresAt.setTime(expiresAt.getTime() + 900000);
         String token = JWT.create()
                 .withExpiresAt(expiresAt)
-                .withClaim("name",userDetails.getUsername())
+                .withClaim("name", username)
                 .sign(algorithm);
 
         return token;
