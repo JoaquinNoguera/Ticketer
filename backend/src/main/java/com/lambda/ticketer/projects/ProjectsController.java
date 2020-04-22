@@ -3,31 +3,33 @@ package com.lambda.ticketer.projects;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 public class ProjectsController {
 
     @GetMapping("/api/users/projects")
-    public String getAllProjects(){
+    public List<Project> getAllProjects(){
         return null;
     }
 
     @PostMapping("/api/users/projects")
-    public String createNewProject(){
+    public Project createNewProject(){
         return null;
     }
 
     @DeleteMapping("/api/users/projects/{id}")
-    public String deleteProject(@PathVariable("id") String projectId){
+    public Boolean deleteProject(@PathVariable("id") long projectId){
         return null;
     }
 
     @PatchMapping("/api/users/projects/{id}")
-    public String editProject(@PathVariable("id") String projectId){
+    public Project editProject(@PathVariable("id") long projectId){
         return null;
     }
 
     @GetMapping("/api/projects/{id}")
-    public String getProject(@PathVariable("id") String projectId){
+    public Project getProject(@PathVariable("id") long projectId){
         return null;
     }
 }
