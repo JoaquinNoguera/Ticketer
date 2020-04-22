@@ -3,9 +3,9 @@ package com.lambda.ticketer.projects;
 import com.lambda.ticketer.users.User;
 import com.lambda.ticketer.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,33 +22,32 @@ public class ProjectsController {
     private ProjectsRepository projectsRepository;
 
     @GetMapping("/api/users/projects")
-    public List<Project> getAllProjects(){
-        return null;
+    public List<Project> getAllProjects(Principal principal){
+        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+        return user.getProjects();
+
     }
 
     @PostMapping("/api/users/projects")
     public Project createNewProject(@RequestBody InputProject inputProject, Principal principal){
-        Optional<User> user = userRepository.findByName(principal.getName());
-        if(user.isPresent()) {
-            Project newProject = new Project(null, inputProject.getProjectName(), user.get(), Collections.singletonList(user.get()), new ArrayList<>());
-            newProject = projectsRepository.save(newProject);
-            return newProject;
-        }
-        return  null;
+        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+
+        Project newProject = new Project(null, inputProject.getProjectName(), user, Collections.singletonList(user), new ArrayList<>());
+        newProject = projectsRepository.save(newProject);
+        return newProject;
     }
 
     @DeleteMapping("/api/users/projects/{id}")
     public Boolean deleteProject(@PathVariable("id") long projectId, Principal principal){
-        Optional<Project> project = projectsRepository.findById(projectId);
-        if(project.isPresent()){
-            Optional<User> user = userRepository.findByName(principal.getName());
-            if(user.isPresent()) {
-                if(user.get().equals(project.get().getOwner())){
-                    projectsRepository.delete(project.get());
-                    return true;
-                }
-            }
+        Project project = projectsRepository.findById(projectId).orElseThrow(EntityNotFoundException::new);
+
+        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+
+        if(user.equals(project.getOwner())){
+            projectsRepository.delete(project);
+            return true;
         }
+
         return false;
     }
 

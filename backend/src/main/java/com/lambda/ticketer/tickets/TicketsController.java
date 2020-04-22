@@ -1,12 +1,9 @@
 package com.lambda.ticketer.tickets;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller
+import org.springframework.web.bind.annotation.*;
+
+@RestController
 public class TicketsController {
 
     @PostMapping("/api/projects/{id}/tickets")
@@ -15,7 +12,7 @@ public class TicketsController {
     }
 
     @PatchMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public Ticket createNewTicket(@PathVariable long projectId, @PathVariable long ticketId){
+    public Ticket editTicket(@PathVariable long projectId, @PathVariable long ticketId){
         return null;
     }
 
