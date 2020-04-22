@@ -21,9 +21,6 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private JwtUtils jwtUtils;
 
 
@@ -31,14 +28,11 @@ public class LoginController {
     public AuthenticationResponse authenticationUser(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception{
 
         authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authenticationRequest.getName(), authenticationRequest.getPassword())
-        );
+                    new UsernamePasswordAuthenticationToken(
+                            authenticationRequest.getName(),
+                            authenticationRequest.getPassword()));
 
-
-        final UserDetails userDetails = userDetailsService.
-                loadUserByUsername(authenticationRequest.getName());
-
-        final String jwt = jwtUtils.generateToken(userDetails);
+        final String jwt = jwtUtils.generateToken(authenticationRequest.getName());
         Cookie cookie = new Cookie("token",jwt);
         cookie.setMaxAge(60 * 15);
         response.addCookie(cookie);
