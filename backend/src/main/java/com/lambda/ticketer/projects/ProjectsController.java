@@ -39,7 +39,17 @@ public class ProjectsController {
 
     @DeleteMapping("/api/users/projects/{id}")
     public Boolean deleteProject(@PathVariable("id") long projectId, Principal principal){
-        return null;
+        Optional<Project> project = projectsRepository.findById(projectId);
+        if(project.isPresent()){
+            Optional<User> user = userRepository.findByName(principal.getName());
+            if(user.isPresent()) {
+                if(user.get().equals(project.get().getOwner())){
+                    projectsRepository.delete(project.get());
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @PatchMapping("/api/users/projects/{id}")
