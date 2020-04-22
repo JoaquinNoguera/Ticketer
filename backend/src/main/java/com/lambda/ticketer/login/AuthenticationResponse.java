@@ -4,8 +4,9 @@ package com.lambda.ticketer.login;
         import lombok.Data;
         import lombok.NoArgsConstructor;
 
-
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AuthenticationResponse {
     private String jwt;
 }

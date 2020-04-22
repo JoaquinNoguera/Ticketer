@@ -10,7 +10,6 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProjectsController {
@@ -57,7 +56,9 @@ public class ProjectsController {
     }
 
     @GetMapping("/api/projects/{id}")
-    public Project getProject(@PathVariable("id") long projectId){
-        return null;
+    public Project getProject(@PathVariable("id") long projectId, Principal principal){
+        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
+        return project;
     }
 }
