@@ -10,17 +10,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class TicketsController {
 
     @PostMapping("/api/projects/{id}/tickets")
-    public String createNewTicket(@PathVariable("id") String projectId){
+    public Ticket createNewTicket(@PathVariable("id") long projectId){
         return null;
     }
 
     @PatchMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public String createNewTicket(@PathVariable String projectId, @PathVariable String ticketId){
+    public Ticket createNewTicket(@PathVariable long projectId, @PathVariable long ticketId){
         return null;
     }
 
     @DeleteMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public String deleteTicket(@PathVariable String projectId, @PathVariable String ticketId){
+    public Ticket deleteTicket(@PathVariable long projectId, @PathVariable long ticketId){
         return null;
     }
 }
