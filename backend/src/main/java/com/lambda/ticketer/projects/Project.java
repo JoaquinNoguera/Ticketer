@@ -1,22 +1,58 @@
 package com.lambda.ticketer.projects;
 
+import com.lambda.ticketer.tickets.Ticket;
 import com.lambda.ticketer.users.User;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    Long id;
+
+    @NotNull(message = "El nombre de proyecto no puede ser nulo")
+    @NotBlank(message = "El nombre de proyecto no puede estar vacio")
     String name;
+
+    @NotNull(message = "Un proyecto debe tener dueño")
     @ManyToOne
     User owner;
+
+    @NotNull(message = "Un proyecto debe tener al menos un miembro (el dueño)")
+    @Size(min = 1, message = "Un proyecto debe tener al menos un miembro (el dueño)")
     @ManyToMany
     List<User> members;
+
+    @NotNull
+    @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    List<Ticket> tickets;
+
+    public void addTicket(Ticket ticket) {
+        tickets.add(ticket);
+        ticket.setProject(this);
+    }
+
+    public void removeTicket(Ticket ticket) {
+        tickets.remove(ticket);
+    }
+
+    public void addMember(User user) {
+        members.add(user);
+        user.getProjects().add(this);
+    }
+
+    public void removeMember(User user) {
+        members.remove(user);
+        user.getProjects().remove(this);
+    }
 }

@@ -1,21 +1,35 @@
 package com.lambda.ticketer.users;
 
 import com.lambda.ticketer.projects.Project;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "user_entity")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    long id;
+    Long id;
+
+    @NotNull(message = "El nombre no puede ser nulo")
+    @NotBlank(message = "El nombre no puede estar vacío")
+    @Column(unique = true)
     String name;
+
+    @NotNull(message = "La contraseña no puede ser nula")
+    @NotBlank(message = "La contraseña no puede estar vacía")
+    @Size(min = 4, message = "La contraseña debe tener mas de 4 caracteres")
     String passwordHash;
+
     @ManyToMany
     List<Project> projects;
 }
