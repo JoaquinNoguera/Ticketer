@@ -51,6 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
+
                 Cookie cookie = new Cookie("token",jwt);
                 cookie.setMaxAge(120);
                 response.addCookie(cookie);
