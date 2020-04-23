@@ -24,7 +24,6 @@ public class ProjectsController {
     public List<Project> getAllProjects(Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
         return user.getProjects();
-
     }
 
     @PostMapping("/api/users/projects")

@@ -1,6 +1,5 @@
 package com.lambda.ticketer.tickets;
 
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +16,7 @@ public class TicketsController {
     }
 
     @DeleteMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public Ticket deleteTicket(@PathVariable long projectId, @PathVariable long ticketId){
+    public Boolean deleteTicket(@PathVariable long projectId, @PathVariable long ticketId){
         return null;
     }
 }
