@@ -32,8 +32,52 @@ public class TicketsController {
     }
 
     @PatchMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public Ticket editTicket(@PathVariable long projectId, @PathVariable long ticketId){
-        return null;
+    public Ticket editTicket(@PathVariable long projectId, @PathVariable long ticketId, @RequestBody TicketPatchAction action, Principal principal)
+    throws Exception{
+        User user = usersRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
+        Ticket ticket = ticketsRepository.findByIdAndProject(ticketId,project).orElseThrow(EntityNotFoundException::new);
+
+        switch (action.getVerb()){
+            case TAKE: {
+                if(ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)){
+                    throw new Exception("El ticket ya esta tomado");
+                } else{
+                    ticket.setStatus(Ticket.TicketStatus.TAKEN);
+                    ticket.setResponsible(user);
+                    ticket = ticketsRepository.save(ticket);
+                }
+                break;
+            }
+            case DROP: {
+                if(ticket.getResponsible().equals(user)){
+                    ticket.setStatus(Ticket.TicketStatus.PENDING);
+                    ticket = ticketsRepository.save(ticket);
+                }else{
+                    throw new Exception("El ticket no es suyo para dejarlo");
+                }
+            }
+            case SOLVED:{
+                if(ticket.getResponsible().equals(user)) {
+                    ticket.setStatus(Ticket.TicketStatus.SOLVED);
+                    ticket = ticketsRepository.save(ticket);
+                }else{
+                    throw new Exception("El ticket no es suyo");
+                }
+                break;
+            }
+            case CHANGE:{
+                if(ticket.getResponsible().equals(user)){
+                    ticket.setHeader(action.getValue().getHeader());
+                    ticket.setBody(action.getValue().getHeader());
+                }else{
+                    throw new Exception("El ticket no es suyo para dejarlo");
+                }
+                break;
+            }
+        }
+
+        return ticket;
     }
 
     @DeleteMapping("/api/projects/{projectId}/tickets/{ticketId}")
