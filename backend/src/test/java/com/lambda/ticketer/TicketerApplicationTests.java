@@ -58,7 +58,7 @@ class TicketerApplicationTests {
 		User user1 = new User(null, "Jeremias", "1234", null);
 		entityManager.persist(user1);
 
-		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
+		Project project1 = new Project("El matat", user1);
 		entityManager.persist(project1);
 
 		projectsRepository.findAll().forEach(project -> {
@@ -70,7 +70,7 @@ class TicketerApplicationTests {
 	@Test
 	void createTickets() {
 		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
+		Project project1 = new Project("El matat", user1);
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
@@ -92,15 +92,13 @@ class TicketerApplicationTests {
 	@Test
 	public void deleteTickets() {
 		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
+		Project project1 = new Project("El matat", user1);
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
 
-		Ticket ticket1 = new Ticket(null, 1, "Hay que hacer la API", "CON NODEEEE", Ticket.TicketStatus.PENDING, user1, null);
-		Ticket ticket2 = new Ticket(null, 2, "Hay que hacer la API 2", "CON PYTHONNN", Ticket.TicketStatus.SOLVED, user1, null);
-		project1.addTicket(ticket1);
-		project1.addTicket(ticket2);
+		Ticket ticket1 = project1.addTicket("Hay que hacer la API", "CON NODEEEE",user1);
+		Ticket ticket2 = project1.addTicket("Hay que hacer la API 2", "CON PYTHONNN",user1);
 
 		entityManager.persist(ticket1);
 		entityManager.persist(ticket2);
@@ -116,16 +114,15 @@ class TicketerApplicationTests {
 
 	@Test
 	public void deleteProject() {
-		User user1 = new User(null, "Moto", "1234", null);
-		Project project1 = new Project(null, "Macaso", user1, Collections.singleton(user1), new HashSet<>());
+
+		User user1 = new User(null, "Jeremias", "1234", null);
+		Project project1 = new Project("El matat", user1);
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
 
-		Ticket ticket1 = new Ticket(null, 1, "Hay que hacer la API", "CON NODEEEE", Ticket.TicketStatus.PENDING, user1, null);
-		Ticket ticket2 = new Ticket(null, 2, "Hay que hacer la API 2", "CON PYTHONNN", Ticket.TicketStatus.SOLVED, user1, null);
-		project1.addTicket(ticket1);
-		project1.addTicket(ticket2);
+		Ticket ticket1 = project1.addTicket("Hay que hacer la API", "CON NODEEEE", user1);
+		Ticket ticket2 = project1.addTicket("Hay que hacer la API 2", "CON PYTHONNN", user1);
 
 		entityManager.persist(ticket1);
 		entityManager.persist(ticket2);
@@ -140,16 +137,14 @@ class TicketerApplicationTests {
 		User user1 = new User(null, "Jeremias", "1234", new ArrayList<>());
 		User user2 = new User(null, "Joaco", "1223", new ArrayList<>());
 
-		Project project1 = new Project(null, "El matat", user1, new HashSet<>(Collections.singleton(user1)), new HashSet<>());
+		Project project1 = new Project("El matat", user1);
 
 		user1 = usersRepository.save(user1);
 		user2 = usersRepository.save(user2);
 		project1 = projectsRepository.save(project1);
 
-		Ticket ticket1 = new Ticket(null, 1, "Hay que hacer la API", "CON NODEEEE", Ticket.TicketStatus.PENDING, user1, null);
-		Ticket ticket2 = new Ticket(null, 2, "Hay que hacer la API 2", "CON PYTHONNN", Ticket.TicketStatus.SOLVED, user1, null);
-		project1.addTicket(ticket1);
-		project1.addTicket(ticket2);
+		Ticket ticket1 = project1.addTicket("Hay que hacer la API", "CON NODEEEE",user1);
+		Ticket ticket2 = project1.addTicket("Hay que hacer la API 2", "CON PYTHONNN",user1);
 
 		project1.addMember(user2);
 		projectsRepository.save(project1);

@@ -1,5 +1,6 @@
 package com.lambda.ticketer.tickets;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.lambda.ticketer.projects.Project;
 import com.lambda.ticketer.users.User;
 import lombok.AllArgsConstructor;
@@ -11,8 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Getter
@@ -42,7 +42,18 @@ public class Ticket {
 
     @NotNull(message = "El ticket debe pertenecer a un proyecto")
     @ManyToOne
+    @JsonBackReference
     Project project;
+
+    public Ticket(String header,String body, User user,Project project){
+        this.id = null;
+        this.status = TicketStatus.PENDING;
+        this.responsible = user;
+        this.header = header;
+        this.body = body;
+        this.name = project.getTotalTickets();
+        this.project = project;
+    }
 
     public enum TicketStatus {
         PENDING, TAKEN, SOLVED
