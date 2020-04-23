@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
-import java.util.Collections;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -35,7 +33,7 @@ public class ProjectsController {
     public Project createNewProject(@RequestBody InputProject inputProject, Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
 
-        Project newProject = new Project(null, inputProject.getProjectName(), user, new HashSet<>(Collections.singleton(user)), new HashSet<>());
+        Project newProject = new Project(inputProject.getProjectName(), user);
         newProject = projectsRepository.save(newProject);
         return newProject;
     }
