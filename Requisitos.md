@@ -30,7 +30,7 @@
 - Un miembro de proyecto puede abandonar un ticket, este volvera a estado pendiente
 - Un miembro de proyecto puede editar un ticket siempre y cuando este no este tomado por otro miembro o se encuentre marcado como resuelto
 - Un miembro de proyecto puede marcar un ticket resuelto como pendiente nuevamente
-- Un miembro de proyecto puede eliminar un ticket siempre y cuando este no esté tomado por otro miembro
+- Un miembro de proyecto puede eliminar un ticket siempre y cuando este no esté tomado por otro miembro o esté resuelto
 - Un creador de proyecto puede dar de baja un proyecto, haciendo que ningun miembro pueda siquiera verlo o acceder
 - Un miembro puede darse de baja de un proyecto
 - Un usuario puede modificar su contraseña

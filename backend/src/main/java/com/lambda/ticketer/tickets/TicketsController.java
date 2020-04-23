@@ -56,7 +56,7 @@ public class TicketsController {
                 break;
             }
             case DROP: {
-                if(ticket.getResponsible().equals(user)){
+                if(ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.SOLVED)){
                     ticket.setStatus(Ticket.TicketStatus.PENDING);
                     ticket = ticketsRepository.save(ticket);
                 }else{
