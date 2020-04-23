@@ -1,6 +1,7 @@
 package com.lambda.ticketer.users;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lambda.ticketer.projects.Project;
 import lombok.*;
@@ -33,7 +34,7 @@ public class User {
     @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     String passwordHash;
 
-    @ManyToMany
-    @JsonBackReference
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
     List<Project> projects;
 }

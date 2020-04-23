@@ -116,8 +116,8 @@ class TicketerApplicationTests {
 
 	@Test
 	public void deleteProject() {
-		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
+		User user1 = new User(null, "Moto", "1234", null);
+		Project project1 = new Project(null, "Macaso", user1, Collections.singleton(user1), new HashSet<>());
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);

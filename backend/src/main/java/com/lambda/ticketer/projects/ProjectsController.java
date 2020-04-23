@@ -29,7 +29,6 @@ public class ProjectsController {
     public List<Project> getAllProjects(Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
         return user.getProjects();
-
     }
 
     @PostMapping("/api/users/projects")
@@ -43,16 +42,24 @@ public class ProjectsController {
 
     @DeleteMapping("/api/users/projects/{id}")
     public Boolean deleteProject(@PathVariable("id") long projectId, Principal principal){
-        Project project = projectsRepository.findById(projectId).orElseThrow(EntityNotFoundException::new);
+        Project project = projectsRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el proyecto "+ projectId));
 
-        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
+        User user = usersRepository.findByName(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
 
-        if(user.equals(project.getOwner())){
+        if (user.equals(project.getOwner())) {
+            user.getProjects().remove(project);
+            usersRepository.save(user);
+
             projectsRepository.delete(project);
-            return true;
+        }
+        else {
+            project.removeMember(user);
+            projectsRepository.save(project);
         }
 
-        return false;
+        return true;
     }
 
     @PatchMapping("/api/users/projects/{id}")
@@ -114,9 +121,11 @@ public class ProjectsController {
     @GetMapping("/api/projects/{id}")
     public Project getProject(@PathVariable("id") long projectId, Principal principal){
         User user = userRepository.findByName(principal.getName())
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
 
-        return projectsRepository.findByIdAndMembersContaining(projectId,user)
-                .orElseThrow(EntityNotFoundException::new);
+        return projectsRepository.findByIdAndMembersContaining(projectId, user)
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "No se encuentra el proyecto "+ projectId +" para el usuario "+ user.getName()
+            ));
     }
 }

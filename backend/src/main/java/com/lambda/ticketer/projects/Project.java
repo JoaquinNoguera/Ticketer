@@ -32,7 +32,6 @@ public class Project {
     @NotNull(message = "Un proyecto debe tener al menos un miembro (el dueño)")
     @Size(min = 1, message = "Un proyecto debe tener al menos un miembro (el dueño)")
     @ManyToMany
-    @JsonManagedReference
     Set<User> members;
 
     @NotNull
