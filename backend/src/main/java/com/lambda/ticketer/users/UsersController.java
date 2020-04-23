@@ -3,14 +3,18 @@ package com.lambda.ticketer.users;
 import com.lambda.ticketer.login.AuthenticationResponse;
 import com.lambda.ticketer.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 public class UsersController {
@@ -33,5 +37,21 @@ public class UsersController {
         response.addCookie(cookie);
 
         return new AuthenticationResponse(token);
+    }
+
+    @PatchMapping("/api/users")
+    public Boolean changePassword(@RequestBody ChangePasswordRequest passwordRequest, Principal principal)
+    throws Exception {
+        User user = usersRepository.findByName(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
+
+        if (user.getPasswordHash().equals(passwordRequest.getOldPassword())) {
+            user.setPasswordHash(passwordRequest.getPassword());
+            usersRepository.save(user);
+
+            return true;
+        }
+        else
+            throw new Exception("La antigua contraseña no es correcta");
     }
 }

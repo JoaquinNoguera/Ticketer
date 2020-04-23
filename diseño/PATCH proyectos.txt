@@ -1,11 +1,9 @@
 Intrucciones para patchear un proyecto
 
-[
-	{ "action": string, "value": string },
-	{ "action": string, "value": string },
-	{ "action": string, "value": string },
-	...
-]
+{
+	"action": string, 
+	"value": string 
+}
 
 
 Donde action puede tomar uno de los siguientes valores:
