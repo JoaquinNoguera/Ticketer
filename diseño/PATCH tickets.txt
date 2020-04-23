@@ -1,0 +1,16 @@
+Intrucciones para patchear un proyecto
+
+{
+	"action": string, 
+	"value": {
+        "header": Spring,
+        "body": Spring
+    } 
+}
+
+
+Donde action puede tomar uno de los siguientes valores:
+- TAKE
+- DROP
+- SOLVE
+- CHANGE, value: el nuevo header y body del ticket 
