@@ -4,6 +4,7 @@ import com.lambda.ticketer.users.User;
 import com.lambda.ticketer.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
@@ -58,19 +59,47 @@ public class ProjectsController {
     @PatchMapping("/api/users/projects/{id}")
     public Project editProject(
             @PathVariable("id") Long projectId,
-            @Valid @RequestBody ProjectPatchAction action) {
+            @Valid @RequestBody ProjectPatchAction action,
+            Principal principal) throws Exception {
 
         Project project = projectsRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id"+ projectId));
 
         switch (action.getVerb()) {
             case ADD_MEMBER: {
-                User user = usersRepository.findByNameAndProjectsContaining(action.getValue(), project)
-                        .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario "+ action.getValue()));
+
+                boolean principalInProject = false;
+                for (User user : project.getMembers()) {
+                    if (user.getName().equals(principal.getName())) {
+                        principalInProject = true;
+                        break;
+                    }
+                }
+
+                if (principalInProject) {
+                    User user = usersRepository.findByName(action.getValue())
+                            .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario "+ action.getValue()));
+
+                    project.addMember(user);
+                    project = projectsRepository.save(project);
+                }
+                else
+                    throw new Exception("Usuario no autorizado para realizar la operacion");
 
                 break;
             }
             case REMOVE_MEMBER: {
+                if (principal.getName().equals(project.getOwner().getName())) {
+                    for (User user : project.getMembers()) {
+                        if (user.getName().equals(action.getValue())) {
+                            project.removeMember(user);
+                            project = projectsRepository.save(project);
+                            break;
+                        }
+                    }
+                }
+                else
+                    throw new Exception("Usuario no autorizado para realizar la operacion");
 
                 break;
             }
