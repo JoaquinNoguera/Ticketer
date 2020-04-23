@@ -1,5 +1,6 @@
 package com.lambda.ticketer.projects;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.lambda.ticketer.tickets.Ticket;
 import com.lambda.ticketer.users.User;
 import lombok.*;
@@ -8,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -31,11 +32,12 @@ public class Project {
     @NotNull(message = "Un proyecto debe tener al menos un miembro (el dueño)")
     @Size(min = 1, message = "Un proyecto debe tener al menos un miembro (el dueño)")
     @ManyToMany
-    List<User> members;
+    @JsonManagedReference
+    Set<User> members;
 
     @NotNull
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
-    List<Ticket> tickets;
+    Set<Ticket> tickets;
 
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);

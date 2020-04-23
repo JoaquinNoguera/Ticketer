@@ -25,6 +25,7 @@ import javax.swing.text.html.parser.Entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -57,7 +58,7 @@ class TicketerApplicationTests {
 		User user1 = new User(null, "Jeremias", "1234", null);
 		entityManager.persist(user1);
 
-		Project project1 = new Project(null, "El matat", user1, Collections.singletonList(user1), new ArrayList<>());
+		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
 		entityManager.persist(project1);
 
 		projectsRepository.findAll().forEach(project -> {
@@ -69,7 +70,7 @@ class TicketerApplicationTests {
 	@Test
 	void createTickets() {
 		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singletonList(user1), new ArrayList<>());
+		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
@@ -91,7 +92,7 @@ class TicketerApplicationTests {
 	@Test
 	public void deleteTickets() {
 		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singletonList(user1), new ArrayList<>());
+		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
@@ -116,7 +117,7 @@ class TicketerApplicationTests {
 	@Test
 	public void deleteProject() {
 		User user1 = new User(null, "Jeremias", "1234", null);
-		Project project1 = new Project(null, "El matat", user1, Collections.singletonList(user1), new ArrayList<>());
+		Project project1 = new Project(null, "El matat", user1, Collections.singleton(user1), new HashSet<>());
 
 		user1 = usersRepository.save(user1);
 		project1 = projectsRepository.save(project1);
@@ -139,7 +140,7 @@ class TicketerApplicationTests {
 		User user1 = new User(null, "Jeremias", "1234", new ArrayList<>());
 		User user2 = new User(null, "Joaco", "1223", new ArrayList<>());
 
-		Project project1 = new Project(null, "El matat", user1, new ArrayList<>(Collections.singletonList(user1)), new ArrayList<>());
+		Project project1 = new Project(null, "El matat", user1, new HashSet<>(Collections.singleton(user1)), new HashSet<>());
 
 		user1 = usersRepository.save(user1);
 		user2 = usersRepository.save(user2);
