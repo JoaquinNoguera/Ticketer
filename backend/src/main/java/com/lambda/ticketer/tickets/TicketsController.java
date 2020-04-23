@@ -56,6 +56,7 @@ public class TicketsController {
                 }else{
                     throw new Exception("El ticket no es suyo para dejarlo");
                 }
+                break;
             }
             case SOLVED:{
                 if(ticket.getResponsible().equals(user)) {
@@ -69,7 +70,7 @@ public class TicketsController {
             case CHANGE:{
                 if(ticket.getResponsible().equals(user)){
                     ticket.setHeader(action.getValue().getHeader());
-                    ticket.setBody(action.getValue().getHeader());
+                    ticket.setBody(action.getValue().getBody());
                 }else{
                     throw new Exception("El ticket no es suyo para dejarlo");
                 }

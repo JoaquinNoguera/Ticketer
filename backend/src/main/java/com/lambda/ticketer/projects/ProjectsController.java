@@ -1,5 +1,7 @@
 package com.lambda.ticketer.projects;
 
+import com.lambda.ticketer.tickets.Ticket;
+import com.lambda.ticketer.tickets.TicketsRepository;
 import com.lambda.ticketer.users.User;
 import com.lambda.ticketer.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class ProjectsController {
 
     @Autowired
     private ProjectsRepository projectsRepository;
+
+    @Autowired
+    private TicketsRepository ticketsRepository;
 
     @Autowired
     UsersRepository usersRepository;
@@ -81,6 +86,14 @@ public class ProjectsController {
                     throw new Exception("El dueño de un proyecto no puede eliminarse a si mismo de un proyecto");
 
                 boolean deleted = false;
+
+                for(Ticket ticket : project.getTickets()){
+                    if(ticket.getResponsible().getName().equals(action.getValue())){
+                        ticket.setStatus(Ticket.TicketStatus.PENDING);
+                        ticketsRepository.save(ticket);
+                    }
+                }
+
                 for (User user : project.getMembers()) {
                     if (user.getName().equals(action.getValue())) {
                         project.removeMember(user);

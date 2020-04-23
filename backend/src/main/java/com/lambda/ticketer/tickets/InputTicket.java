@@ -1,5 +1,6 @@
 package com.lambda.ticketer.tickets;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -15,9 +16,11 @@ public class InputTicket {
 
     @NotNull(message = "El valor no puede ser nulo")
     @NotBlank(message = "El valor no puede ser vacio")
+    @JsonProperty("header")
     private String header;
 
     @NotNull(message = "El valor no puede ser nulo")
     @NotBlank(message = "El valor no puede ser vacio")
+    @JsonProperty("body")
     private String body;
 }
