@@ -1,5 +1,6 @@
 package com.lambda.ticketer.users;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lambda.ticketer.projects.Project;
 import lombok.*;
@@ -29,9 +30,10 @@ public class User {
     @NotNull(message = "La contraseña no puede ser nula")
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(min = 4, message = "La contraseña debe al menos 4 caracteres")
-    @JsonProperty("password")
+    @JsonProperty(value = "password", access = JsonProperty.Access.WRITE_ONLY)
     String passwordHash;
 
     @ManyToMany
+    @JsonBackReference
     List<Project> projects;
 }
