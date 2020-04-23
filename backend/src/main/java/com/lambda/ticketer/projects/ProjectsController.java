@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
 
 @RestController
@@ -20,6 +22,9 @@ public class ProjectsController {
     @Autowired
     private ProjectsRepository projectsRepository;
 
+    @Autowired
+    UsersRepository usersRepository;
+
     @GetMapping("/api/users/projects")
     public List<Project> getAllProjects(Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
@@ -30,7 +35,7 @@ public class ProjectsController {
     public Project createNewProject(@RequestBody InputProject inputProject, Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
 
-        Project newProject = new Project(null, inputProject.getProjectName(), user, Collections.singletonList(user), new ArrayList<>());
+        Project newProject = new Project(null, inputProject.getProjectName(), user, new HashSet<>(Collections.singleton(user)), new HashSet<>());
         newProject = projectsRepository.save(newProject);
         return newProject;
     }
@@ -50,8 +55,31 @@ public class ProjectsController {
     }
 
     @PatchMapping("/api/users/projects/{id}")
-    public Project editProject(@PathVariable("id") long projectId){
-        return null;
+    public Project editProject(
+            @PathVariable("id") Long projectId,
+            @Valid @RequestBody ProjectPatchAction action) {
+
+        Project project = projectsRepository.findById(projectId)
+                .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id"+ projectId));
+
+        switch (action.getVerb()) {
+            case ADD_MEMBER: {
+                User user = usersRepository.findByNameAndProjectsContaining(action.getValue(), project)
+                        .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario "+ action.getValue()));
+
+                break;
+            }
+            case REMOVE_MEMBER: {
+
+                break;
+            }
+            case RENAME: {
+
+                break;
+            }
+        }
+
+        return project;
     }
 
     @GetMapping("/api/projects/{id}")
