@@ -43,9 +43,15 @@ public class TicketsController {
                 if(ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)){
                     throw new Exception("El ticket ya esta tomado");
                 } else{
-                    ticket.setStatus(Ticket.TicketStatus.TAKEN);
-                    ticket.setResponsible(user);
-                    ticket = ticketsRepository.save(ticket);
+                    long count = ticketsRepository.countByResponsibleAndProjectAndStatus(user,project, Ticket.TicketStatus.TAKEN);
+                    if(count <= 3){
+                        ticket.setStatus(Ticket.TicketStatus.TAKEN);
+                        ticket.setResponsible(user);
+                        ticket = ticketsRepository.save(ticket);
+                    }else{
+                        throw new Exception("El usario ya tiene muchos tickets tomados");
+                    }
+
                 }
                 break;
             }
@@ -68,7 +74,7 @@ public class TicketsController {
                 break;
             }
             case CHANGE:{
-                if(ticket.getResponsible().equals(user)){
+                if(ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.PENDING)){
                     ticket.setHeader(action.getValue().getHeader());
                     ticket.setBody(action.getValue().getBody());
                 }else{
