@@ -4,7 +4,6 @@ import com.lambda.ticketer.users.User;
 import com.lambda.ticketer.users.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
@@ -89,13 +88,22 @@ public class ProjectsController {
                 break;
             }
             case REMOVE_MEMBER: {
+                if (principal.getName().equals(action.getValue()))
+                    throw new Exception("El usua");
+
                 if (principal.getName().equals(project.getOwner().getName())) {
+                    boolean deleted = false;
                     for (User user : project.getMembers()) {
                         if (user.getName().equals(action.getValue())) {
                             project.removeMember(user);
                             project = projectsRepository.save(project);
+                            deleted = true;
+
                             break;
                         }
+                    }
+                    if (!deleted) {
+                        throw new EntityNotFoundException("No se encontró el usuario "+ action.getValue());
                     }
                 }
                 else
@@ -104,6 +112,12 @@ public class ProjectsController {
                 break;
             }
             case RENAME: {
+                if (principal.getName().equals(project.getOwner().getName())) {
+                    project.setName(action.getValue());
+                    project = projectsRepository.save(project);
+                }
+                else
+                    throw new Exception("Usuario no autorizado para realizar la operacion");
 
                 break;
             }
