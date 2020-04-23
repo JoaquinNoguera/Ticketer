@@ -57,23 +57,51 @@ public class ProjectsController {
     @PatchMapping("/api/users/projects/{id}")
     public Project editProject(
             @PathVariable("id") Long projectId,
-            @Valid @RequestBody ProjectPatchAction action) {
+            @Valid @RequestBody ProjectPatchAction action,
+            Principal principal) throws Exception {
 
         Project project = projectsRepository.findById(projectId)
                 .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id"+ projectId));
 
+        if (!principal.getName().equals(project.getOwner().getName()))
+            throw new Exception("Usuario no autorizado para realizar la operacion");
+
         switch (action.getVerb()) {
             case ADD_MEMBER: {
-                User user = usersRepository.findByNameAndProjectsContaining(action.getValue(), project)
+
+                User user = usersRepository.findByName(action.getValue())
                         .orElseThrow(() -> new EntityNotFoundException("No se encontro el usuario "+ action.getValue()));
+
+                project.addMember(user);
+                project = projectsRepository.save(project);
 
                 break;
             }
             case REMOVE_MEMBER: {
 
+                if (principal.getName().equals(action.getValue()))
+                    throw new Exception("El dueño de un proyecto no puede eliminarse a si mismo de un proyecto");
+
+                boolean deleted = false;
+                for (User user : project.getMembers()) {
+                    if (user.getName().equals(action.getValue())) {
+                        project.removeMember(user);
+                        project = projectsRepository.save(project);
+                        deleted = true;
+
+                        break;
+                    }
+                }
+                if (!deleted) {
+                    throw new EntityNotFoundException("No se encontró el usuario "+ action.getValue());
+                }
+
                 break;
             }
             case RENAME: {
+
+                project.setName(action.getValue());
+                project = projectsRepository.save(project);
 
                 break;
             }
@@ -84,8 +112,10 @@ public class ProjectsController {
 
     @GetMapping("/api/projects/{id}")
     public Project getProject(@PathVariable("id") long projectId, Principal principal){
-        User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
-        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
-        return project;
+        User user = userRepository.findByName(principal.getName())
+                .orElseThrow(EntityNotFoundException::new);
+
+        return projectsRepository.findByIdAndMembersContaining(projectId,user)
+                .orElseThrow(EntityNotFoundException::new);
     }
 }
