@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -25,6 +27,8 @@ public class Project {
     @NotBlank(message = "El nombre de proyecto no puede estar vacio")
     String name;
 
+    Integer totalTickets;
+
     @NotNull(message = "Un proyecto debe tener dueño")
     @ManyToOne
     User owner;
@@ -37,11 +41,24 @@ public class Project {
 
     @NotNull
     @OneToMany(mappedBy = "project", cascade = CascadeType.REMOVE)
+    @JsonManagedReference
     Set<Ticket> tickets;
 
-    public void addTicket(Ticket ticket) {
+    public Project(String name, User owner){
+        this.id = null;
+        this.name = name;
+        this.totalTickets = 0;
+        this.owner = owner;
+        this.members = new HashSet<>();
+        this.members.add(owner);
+        this.tickets = new HashSet<>();
+    }
+
+    public Ticket addTicket(String header, String body, User user) {
+        this.totalTickets++;
+        Ticket ticket= new Ticket(header,body,user,this);
         tickets.add(ticket);
-        ticket.setProject(this);
+        return  ticket;
     }
 
     public void removeTicket(Ticket ticket) {
