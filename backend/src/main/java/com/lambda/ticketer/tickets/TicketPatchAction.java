@@ -1,14 +1,11 @@
 package com.lambda.ticketer.tickets;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -23,5 +20,6 @@ public class TicketPatchAction {
     @JsonProperty("action")
     private TicketPatchAction.Verb verb;
 
+    @Valid
     private InputTicket value;
 }

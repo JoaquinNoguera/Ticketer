@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 @RestController
 public class LoginController {
@@ -25,7 +26,10 @@ public class LoginController {
 
 
     @PostMapping("/api/login")
-    public AuthenticationResponse authenticationUser(@RequestBody AuthenticationRequest authenticationRequest, HttpServletResponse response) throws Exception{
+    public AuthenticationResponse authenticationUser(
+            @Valid @RequestBody AuthenticationRequest authenticationRequest,
+            HttpServletResponse response)
+            throws Exception {
 
         authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -36,6 +40,7 @@ public class LoginController {
         Cookie cookie = new Cookie("token",jwt);
         cookie.setMaxAge(60 * 15);
         response.addCookie(cookie);
+
         return new AuthenticationResponse(jwt);
     }
 }

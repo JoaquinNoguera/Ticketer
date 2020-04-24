@@ -1,5 +1,6 @@
 package com.lambda.ticketer.users;
 
+import com.lambda.ticketer.exceptions.CustomException;
 import com.lambda.ticketer.login.AuthenticationResponse;
 import com.lambda.ticketer.projects.Project;
 import com.lambda.ticketer.projects.ProjectsRepository;
@@ -51,6 +52,6 @@ public class UsersController {
             return true;
         }
         else
-            throw new Exception("La antigua contraseña no es correcta");
+            throw new CustomException("La antigua contraseña no es correcta");
     }
 }

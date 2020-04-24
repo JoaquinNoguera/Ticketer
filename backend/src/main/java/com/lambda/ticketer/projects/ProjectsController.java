@@ -1,5 +1,6 @@
 package com.lambda.ticketer.projects;
 
+import com.lambda.ticketer.exceptions.CustomException;
 import com.lambda.ticketer.tickets.Ticket;
 import com.lambda.ticketer.tickets.TicketsRepository;
 import com.lambda.ticketer.users.User;
@@ -75,7 +76,7 @@ public class ProjectsController {
                 .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id"+ projectId));
 
         if (!principal.getName().equals(project.getOwner().getName()))
-            throw new Exception("Usuario no autorizado para realizar la operacion");
+            throw new CustomException("Usuario no autorizado para realizar la operacion");
 
         switch (action.getVerb()) {
             case ADD_MEMBER: {
@@ -91,7 +92,7 @@ public class ProjectsController {
             case REMOVE_MEMBER: {
 
                 if (principal.getName().equals(action.getValue()))
-                    throw new Exception("El dueño de un proyecto no puede eliminarse a si mismo de un proyecto");
+                    throw new CustomException("El dueño de un proyecto no puede eliminarse a si mismo de un proyecto");
 
                 boolean deleted = false;
 

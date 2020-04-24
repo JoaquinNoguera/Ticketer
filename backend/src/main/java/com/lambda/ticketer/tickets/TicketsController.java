@@ -1,5 +1,6 @@
 package com.lambda.ticketer.tickets;
 
+import com.lambda.ticketer.exceptions.CustomException;
 import com.lambda.ticketer.projects.Project;
 import com.lambda.ticketer.projects.ProjectsRepository;
 import com.lambda.ticketer.users.User;
@@ -8,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
 public class TicketsController {
-
 
     @Autowired
     UsersRepository usersRepository;
@@ -24,62 +25,85 @@ public class TicketsController {
     TicketsRepository ticketsRepository;
 
     @PostMapping("/api/projects/{id}/tickets")
-    public Ticket createNewTicket(@PathVariable("id") long projectId, @RequestBody InputTicket inputTicket, Principal principal){
-        User user = usersRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
-        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
-        Ticket ticket = project.addTicket(inputTicket.getHeader(),inputTicket.getBody(),user);
+    public Ticket createNewTicket(
+            @PathVariable("id") long projectId,
+            @Valid @RequestBody InputTicket inputTicket,
+            Principal principal)
+    {
+        User user = usersRepository.findByName(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
+
+        Project project = projectsRepository.findByIdAndMembersContaining(projectId, user)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el proyecto "+ projectId));
+
+        Ticket ticket = project.addTicket(inputTicket.getHeader(), inputTicket.getBody(), user);
+
         return ticketsRepository.save(ticket);
     }
 
     @PatchMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public Ticket editTicket(@PathVariable long projectId, @PathVariable long ticketId, @RequestBody TicketPatchAction action, Principal principal)
-    throws Exception{
-        User user = usersRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
-        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
-        Ticket ticket = ticketsRepository.findByIdAndProject(ticketId,project).orElseThrow(EntityNotFoundException::new);
+    public Ticket editTicket(
+            @PathVariable long projectId,
+            @PathVariable long ticketId,
+            @Valid @RequestBody TicketPatchAction action,
+            Principal principal)
+    throws Exception {
+        User user = usersRepository.findByName(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
+
+        Project project = projectsRepository.findByIdAndMembersContaining(projectId, user)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el proyecto "+ projectId));
+
+        Ticket ticket = ticketsRepository.findByIdAndProject(ticketId, project)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el ticket "+ ticketId));
 
         switch (action.getVerb()){
             case TAKE: {
-                if(ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)){
-                    throw new Exception("El ticket ya esta tomado");
-                } else{
-                    long count = ticketsRepository.countByResponsibleAndProjectAndStatus(user,project, Ticket.TicketStatus.TAKEN);
-                    if(count <= 3){
+                if (ticket.getStatus().equals(Ticket.TicketStatus.TAKEN))
+                    throw new CustomException("El ticket ya esta tomado");
+                else {
+                    long count = ticketsRepository.countByResponsibleAndProjectAndStatus(user, project, Ticket.TicketStatus.TAKEN);
+
+                    if (count <= 3) {
                         ticket.setStatus(Ticket.TicketStatus.TAKEN);
                         ticket.setResponsible(user);
                         ticket = ticketsRepository.save(ticket);
-                    }else{
-                        throw new Exception("El usario ya tiene muchos tickets tomados");
                     }
-
+                    else
+                        throw new CustomException("El usario ya tiene muchos tickets tomados");
                 }
                 break;
             }
             case DROP: {
-                if(ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.SOLVED)){
+                if (ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.SOLVED)){
                     ticket.setStatus(Ticket.TicketStatus.PENDING);
                     ticket = ticketsRepository.save(ticket);
-                }else{
-                    throw new Exception("El ticket no es suyo para dejarlo");
                 }
+                else
+                    throw new CustomException("El ticket no es suyo para dejarlo");
+
                 break;
             }
-            case SOLVED:{
-                if(ticket.getResponsible().equals(user)) {
+            case SOLVED: {
+                if (ticket.getResponsible().equals(user)) {
                     ticket.setStatus(Ticket.TicketStatus.SOLVED);
                     ticket = ticketsRepository.save(ticket);
-                }else{
-                    throw new Exception("El ticket no es suyo");
                 }
+                else
+                    throw new CustomException("El ticket no es suyo");
+
                 break;
             }
-            case CHANGE:{
-                if(ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.PENDING)){
+            case CHANGE: {
+                if (ticket.getResponsible().equals(user) || ticket.getStatus().equals(Ticket.TicketStatus.PENDING)){
                     ticket.setHeader(action.getValue().getHeader());
                     ticket.setBody(action.getValue().getBody());
-                }else{
-                    throw new Exception("El ticket no es suyo para dejarlo");
+
+                    ticket = ticketsRepository.save(ticket);
                 }
+                else
+                    throw new CustomException("El ticket no es suyo para dejarlo");
+
                 break;
             }
         }
@@ -88,21 +112,30 @@ public class TicketsController {
     }
 
     @DeleteMapping("/api/projects/{projectId}/tickets/{ticketId}")
-    public Boolean deleteTicket(@PathVariable long projectId, @PathVariable long ticketId,Principal principal)
+    public Boolean deleteTicket(
+            @PathVariable long projectId,
+            @PathVariable long ticketId,
+            Principal principal)
     throws Exception {
-        User user = usersRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
-        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user).orElseThrow(EntityNotFoundException::new);
-        Ticket ticket = ticketsRepository.findById(ticketId).orElseThrow(EntityNotFoundException::new);
+        User user = usersRepository.findByName(principal.getName())
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
 
-        if(user.equals(ticket.getResponsible()) || ticket.getStatus().equals(Ticket.TicketStatus.PENDING)){
-        if(project.equals(ticket.getProject())) {
-        ticketsRepository.delete(ticket);
-        } else{
-        throw new Exception("El ticket no pertenece al proyecto");
+        Project project = projectsRepository.findByIdAndMembersContaining(projectId,user)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el proyecto "+ projectId));
+
+        Ticket ticket = ticketsRepository.findById(ticketId)
+                .orElseThrow(() -> new EntityNotFoundException("No se encuentra el ticket "+ ticketId));
+
+        if (user.equals(ticket.getResponsible()) || ticket.getStatus().equals(Ticket.TicketStatus.PENDING)) {
+            if (project.equals(ticket.getProject())) {
+                ticketsRepository.delete(ticket);
+            }
+            else
+                throw new CustomException("El ticket no pertenece al proyecto");
         }
-        }else{
-        throw  new Exception("El ticket le pertenece a otro usuario");
-        }
-            return true;
-        }
+        else
+            throw  new CustomException("El ticket le pertenece a otro usuario");
+
+        return true;
+    }
 }

@@ -1,6 +1,5 @@
 package com.lambda.ticketer.users;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.lambda.ticketer.projects.Project;
