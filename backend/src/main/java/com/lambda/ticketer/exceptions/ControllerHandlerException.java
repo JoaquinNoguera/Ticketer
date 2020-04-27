@@ -1,10 +1,7 @@
 package com.lambda.ticketer.exceptions;
 
-import com.lambda.ticketer.tickets.Ticket;
 import com.lambda.ticketer.users.User;
-import org.springframework.core.MethodParameter;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.repository.query.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -15,7 +12,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;

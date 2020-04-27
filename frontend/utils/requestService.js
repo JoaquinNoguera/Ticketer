@@ -149,8 +149,8 @@ export default function withRequest(WrappedComponent){
         render(){
             return(
                 <WrappedComponent 
-                    httpRequest = {this.mockHttpRequest}
-                    {...this.props}
+                    httpRequest = { this.httpRequest }
+                    { ...this.props }
                 />
             );
         }

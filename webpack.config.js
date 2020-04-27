@@ -25,6 +25,12 @@ module.exports = {
         open: true,
         historyApiFallback: true,
         contentBase: path.resolve(__dirname, 'build/frontend'),
-        port: 3000
+        port: 3000,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8080',
+                changeOrigin: true
+            }
+        }
     }
 }

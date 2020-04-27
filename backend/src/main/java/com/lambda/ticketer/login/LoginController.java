@@ -26,7 +26,7 @@ public class LoginController {
 
 
     @PostMapping("/api/login")
-    public AuthenticationResponse authenticationUser(
+    public Boolean authenticationUser(
             @Valid @RequestBody AuthenticationRequest authenticationRequest,
             HttpServletResponse response)
             throws Exception {
@@ -41,6 +41,6 @@ public class LoginController {
         cookie.setMaxAge(60 * 15);
         response.addCookie(cookie);
 
-        return new AuthenticationResponse(jwt);
+        return true;
     }
 }

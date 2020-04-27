@@ -36,7 +36,7 @@ public class ProjectsController {
     }
 
     @PostMapping("/api/users/projects")
-    public Project createNewProject(@RequestBody InputProject inputProject, Principal principal){
+    public Project createNewProject(@Valid @RequestBody InputProject inputProject, Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
 
         Project newProject = new Project(inputProject.getProjectName(), user);
@@ -73,7 +73,7 @@ public class ProjectsController {
             Principal principal) throws Exception {
 
         Project project = projectsRepository.findById(projectId)
-                .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id"+ projectId));
+                .orElseThrow(() -> new EntityNotFoundException("No se encontro el proyecto con id "+ projectId));
 
         if (!principal.getName().equals(project.getOwner().getName()))
             throw new CustomException("Usuario no autorizado para realizar la operacion");
