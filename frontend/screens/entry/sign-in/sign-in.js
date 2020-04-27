@@ -6,38 +6,41 @@ import './style.scss';
 class SingIn extends React.Component{
     
     state = {
-            username: "",
+            name: "",
             password: "",
-            repeat: ""
+            passwordConfirm: ""
         }
 
     handleInputChange = (event) => {
         let field = '';
         switch (event.target.id) {
-            case 'login-input-username': field = 'username'; break;
+            case 'login-input-name': field = 'name'; break;
             case 'login-input-password': field = 'password'; break;
-            case 'login-input-repeat':   field = 'repeat'; break;
+            case 'login-input-password-confirm':   field = 'passwordConfirm'; break;
         }
         this.setState({ [field]: event.target.value });
     }
     
     handleFormSubmit = () => {
-        const{username,password,repeat} = this.state;
-        this.props.httpRequest('/api/singin', {
-            method: 'POST',
-            body: JSON.stringify({
-                username: username,
-                password: password,
-                repeat: repeat,
+        const{ name, password, passwordConfirm } = this.state;
+
+        if (password === passwordConfirm)
+            this.props.httpRequest('/api/users', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: name,
+                    password: password
+                })
             })
-        })
-        .then(user => this.props.onLogIn(user))
-        .catch(_=> console.log('not singin in'));
+            .then(_ => this.props.onLogIn({ name }))
+            .catch(_=> console.log('not singin in'));
     }
 
     render(){
         if (this.props.logedIn) return <Redirect to='projects' />
-        const {username,password,repeat} = this.state
+        
+        const { name ,password, passwordConfirm } = this.state;
+
         return(
             <div className="singinContainer">
                 <h2>Sing In into Tiketer</h2>
@@ -49,13 +52,13 @@ class SingIn extends React.Component{
                 >
                     <span>Username</span>
                     <input 
-                        id="login-input-username"
+                        id="login-input-name"
                         placeholder="pedrito matagatos"
                         className="
                             singinInput
                         "
                         onChange={ this.handleInputChange }
-                        value={username}
+                        value={ name }
                     />
                     
                     <span>Password</span>
@@ -67,19 +70,19 @@ class SingIn extends React.Component{
                             singinInput
                         "
                         onChange={ this.handleInputChange }
-                        value={password}
+                        value={ password }
                     />
     
                     <span>Confirm Password</span>
                     <input 
-                        id="login-input-repeat"
+                        id="login-input-password-confirm"
                         type="password" 
                         placeholder="********"
                         className="
                             singinInput
                         "
                         onChange={ this.handleInputChange }
-                        value={repeat}
+                        value={ passwordConfirm }
                     />
                     
                     <button 

@@ -1,6 +1,7 @@
 package com.lambda.ticketer.exceptions;
 
 import com.lambda.ticketer.users.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @ControllerAdvice
 public class ControllerHandlerException {
 
@@ -46,6 +48,9 @@ public class ControllerHandlerException {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<ExceptionResponse> exceptionHandler(Exception exception){
+
+        log.error(exception.toString());
+
         return new ResponseEntity<>(
                 (new ExceptionResponse("A ocurrido un error inesperado")), HttpStatus.BAD_REQUEST
         );

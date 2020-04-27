@@ -1,9 +1,19 @@
 import React from 'react';
-import {categories} from './utils'
+import { categories } from './utils'
 
 export default function withRequest(WrappedComponent){
     return class extends React.Component {
         httpRequest = async function (url, options) {
+            if (!options) options = {}
+
+            if (!options.headers) options.headers = new Headers();
+
+            if (!options.headers['Content-Type'])
+                options.headers = {
+                    ...options.headers,
+                    'Content-Type': 'application/json'
+                }
+
             try {
                 const response = await fetch(url, options);
         

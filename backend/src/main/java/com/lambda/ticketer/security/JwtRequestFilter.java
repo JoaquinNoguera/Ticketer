@@ -16,6 +16,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -35,11 +36,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             String username = null;
             String jwt = null;
-            Cookie[] cookies = request.getCookies();
-            if(cookies != null) {
-                List<Cookie> result = Arrays.asList(cookies);
-                CollectionUtils.filter(result, c -> ((Cookie) c).getName().equals("token"));
-                jwt = result.get(0).getValue();
+            List<Cookie> cookies = new ArrayList<>(Arrays.asList(
+                    (request.getCookies() != null) ? request.getCookies() : new Cookie[0]));
+            CollectionUtils.filter(cookies, c -> ((Cookie) c).getName().equals("token"));
+
+            if (cookies.size() > 0) {
+                jwt = cookies.get(0).getValue();
                 username = jwtUtils.extractUsername(jwt);
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
