@@ -1,7 +1,6 @@
 package com.lambda.ticketer.users;
 
 import com.lambda.ticketer.exceptions.CustomException;
-import com.lambda.ticketer.login.AuthenticationResponse;
 import com.lambda.ticketer.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +21,7 @@ public class UsersController {
     JwtUtils jwt;
 
     @PostMapping("/api/users")
-    public AuthenticationResponse createUser(@Valid @RequestBody User user, HttpServletResponse response) {
+    public Boolean createUser(@Valid @RequestBody User user, HttpServletResponse response) {
 
         user = usersRepository.save(user);
 
@@ -32,7 +31,7 @@ public class UsersController {
         cookie.setMaxAge(60 * 15);
         response.addCookie(cookie);
 
-        return new AuthenticationResponse(token);
+        return true;
     }
 
     @PatchMapping("/api/users")

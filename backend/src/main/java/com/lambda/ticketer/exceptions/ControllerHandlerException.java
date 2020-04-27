@@ -1,8 +1,6 @@
 package com.lambda.ticketer.exceptions;
 
-import com.lambda.ticketer.tickets.Ticket;
-import org.springframework.core.MethodParameter;
-import org.springframework.data.repository.query.Parameter;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -83,6 +81,8 @@ public class ControllerHandlerException {
 
             return new ResponseEntity(errors,HttpStatus.BAD_REQUEST);
     }
+
+
 
 
 

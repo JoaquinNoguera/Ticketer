@@ -64,7 +64,7 @@ public class TicketsController {
                 else {
                     long count = ticketsRepository.countByResponsibleAndProjectAndStatus(user, project, Ticket.TicketStatus.TAKEN);
 
-                    if (count <= 3) {
+                    if (count < 3) {
                         ticket.setStatus(Ticket.TicketStatus.TAKEN);
                         ticket.setResponsible(user);
                         ticket = ticketsRepository.save(ticket);
@@ -85,7 +85,7 @@ public class TicketsController {
                 break;
             }
             case SOLVED: {
-                if (ticket.getResponsible().equals(user)) {
+                if (ticket.getResponsible().equals(user) && ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)) {
                     ticket.setStatus(Ticket.TicketStatus.SOLVED);
                     ticket = ticketsRepository.save(ticket);
                 }
