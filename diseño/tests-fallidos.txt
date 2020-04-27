@@ -1,0 +1,10 @@
+USUARIOS:
+- Cuando un usuario ya existe no nos lo dice, avisa que hubo un error inesperado nomás
+- Cuando hay un error en el campo password dice passwordHash, debería decir password
+- Cuando la contraseña tiene menos de 4 caracteres en la solicitud de cambio de contraseña, el mensaje de error es "A ocurrido un error inesperado" en vez del correspondiente
+
+
+TICKETS:
+- Si el header del ticket tiene mas de 140 caracteres da el error "A ocurrido un error inesperado"
+- Te deja tomar mas de 3 tickets
+- Te deja poner tickets pendientes como resueltos sin tomarlos

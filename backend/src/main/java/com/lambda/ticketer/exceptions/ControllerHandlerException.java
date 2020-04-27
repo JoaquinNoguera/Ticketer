@@ -1,7 +1,9 @@
 package com.lambda.ticketer.exceptions;
 
 import com.lambda.ticketer.tickets.Ticket;
+import com.lambda.ticketer.users.User;
 import org.springframework.core.MethodParameter;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.query.Parameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,9 @@ import java.util.List;
 @ControllerAdvice
 public class ControllerHandlerException {
 
-
     @ExceptionHandler({CustomException.class})
     public ResponseEntity<ExceptionResponse> customExceptionHandler(CustomException exception){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse(exception.getMessage())), HttpStatus.BAD_REQUEST
         );
     }
@@ -33,7 +34,7 @@ public class ControllerHandlerException {
     public ResponseEntity<ExceptionResponse> entityNotFoundExceptionHandler(
             EntityNotFoundException exception
     ){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse(exception.getMessage())), HttpStatus.NOT_FOUND
         );
     }
@@ -42,28 +43,28 @@ public class ControllerHandlerException {
     public ResponseEntity<ExceptionResponse> usernameNotFoundExceptionHandler(
             UsernameNotFoundException exception
     ){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse(exception.getMessage())), HttpStatus.UNAUTHORIZED
         );
     }
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<ExceptionResponse> exceptionHandler(Exception exception){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse("A ocurrido un error inesperado")), HttpStatus.BAD_REQUEST
         );
     }
 
     @ExceptionHandler({BadCredentialsException.class})
     public ResponseEntity<ExceptionResponse> badCredentialExceptionHandler(){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse("Usuario o Contraseña Incorrectos")), HttpStatus.UNAUTHORIZED
         );
     }
 
     @ExceptionHandler({AccessDeniedException.class})
     public ResponseEntity<ExceptionResponse> accessDeniedExceptionHandler(){
-        return new ResponseEntity<ExceptionResponse>(
+        return new ResponseEntity<>(
                 (new ExceptionResponse("El usuario no tiene permisos")), HttpStatus.FORBIDDEN
         );
     }
@@ -75,17 +76,31 @@ public class ControllerHandlerException {
             List<FormExceptionResponse> errors = new ArrayList<>();
 
             for (FieldError error : exception.getBindingResult().getFieldErrors()) {
-                errors.add(new FormExceptionResponse(error.getDefaultMessage(),error.getField()));
+                String field;
+                if ((exception.getBindingResult().getTarget() instanceof User)
+                        && error.getField().equals("passwordHash"))
+                    field = "password";
+                else
+                    field = error.getField();
+
+                errors.add(new FormExceptionResponse(error.getDefaultMessage(), field));
             }
             for (ObjectError error : exception.getBindingResult().getGlobalErrors()) {
                 errors.add(new FormExceptionResponse(error.getDefaultMessage(),error.getObjectName()));
             }
 
-            return new ResponseEntity(errors,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({ DataIntegrityViolationException.class })
+    public ResponseEntity<ExceptionResponse> handleConstraintViolation(DataIntegrityViolationException exception) {
 
+        String responseMessage = "Hay un error con algun dato";
 
+        String errorMessage = exception.getCause().getCause().getMessage();
+        if (errorMessage.contains("uk_") && errorMessage.contains("(name)"))
+            responseMessage = "El nombre de usuario ya existe";
 
-
+        return new ResponseEntity<>(new ExceptionResponse(responseMessage), HttpStatus.BAD_REQUEST);
+    }
 }

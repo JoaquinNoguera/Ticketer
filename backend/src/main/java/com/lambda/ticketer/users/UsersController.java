@@ -36,7 +36,7 @@ public class UsersController {
     }
 
     @PatchMapping("/api/users")
-    public Boolean changePassword(@RequestBody ChangePasswordRequest passwordRequest, Principal principal)
+    public Boolean changePassword(@Valid @RequestBody ChangePasswordRequest passwordRequest, Principal principal)
     throws Exception {
         User user = usersRepository.findByName(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
