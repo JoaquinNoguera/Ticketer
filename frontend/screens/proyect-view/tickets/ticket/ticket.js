@@ -26,8 +26,8 @@ class Ticket extends React.Component {
         }))
     }
 
-    renderButtons = (state, owner) => {
-        switch(state) {
+    renderButtons = (status, owner) => {
+        switch(status) {
             case ticketState.PENDING:
                 return [ this.actionButton.take, this.actionButton.delete ];
             case ticketState.TAKEN:
@@ -38,21 +38,21 @@ class Ticket extends React.Component {
     }
 
     render(){
-        const { id, description, body, state = ticketState.SOLVED, owner } = this.props;
+        const { name, header, body, status, owner } = this.props;
         const { show } = this.state;
         return (
-            <div className='proyect_view-tickets-ticket' onClick={this.onChangeShow}>
-                <h2> #{id} </h2>
-                <p className='proyect_view-tickets-ticket-description'> {description} </p>
+            <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShow }>
+                <h2> #{ name } </h2>
+                <p className='proyect_view-tickets-ticket-description'>{ header }</p>
 
-                <div>{ this.renderButtons(state, owner) }</div>
+                <div>{ this.renderButtons(status, owner) }</div>
 
                 <PopupTicket 
-                    id={id}
-                    show={show}
-                    body={body}
-                    description={description}
-                    onChangeShow = {this.onChangeShow}
+                    name={ name }
+                    show={ show }
+                    body={ body }
+                    header={ header }
+                    onChangeShow={ this.onChangeShow }
                 />
             </div>
         );

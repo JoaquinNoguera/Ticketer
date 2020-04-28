@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import whitRequest from '../../utils/requestService';
-import {categories} from '../../utils/utils';
+import { categories } from '../../utils/utils';
 import PopupTicket from './popup-ticket'
 import Tickets from './tickets';
+
 import './styles.scss'
 
 class ProyectView extends React.Component {
@@ -11,7 +12,7 @@ class ProyectView extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            tikets: [
+            tickets: [
             ],
             option: categories.PENDING,
             showCreate: false
@@ -19,11 +20,11 @@ class ProyectView extends React.Component {
     }
 
     componentDidMount(){
-        this.props.httpRequest('/api/project', {
+        this.props.httpRequest(`/api/projects/${ this.props.match.params.projectId }`, {
             method: 'GET',
         })
-        .then(tikets => this.setState({
-            tikets: tikets
+        .then(project => this.setState({
+            tickets: project.tickets
         }))
         .catch(_=> console.log('error'));
     }
@@ -39,15 +40,16 @@ class ProyectView extends React.Component {
         })
     }
 
-    addTiket = (newTicket) => {
+    addTicket = (newTicket) => {
        console.log(newTicket);
        this.setState((state)=>({
-           tikets: [...state.tikets, newTicket],
+           tickets: [...state.tickets, newTicket],
            showCreate: false,
        }))
     }
     render () {
-        const {tikets,option, showCreate} = this.state;
+        const { tickets, option, showCreate } = this.state;
+
         return (
             <div id='proyect_view'>
                 <h2> Titulo del proyecto </h2>
@@ -58,21 +60,21 @@ class ProyectView extends React.Component {
                 </div>
 
                 <Tickets
-                    tikets={tikets}
-                    option ={option}
-                    changeOption = {this.changeOption}
+                    tickets={ tickets }
+                    option={ option }
+                    changeOption={ this.changeOption }
                 />
 
                 <div 
                     id='proyect_view-add_ticket'
-                    onClick = {this.onChangeShow}
+                    onClick={ this.onChangeShow }
                 > 
                 + </div>
                 <PopupTicket
-                    show={showCreate}
-                    forCreate = {true}
-                    addTiket = {this.addTiket}
-                    onChangeShow = {this.onChangeShow}
+                    show={ showCreate }
+                    forCreate={ true }
+                    addTicket={ this.addTicket }
+                    onChangeShow={ this.onChangeShow }
                 />
             </div>
         );

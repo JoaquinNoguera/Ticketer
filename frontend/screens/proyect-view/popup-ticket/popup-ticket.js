@@ -7,13 +7,15 @@ export default class PopupTicket extends React.Component {
     
     constructor(props){
         super(props);
-        const {id, body, description} = props;
+        const { name, body, header } = props;
+
         this.state = {
             edit: false,
-            id: id,
+            name: name,
             body: body,
-            description: description
+            header: header
         }
+
         this.onChangeEdit = this.onChangeEdit.bind(this);
     }
 
@@ -24,8 +26,9 @@ export default class PopupTicket extends React.Component {
     }
 
     render(){
-        const {show, onChangeShow, forCreate, addTiket} = this.props;
-        const {edit, id, body, description} = this.state;
+        const { show, onChangeShow, forCreate, addTiket } = this.props;
+        const { edit, name, body, header } = this.state;
+
         return(
             <Modal 
                 show = {show}
@@ -38,7 +41,7 @@ export default class PopupTicket extends React.Component {
                     >X
                     </button>
                     <h1>
-                        #{id}
+                        #{ name }
                     </h1>
 
                     {
@@ -46,17 +49,17 @@ export default class PopupTicket extends React.Component {
                         (
                             <>
                             <textarea 
-                            value={description}
-                            className = 'popupTicketInputD '
-                            onChange = {(e) => {
+                            value={header}
+                            className='popupTicketInputD '
+                            onChange={(e) => {
                                 onChangeState.call(this,e,"description");
                             }}
                             />
                             <hr/>
                             <textarea
                             value={body} 
-                            className = 'popupTicketInputB'
-                            onChange = {(e) => {
+                            className='popupTicketInputB'
+                            onChange={(e) => {
                                 onChangeState.call(this,e,"body");
                             }}
                             />
@@ -66,7 +69,7 @@ export default class PopupTicket extends React.Component {
                                             onClick={() => {
                                                 addTiket({
                                                 id: id,
-                                                description: description,
+                                                header: header,
                                                 body: body,
                                                 category: 0,
                                             })
@@ -87,7 +90,7 @@ export default class PopupTicket extends React.Component {
                         ) :
                         (
                             <>
-                            <p>{description}</p>
+                            <p>{header}</p>
                             <hr/>
                             <p>{body}</p>
                             <button 

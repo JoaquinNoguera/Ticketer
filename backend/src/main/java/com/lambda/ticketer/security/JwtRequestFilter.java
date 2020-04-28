@@ -1,6 +1,7 @@
 package com.lambda.ticketer.security;
 
 import com.lambda.ticketer.users.UserDetailsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.CollectionUtils;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+@Slf4j
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
@@ -29,14 +31,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
 
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
             String username = null;
             String jwt = null;
-
 
             List<Cookie> cookies = new ArrayList<>(Arrays.asList(
                 (request.getCookies() != null) ? request.getCookies() : new Cookie[0]));
@@ -45,13 +45,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
             if(cookies.size() > 0) {
                 jwt = cookies.get(0).getValue();
-                username = jwtUtils.extractUsername(jwt);
+                try {
+                    username = jwtUtils.extractUsername(jwt);
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                    filterChain.doFilter(request, response);
+                    return;
+                }
 
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
                 if (userDetails != null) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null,userDetails.getAuthorities());
+                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
 
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -59,12 +65,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     String newJwt = jwtUtils.generateToken(username);
-                    Cookie cookie = new Cookie("token",newJwt);
+                    Cookie cookie = new Cookie("token", newJwt);
                     cookie.setMaxAge(120);
                     response.addCookie(cookie);
                 }
             }
 
-            filterChain.doFilter(request,response);
+            filterChain.doFilter(request, response);
     }
 }
