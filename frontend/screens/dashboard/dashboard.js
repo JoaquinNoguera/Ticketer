@@ -13,13 +13,13 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount(){
-        this.props.httpRequest('/api/projects', {
+        this.props.httpRequest('/api/users/projects', {
             method: 'GET',
         })
         .then(projects => this.setState({
             projects: projects
         }))
-        .catch(_=> console.log('error'));
+        .catch(_ => {});
     }
 
     handleCreateProyectClick = () => {
@@ -28,6 +28,21 @@ class Dashboard extends React.Component {
 
     handleCreateProyectCanceled = () => {
         this.setState({ showCreateProyectModal: false });
+    }
+
+    handleCreateProject = (projectName) => {
+        this.setState({ showCreateProyectModal: false });
+        
+        this.props.httpRequest('/api/users/projects', {
+            method: 'POST',
+            body: JSON.stringify({ projectName })
+        })
+        .then(project => {
+            this.setState(state => ({
+                projects: [ ...state.projects, project ]
+            }));
+        })
+        .catch(_ => {});
     }
 
     render () {
@@ -43,7 +58,7 @@ class Dashboard extends React.Component {
 
                 <CreateProyectModal 
                 show={ showCreateProyectModal } 
-                onAccept={ this.handleCreateProyectCanceled } 
+                onAccept={ this.handleCreateProject } 
                 onCancel={ this.handleCreateProyectCanceled } 
                 />
 

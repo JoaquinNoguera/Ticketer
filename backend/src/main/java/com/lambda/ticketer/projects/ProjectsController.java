@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import java.security.Principal;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,18 +31,24 @@ public class ProjectsController {
     UsersRepository usersRepository;
 
     @GetMapping("/api/users/projects")
-    public List<Project> getAllProjects(Principal principal){
+    public List<CompactProject> getAllProjects(Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
-        return user.getProjects();
+        List<CompactProject> projects = new ArrayList<>(user.getProjects().size());
+
+        for (Project project : user.getProjects())
+            projects.add(new CompactProject(project));
+
+        return projects;
     }
 
     @PostMapping("/api/users/projects")
-    public Project createNewProject(@Valid @RequestBody InputProject inputProject, Principal principal){
+    public CompactProject createNewProject(@Valid @RequestBody InputProject inputProject, Principal principal){
         User user = userRepository.findByName(principal.getName()).orElseThrow(EntityNotFoundException::new);
 
         Project newProject = new Project(inputProject.getProjectName(), user);
         newProject = projectsRepository.save(newProject);
-        return newProject;
+
+        return new CompactProject(newProject);
     }
 
     @DeleteMapping("/api/users/projects/{id}")
