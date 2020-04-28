@@ -21,19 +21,23 @@ class SingIn extends React.Component{
         this.setState({ [field]: event.target.value });
     }
     
-    handleFormSubmit = () => {
+    handleFormSubmit = async() => {
+        
         const{ name, password, passwordConfirm } = this.state;
 
-        if (password === passwordConfirm)
-            this.props.httpRequest('/api/users', {
+        try{
+            if (password === passwordConfirm)
+            await this.props.httpRequest('/api/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: name,
                     password: password
                 })
-            })
-            .then(_ => this.props.onLogIn({ name }))
-            .catch(_=> console.log('not singin in'));
+            });
+            this.props.onLogIn(name);
+        }catch(err){
+            console.log('not singin in');
+        }
     }
 
     render(){
