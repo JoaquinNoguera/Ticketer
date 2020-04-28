@@ -27,11 +27,13 @@ class Loggin extends React.Component {
         this.props.httpRequest('/api/login', {
             method: 'POST',
             body: JSON.stringify({
-                username: username,
+                name: username,
                 password: password
             })
         })
-        .then(user => this.props.onLogIn(user))
+        .then(() => this.props.onLogIn({
+            name: username
+        }))
         .catch(_=> console.log('not loged in'));
     }
 
