@@ -67,6 +67,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                     String newJwt = jwtUtils.generateToken(username);
                     Cookie cookie = new Cookie("token", newJwt);
                     cookie.setMaxAge(120);
+                    cookie.setPath("/");
                     response.addCookie(cookie);
                 }
             }
