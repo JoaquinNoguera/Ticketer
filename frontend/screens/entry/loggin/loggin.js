@@ -21,20 +21,24 @@ class Loggin extends React.Component {
         this.setState({ [field]: event.target.value });
     }
 
-    handleFormSubmit = () => {
+    handleFormSubmit = async() => {
         const{username,password} = this.state;
-        console.log(this.props);
-        this.props.httpRequest('/api/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                name: username,
-                password: password
-            })
-        })
-        .then(() => this.props.onLogIn({
-            name: username
-        }))
-        .catch(_=> console.log('not loged in'));
+        
+        try{
+            await this.props.httpRequest('/api/login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: username,
+                    password: password
+                })
+            });
+
+            this.props.onLogIn(username);
+
+
+        }catch(err){
+            console.log('not loged in');
+        }
     }
 
     render () { if (this.props.logedIn) return <Redirect to='projects' />
