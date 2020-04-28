@@ -1,19 +1,24 @@
 import React from 'react';
 import './style.scss';
 import Colaborator from './colaborator';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter, Redirect } from 'react-router-dom';
 
 const ProjectSettings = function(props){
+
+    const {owner, memebers, name} = props;
+    
+    if(!owner) return <Redirect to={ `/project/${ props.match.params.projectId }` }/>
+
     return(
         <div className="settingContainer">
             <h1> Setting </h1>
 
-            <Link to={ `/project/${ props.match.params.proyectId }` } ><button> Volver al proyecto </button></Link>
+            <Link to={ `/project/${ props.match.params.projectId }` } ><button> Volver al proyecto </button></Link>
             <button className="settingButtonDelete"> delete </button>
 
             <hr/>
             
-            <h2>Nombre del projecto: "Nombre"</h2>      
+    <h2>Nombre del projecto: {name}</h2>      
             <div>
                 <input />
                 <button> Rename </button>

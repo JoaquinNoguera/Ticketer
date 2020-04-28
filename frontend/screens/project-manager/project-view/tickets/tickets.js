@@ -1,7 +1,7 @@
 import React from 'react';
 import Ticket from './ticket';
 import './styles.scss';
-import { categories } from '../../../utils/utils';
+import { categories } from '../../../../utils/utils';
     
 function createListTikets(tickets, option) {
     let ticketComponents = [];

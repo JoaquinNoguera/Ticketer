@@ -9,8 +9,7 @@ import {
 } from 'react-router-dom';
 
 import NavBar from './components/navbar';
-import ProyectView from './screens/proyect-view';
-import ProjectSettings from './screens/proyect-settings';
+import ProjectManager from './screens/project-manager';
 import Dashboard from './screens/dashboard';
 import Entry from './screens/entry';
 import ProtectedRoute from './components/protected-route';
@@ -73,7 +72,7 @@ class App extends React.Component {
     }
 
     render () {
-        const { logedIn } = this.state;
+        const { logedIn, username } = this.state;
 
         return (
             <Router>
@@ -92,12 +91,6 @@ class App extends React.Component {
                             onLogOut={ this.handleLogOut }
                         />
                         <Switch>
-                            <Route
-                                exact 
-                                path='/project/:projectId'
-                            >
-                                <ProyectView />
-                            </Route>
 
                             <Route
                                 exact 
@@ -107,10 +100,11 @@ class App extends React.Component {
                             </Route>
 
                             <Route
-                                exact 
-                                path='/project/:projectId/settings'
+                                path='/project/:projectId'
                             >
-                                <ProjectSettings />
+                                <ProjectManager 
+                                    name ={username}
+                                />
                             </Route>
                         </Switch>
                     </ProtectedRoute>

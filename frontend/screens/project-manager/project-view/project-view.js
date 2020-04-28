@@ -1,32 +1,21 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import whitRequest from '../../utils/requestService';
-import { categories } from '../../utils/utils';
+import whitRequest from '../../../utils/requestService';
+import { categories } from '../../../utils';
 import PopupTicket from './popup-ticket'
 import Tickets from './tickets';
 
 import './styles.scss'
 
-class ProyectView extends React.Component {
+class ProjectView extends React.Component {
     
     constructor(props){
         super(props);
         this.state = {
-            tickets: [
-            ],
-            option: categories.PENDING,
-            showCreate: false
+            ...props,
+            showCreate: false,
+            option: categories.PENDING
         }
-    }
-
-    componentDidMount(){
-        this.props.httpRequest(`/api/projects/${ this.props.match.params.projectId }`, {
-            method: 'GET',
-        })
-        .then(project => this.setState({
-            tickets: project.tickets
-        }))
-        .catch(_=> console.log('error'));
     }
 
     onChangeShow = () => {
@@ -48,14 +37,23 @@ class ProyectView extends React.Component {
        }))
     }
     render () {
-        const { tickets, option, showCreate } = this.state;
-
+        console.log(this.state)
+        const { tickets, option, showCreate, owner } = this.state;
         return (
             <div id='proyect_view'>
                 <h2> Titulo del proyecto </h2>
 
                 <div id="proyect_view-actions">
-                    <Link to={`/project/${ this.props.match.params.projectId }/settings`} ><button> Configurar (solo creador) </button></Link>
+                    {
+                        (owner 
+                            && 
+                        <Link 
+                            to={`/project/${ this.props.match.params.projectId }/settings`} 
+                        >
+                            <button> Configurar</button>
+                        </Link>
+                        )
+                    }
                     <Link to='/projects' ><button> Volver al dashboard </button></Link>
                 </div>
 
@@ -81,4 +79,4 @@ class ProyectView extends React.Component {
     }
 }
 
-export default whitRequest(withRouter(ProyectView));
+export default whitRequest(withRouter(ProjectView));

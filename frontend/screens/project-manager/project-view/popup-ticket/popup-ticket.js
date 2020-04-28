@@ -1,6 +1,6 @@
 import React from 'react';
-import Modal from '../../../components/modal'
-import {onChangeState} from '../../../utils/utils';
+import Modal from '../../../../components/modal'
+import {onChangeState} from '../../../../utils/utils';
 import './styles.scss';
 
 export default class PopupTicket extends React.Component {

@@ -11,7 +11,4 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AuthenticationResponse {
     String name;
-
-
-
 }
