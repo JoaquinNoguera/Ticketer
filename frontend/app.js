@@ -20,7 +20,7 @@ import './styles.scss'
 class App extends React.Component {
 
     state = {
-        logedIn: true
+        logedIn: false,
     }
 
     constructor (props) {

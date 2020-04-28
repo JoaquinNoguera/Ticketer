@@ -15,10 +15,21 @@ export default function withRequest(WrappedComponent){
                 }
 
             try {
-                const response = await fetch(url, options);
-        
+                
+                if (!options) options = {}
+
+                if (!options.headers) options.headers = new Headers();
+    
+                if (!options.headers['Content-Type'])
+                    options.headers = {
+                        ...options.headers,
+                        'Content-Type': 'application/json'
+                    }
+                
+                const response = await fetch(url,options);
+
                 const responseBody = await response.json();
-        
+                
                 if (!response.ok)
                     throw responseBody;
                 else {
