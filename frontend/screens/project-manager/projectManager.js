@@ -50,10 +50,8 @@ class ProjectManager extends React.Component{
         }
     }
 
-
-
     render(){
-        const {tickets, owner, memebers,name, loading} = this.state;
+        const {tickets, owner, memebers, name, loading} = this.state;
         if(loading) return <h1>Cargando ...</h1>
         return(
             <Switch>
@@ -81,8 +79,6 @@ class ProjectManager extends React.Component{
             </Switch>
         )
     }
-
-
 }
 
 export default withRequest(withRouter(ProjectManager));

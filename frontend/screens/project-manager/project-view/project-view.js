@@ -57,6 +57,12 @@ class ProjectView extends React.Component {
         );
     }
 
+    handleTicketCreated = (ticket) => {
+        this.setState(({ tickets }) => ({
+            tickets: [ ...tickets, ticket ]
+        }));
+    }
+
     render () {
         console.log(this.state)
         const { tickets, option, showCreate, owner } = this.state;
@@ -93,10 +99,11 @@ class ProjectView extends React.Component {
                 > 
                 + </div>
                 <PopupTicket
+                    projectId={ this.props.match.params.projectId }
                     show={ showCreate }
                     forCreate={ true }
-                    addTicket={ this.addTicket }
                     onChangeShow={ this.onChangeShow }
+                    onCreatedTicket={ this.handleTicketCreated }
                 />
             </div>
         );
