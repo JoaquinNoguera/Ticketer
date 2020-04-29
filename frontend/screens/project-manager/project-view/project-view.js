@@ -30,12 +30,33 @@ class ProjectView extends React.Component {
     }
 
     addTicket = (newTicket) => {
-       console.log(newTicket);
        this.setState((state)=>({
            tickets: [...state.tickets, newTicket],
            showCreate: false,
        }))
     }
+
+    handleTicketChange = (updatedTicket) => {
+        this.setState(
+            ({ tickets }) => (
+                { 
+                    tickets: tickets.map(
+                        ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket )
+                })
+        );
+    }
+
+    handleTicketDeleted = (ticketId) => {
+        this.setState(
+            ({ tickets }) => (
+                { 
+                    tickets: tickets.filter(
+                        ticket => ticket.id !== ticketId )
+                }
+            )
+        );
+    }
+
     render () {
         console.log(this.state)
         const { tickets, option, showCreate, owner } = this.state;
@@ -58,9 +79,12 @@ class ProjectView extends React.Component {
                 </div>
 
                 <Tickets
+                    projectId={ this.props.match.params.projectId }
                     tickets={ tickets }
                     option={ option }
                     changeOption={ this.changeOption }
+                    onTicketChange={ this.handleTicketChange }
+                    onTicketDeleted={ this.handleTicketDeleted }
                 />
 
                 <div 
