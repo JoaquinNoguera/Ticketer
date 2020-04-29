@@ -9,18 +9,29 @@ class Dashboard extends React.Component {
     
     state = {
         showCreateProyectModal: false,
-        projects: []
+        projects: [],
+        loading: true,
     }
 
     componentDidMount(){
-        this.props.httpRequest('/api/users/projects', {
-            method: 'GET',
-        })
-        .then(projects => this.setState({
-            projects: projects
-        }))
-        .catch(_ => {});
+        this.init();
     }
+
+    init = async () => {
+        try{
+            const projects = await this.props.httpRequest('/api/users/projects', {
+                                                        method: 'GET',
+                                                    });
+            this.setState({
+                projects: projects,
+                loading: false
+                        });
+
+        }catch(err){
+            console('error');
+        }
+    }
+
 
     handleCreateProyectClick = () => {
         this.setState(state => ({ showCreateProyectModal: !state.showCreateProyectModal }));
@@ -30,23 +41,29 @@ class Dashboard extends React.Component {
         this.setState({ showCreateProyectModal: false });
     }
 
-    handleCreateProject = (projectName) => {
-        this.setState({ showCreateProyectModal: false });
+    handleCreateProject = async (projectName) => {
         
-        this.props.httpRequest('/api/users/projects', {
-            method: 'POST',
-            body: JSON.stringify({ projectName })
-        })
-        .then(project => {
+        try{
+            this.setState({ showCreateProyectModal: false });
+        
+            const project = await this.props.httpRequest(
+                                        '/api/users/projects', {
+                                                    method: 'POST',
+                                                    body: JSON.stringify({ projectName })
+                                                });
             this.setState(state => ({
                 projects: [ ...state.projects, project ]
             }));
-        })
-        .catch(_ => {});
+            
+        }catch(er){
+            console.log('error');
+        }
     }
 
     render () {
-        const { projects, showCreateProyectModal } = this.state;
+        const { projects, showCreateProyectModal, loading } = this.state;
+
+        if(loading) return <h1>Cargando</h1>;
 
         return (
             <div id='dashboard' >

@@ -12,9 +12,11 @@ import NavBar from './components/navbar';
 import ProjectManager from './screens/project-manager';
 import Dashboard from './screens/dashboard';
 import Entry from './screens/entry';
+import UserSettings from './screens/user-settings';
 import ProtectedRoute from './components/protected-route';
 import withRequest from './utils/requestService';
 import Cookies from 'js-cookie'
+
 
 import './styles.scss'
 
@@ -91,6 +93,13 @@ class App extends React.Component {
                             onLogOut={ this.handleLogOut }
                         />
                         <Switch>
+                            
+                            <Route
+                                exact
+                                path="/user/setting"
+                            >
+                                <UserSettings/>
+                            </Route>
 
                             <Route
                                 exact 
@@ -106,6 +115,7 @@ class App extends React.Component {
                                     name ={username}
                                 />
                             </Route>
+
                         </Switch>
                     </ProtectedRoute>
 
