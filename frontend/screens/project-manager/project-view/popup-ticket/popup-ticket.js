@@ -29,7 +29,19 @@ class PopupTicket extends React.Component {
             edit: !state.edit
         }));
 
-        this.props.onSaveChanges(this.state.header, this.state.body);
+        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ this.props.id }`,
+        {
+            method: 'PATCH',
+            body: JSON.stringify({
+                action: 'CHANGE',
+                value: {
+                    header: this.state.header,
+                    body: this.state.body
+                }
+            })
+        })
+        .then(this.props.onEdited)
+        .catch(_ => {});
     }
 
     handleCreate = () => {

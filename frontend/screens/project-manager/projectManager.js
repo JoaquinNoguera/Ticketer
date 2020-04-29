@@ -22,28 +22,26 @@ class ProjectManager extends React.Component{
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.init();
     }
 
-
     init = async () =>{
-        try{
-            
+        try {
             const project = await this.props.httpRequest(
-                                    `/api/projects/${ this.props.match.params.projectId }`, 
-                                    { method: 'GET',}
-                                    );
+                `/api/projects/${ this.props.match.params.projectId }`, 
+                { method: 'GET' }
+            );
+
             this.newUpdate(project);
 
-        }catch(err){
-            console.log('error')
-
+        } catch(err) {
+            console.log('error');
         }
     }
 
     newUpdate = (project) => {
-        const {name} = this.props;
+        const { name } = this.props;
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
@@ -57,15 +55,14 @@ class ProjectManager extends React.Component{
     inLoading =  () => {
         this.setState({
             loading: true
-        })
+        });
     }
-
 
     render(){
 
-        const {tickets, owner, members,name, loading, ownerId} = this.state;
+        const { tickets, owner, members, name, loading, ownerId } = this.state;
 
-        if(loading) return <h1>Cargando ...</h1>
+        if (loading) return <h1> Cargando... </h1>
 
         return(
             <Switch>

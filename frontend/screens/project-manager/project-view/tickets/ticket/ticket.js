@@ -84,12 +84,14 @@ class Ticket extends React.Component {
                 <div>{ this.renderButtons(status, owner) }</div>
 
                 <PopupTicket 
+                    id={ id }
+                    projectId={ this.props.projectId }
                     name={ name }
                     show={ show }
                     body={ body }
                     header={ header }
                     onChangeShow={ this.onChangeShow }
-                    onSaveChanges={ (header, body) => this.props.onEdit(id, header, body) }
+                    onEdited={ this.props.onEdited }
                 />
             </div>
         );
