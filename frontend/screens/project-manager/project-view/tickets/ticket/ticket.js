@@ -1,6 +1,6 @@
 import React from 'react';
 import PopupTicket from '../../popup-ticket'
-import { categories as ticketStatus, ticketActions } from '../../../../utils';
+import { categories as ticketStatus, ticketActions } from '../../../../../utils';
 import './styles.scss';
 
 class Ticket extends React.Component {

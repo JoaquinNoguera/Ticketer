@@ -1,7 +1,7 @@
 import React from 'react';
 import Ticket from './ticket';
-import { categories } from '../../../utils/utils';
-import withHttpRequest from '../../../utils/requestService';
+import { categories } from '../../../../utils/utils';
+import withHttpRequest from '../../../../utils/requestService';
 import './styles.scss';
 
 class Tickets extends React.Component {
