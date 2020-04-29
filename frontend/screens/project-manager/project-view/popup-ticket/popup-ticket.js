@@ -1,9 +1,10 @@
 import React from 'react';
 import Modal from '../../../../components/modal'
-import {onChangeState} from '../../../../utils/utils';
+import { onChangeState } from '../../../../utils/utils';
 import './styles.scss';
+import withRequest from '../../../../utils/requestService';
 
-export default class PopupTicket extends React.Component {
+class PopupTicket extends React.Component {
     
     constructor(props){
         super(props);
@@ -31,8 +32,24 @@ export default class PopupTicket extends React.Component {
         this.props.onSaveChanges(this.state.header, this.state.body);
     }
 
+    handleCreate = () => {
+        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets`,
+        {
+            method: 'POST',
+            body: JSON.stringify({
+                header: this.state.header,
+                body: this.state.body
+            })
+        })
+        .then(ticket => {
+            this.props.onCreatedTicket(ticket);
+            this.props.onChangeShow();
+        })
+        .catch(_ => {});
+    }
+
     render(){
-        const { show, onChangeShow, forCreate, addTiket } = this.props;
+        const { show, onChangeShow, forCreate } = this.props;
         const { edit, name, body, header } = this.state;
 
         return(
@@ -71,14 +88,7 @@ export default class PopupTicket extends React.Component {
                                 />
                                { (forCreate) ? (
                                     <button 
-                                    onClick={() => {
-                                        addTiket({
-                                            id: id,
-                                            header: header,
-                                            body: body,
-                                            category: 0,
-                                        })
-                                    }}
+                                    onClick={ this.handleCreate }
                                     > 
                                         Crear
                                     </button>
@@ -111,11 +121,13 @@ export default class PopupTicket extends React.Component {
             </Modal>
         )
     }
-    
 }
+
 PopupTicket.defaultProps = {
     id: 999,
     description: "",
     body: "",
     forCreate: false,
 }
+
+export default withRequest(PopupTicket);

@@ -61,7 +61,6 @@ class ProjectManager extends React.Component{
     }
 
 
-
     render(){
 
         const {tickets, owner, members,name, loading, ownerId} = this.state;
@@ -96,8 +95,6 @@ class ProjectManager extends React.Component{
             </Switch>
         )
     }
-
-
 }
 
 export default withRequest(withRouter(ProjectManager));

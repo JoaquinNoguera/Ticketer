@@ -62,8 +62,6 @@ class Ticket extends React.Component {
         }))
     }
 
-    
-
     renderButtons = (status, owner) => {
         switch(status) {
             case ticketStatus.PENDING:
