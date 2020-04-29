@@ -2,34 +2,68 @@ import React from 'react';
 import Ticket from './ticket';
 import './styles.scss';
 import { categories } from '../../../utils/utils';
-    
-function createListTikets(tickets, option) {
-    let ticketComponents = [];
+import withHttpRequest from '../../../utils/requestService';
 
-    for (let t of tickets) {
-        const { id, name, header, body, status, responsible } = t;
+class Tickets extends React.Component {
 
-        if (status === option) {
-            ticketComponents.push(
-                <Ticket
-                    key={ id }        
-                    name={ name }
-                    header={ header }
-                    body={ body }
-                    status={ status }
-                    owner={ responsible.name }
-                />);
-        }
+    handleTicketAction = (ticketId, action) => {
+        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ ticketId }`,
+        {
+            method: 'PATCH',
+            body: JSON.stringify({
+                action
+            })
+        })
+        .then(this.props.onTicketChange)
+        .catch(_ => {});
     }
 
-    return ticketComponents;
-}
+    handleEdit = (ticketId, header, body) => {
+        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ ticketId }`,
+        {
+            method: 'PATCH',
+            body: JSON.stringify({
+                action: 'CHANGE',
+                value: {
+                    header,
+                    body
+                }
+            })
+        })
+        .then(this.props.onTicketChange)
+        .catch(_ => {});
+    }
+
+    createTicketComponents = (tickets, option) => {
+        let ticketComponents = [];
     
-    export default function Tickets(props) {
-        const { tickets, option, changeOption } = props;
+        for (let t of tickets) {
+            const { id, name, header, body, status, responsible } = t;
+    
+            if (status === option) {
+                ticketComponents.push(
+                    <Ticket
+                        key={ id }    
+                        id={ id }    
+                        name={ name }
+                        header={ header }
+                        body={ body }
+                        status={ status }
+                        owner={ responsible.name }
+                        onAction={ this.handleTicketAction }
+                        onEdit={ this.handleEdit }
+                    />);
+            }
+        }
+    
+        return ticketComponents;
+    }
 
-        const ticketComponents = createListTikets(tickets,option);
-
+    render () {
+        const { tickets, option, changeOption } = this.props;
+        
+        const ticketComponents = this.createTicketComponents(tickets,option);
+    
         return (
             <div id="proyect_view-tickets">
                 <div id="proyect_view-tickets-tabs">
@@ -62,3 +96,6 @@ function createListTikets(tickets, option) {
             </div>
             );
     }
+}
+
+export default withHttpRequest(Tickets);

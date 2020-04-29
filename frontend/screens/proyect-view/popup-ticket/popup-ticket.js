@@ -15,14 +15,20 @@ export default class PopupTicket extends React.Component {
             body: body,
             header: header
         }
-
-        this.onChangeEdit = this.onChangeEdit.bind(this);
     }
 
-    onChangeEdit(){
+    onChangeEdit = () => {
         this.setState((state)=>({
             edit: !state.edit
         }))
+    }
+
+    handleSave = () => {
+        this.setState(state => ({
+            edit: !state.edit
+        }));
+
+        this.props.onSaveChanges(this.state.header, this.state.body);
     }
 
     render(){
@@ -38,48 +44,47 @@ export default class PopupTicket extends React.Component {
                     <button
                         onClick={onChangeShow}
                         className="ticketModalButtonClose"
-                    >X
+                    >
+                        X
                     </button>
-                    <h1>
-                        #{ name }
-                    </h1>
 
-                    {
-                        (edit || forCreate) ?
-                        (
+                    <h1> #{ name } </h1>
+
+                    { (edit || forCreate) ? (
                             <>
-                            <textarea 
-                            value={header}
-                            className='popupTicketInputD '
-                            onChange={(e) => {
-                                onChangeState.call(this,e,"description");
-                            }}
-                            />
-                            <hr/>
-                            <textarea
-                            value={body} 
-                            className='popupTicketInputB'
-                            onChange={(e) => {
-                                onChangeState.call(this,e,"body");
-                            }}
-                            />
-                               {
-                                   (forCreate) ? (
-                                        <button 
-                                            onClick={() => {
-                                                addTiket({
-                                                id: id,
-                                                header: header,
-                                                body: body,
-                                                category: 0,
-                                            })
-                                            }}
-                                        > 
-                                            Crear
-                                        </button>
-                                   ): (
+                                <textarea 
+                                value={header}
+                                className='popupTicketInputD'
+                                onChange={(e) => {
+                                    onChangeState.call(this,e,"header");
+                                }}
+                                />
+
+                                <hr/>
+
+                                <textarea
+                                value={body} 
+                                className='popupTicketInputB'
+                                onChange={(e) => {
+                                    onChangeState.call(this,e,"body");
+                                }}
+                                />
+                               { (forCreate) ? (
                                     <button 
-                                        onClick={this.onChangeEdit}
+                                    onClick={() => {
+                                        addTiket({
+                                            id: id,
+                                            header: header,
+                                            body: body,
+                                            category: 0,
+                                        })
+                                    }}
+                                    > 
+                                        Crear
+                                    </button>
+                                   ):(
+                                    <button 
+                                        onClick={ this.handleSave }
                                     > 
                                         Guardar 
                                     </button>
@@ -87,17 +92,19 @@ export default class PopupTicket extends React.Component {
                                }
                               
                             </>
-                        ) :
-                        (
+                        ):(
                             <>
-                            <p>{header}</p>
-                            <hr/>
-                            <p>{body}</p>
-                            <button 
-                                onClick={this.onChangeEdit}
-                            > 
-                                editar 
-                            </button>
+                                <p>{header}</p>
+
+                                <hr/>
+
+                                <p>{body}</p>
+
+                                <button 
+                                    onClick={this.onChangeEdit}
+                                > 
+                                    editar 
+                                </button>
                             </>
                         )
                     }

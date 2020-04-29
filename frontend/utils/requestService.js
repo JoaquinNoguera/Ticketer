@@ -30,7 +30,6 @@ export default function withRequest(WrappedComponent){
                 
                 const responseBody = await response.json();
                 
-                console.log(responseBody);
                 if (!response.ok)
                     throw responseBody;
                 else {
