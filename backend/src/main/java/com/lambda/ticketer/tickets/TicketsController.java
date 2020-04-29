@@ -84,7 +84,7 @@ public class TicketsController {
 
                 break;
             }
-            case SOLVED: {
+            case SOLVE: {
                 if (ticket.getResponsible().equals(user) && ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)) {
                     ticket.setStatus(Ticket.TicketStatus.SOLVED);
                     ticket = ticketsRepository.save(ticket);

@@ -12,7 +12,11 @@ class Ticket extends React.Component {
         }
         
         this.actionButton = {
-            delete: <button> Eliminar </button>,
+            delete: <button
+            onClick={ _ => {
+                this.props.onDelete(this.props.id)   
+            }}
+            > Eliminar </button>,
             
             take: <button 
             onClick={ (event) => {

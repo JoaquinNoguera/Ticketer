@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class TicketPatchAction {
     public enum Verb {
-        TAKE, DROP, SOLVED,CHANGE
+        TAKE, DROP, SOLVE, CHANGE
     }
 
     @NotNull(message = "La accion no puede ser nula")

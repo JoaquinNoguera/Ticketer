@@ -18,7 +18,7 @@ class Tickets extends React.Component {
         .catch(_ => {});
     }
 
-    handleEdit = (ticketId, header, body) => {
+    handleEditTicket = (ticketId, header, body) => {
         this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ ticketId }`,
         {
             method: 'PATCH',
@@ -31,6 +31,15 @@ class Tickets extends React.Component {
             })
         })
         .then(this.props.onTicketChange)
+        .catch(_ => {});
+    }
+
+    handleDeleteTicket = (ticketId) => {
+        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ ticketId }`,
+        {
+            method: 'DELETE'
+        })
+        .then(_ => this.props.onTicketDeleted(ticketId))
         .catch(_ => {});
     }
 
@@ -51,7 +60,8 @@ class Tickets extends React.Component {
                         status={ status }
                         owner={ responsible.name }
                         onAction={ this.handleTicketAction }
-                        onEdit={ this.handleEdit }
+                        onEdit={ this.handleEditTicket }
+                        onDelete={ this.handleDeleteTicket }
                     />);
             }
         }
