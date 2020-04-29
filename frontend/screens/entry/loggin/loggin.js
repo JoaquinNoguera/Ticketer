@@ -1,31 +1,32 @@
 import React from 'react';
 import withRequest from '../../../utils/requestService';
+import useInput from '../../../utils/useInput';
 
 import './style.scss';
 import { Redirect } from 'react-router-dom';
 
-class Loggin extends React.Component {
+function Loggin (props){
     
-  
-    state = {
-            username: '',
-            password: ''
-    }
-   
-    handleInputChange = (event) => {
-        let field = '';
-        switch (event.target.id) {
-            case 'login-input-username': field = 'username'; break;
-            case 'login-input-password': field = 'password'; break;
-        }
-        this.setState({ [field]: event.target.value });
-    }
 
-    handleFormSubmit = async() => {
-        const{username,password} = this.state;
-        
+    const [username,usernameInput] = useInput(
+        {
+            init: "",
+            placeholder:"pedrito matagatos",
+            className: "logginInput"
+        }
+    );
+    const [password,passwordInput] = useInput({
+        init: "",
+        type:"password", 
+        placeholder:"********",
+        className:"logginInput"
+                        
+    });
+    
+
+    const handleFormSubmit = async() => {
         try{
-            await this.props.httpRequest('/api/login', {
+            await props.httpRequest('/api/login', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: username,
@@ -33,7 +34,7 @@ class Loggin extends React.Component {
                 })
             });
 
-            this.props.onLogIn(username);
+            props.onLogIn(username);
 
 
         }catch(err){
@@ -41,9 +42,7 @@ class Loggin extends React.Component {
         }
     }
 
-    render () { if (this.props.logedIn) return <Redirect to='projects' />
-
-        const { username, password } = this.state;
+        if (props.logedIn) return <Redirect to='projects' />
 
         return(
             <div className="logginContainer">
@@ -51,26 +50,17 @@ class Loggin extends React.Component {
     
                 <form
                     className="logginForm"
-                    onSubmit={ (event) => { event.preventDefault(); this.handleFormSubmit() }}
+                    onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
                 >
                     <span>Username</span>
-                    <input 
-                        id="login-input-username"
-                        placeholder="pedrito matagatos"
-                        className="logginInput"
-                        onChange={ this.handleInputChange }
-                        value={ username }
-                    />
+                    {
+                        usernameInput
+                    }
                     
                     <span>Password</span>
-                    <input 
-                        id="login-input-password"
-                        type="password" 
-                        placeholder="********"
-                        className="logginInput"
-                        onChange={ this.handleInputChange }
-                        value={ password }
-                    />
+                    {
+                        passwordInput
+                    }
                     
                     <button 
                         type="submit"
@@ -81,7 +71,6 @@ class Loggin extends React.Component {
                 </form>
             </div>
         );
-    }
 }
 
 export default withRequest(Loggin);

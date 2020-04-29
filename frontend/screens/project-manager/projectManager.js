@@ -15,9 +15,10 @@ class ProjectManager extends React.Component{
             tickets: [
             ],
             owner: false,
-            memebers: [],
+            members: [],
             name: "",
-            loading: true
+            loading: true,
+            ownerId: null,
         }
     }
 
@@ -27,34 +28,46 @@ class ProjectManager extends React.Component{
 
 
     init = async () =>{
-        const {name} = this.props;
         try{
-
-            const project = await this.props.httpRequest(`/api/projects/${ this.props.match.params.projectId }`, {
-                method: 'GET',
-            });
-
-            this.setState({
-                tickets: project.tickets,
-                owner: (project.owner.name === name),
-                name: project.name,
-                memebers: project.memebers,
-                loading: false
-            });
-
-            console.log(project)
-
+            
+            const project = await this.props.httpRequest(
+                                    `/api/projects/${ this.props.match.params.projectId }`, 
+                                    { method: 'GET',}
+                                    );
+            this.newUpdate(project);
 
         }catch(err){
             console.log('error')
+
         }
+    }
+
+    newUpdate = (project) => {
+        const {name} = this.props;
+        this.setState({
+            tickets: project.tickets,
+            owner: (project.owner.name === name),
+            name: project.name,
+            members: project.members,
+            loading: false,
+            ownerId: project.owner.id
+        });
+    }
+
+    inLoading =  () => {
+        this.setState({
+            loading: true
+        })
     }
 
 
 
     render(){
-        const {tickets, owner, memebers,name, loading} = this.state;
+
+        const {tickets, owner, members,name, loading, ownerId} = this.state;
+
         if(loading) return <h1>Cargando ...</h1>
+
         return(
             <Switch>
                 
@@ -73,10 +86,12 @@ class ProjectManager extends React.Component{
                     <ProjectSettings
                         owner = {owner}
                         name= {name}
-                        memebers = {memebers}
+                        members = {members}
+                        ownerId = {ownerId}
+                        newUpdate = {this.newUpdate}
+                        inLoading = {this.inLoading}
                     />
                 </Route>
-
 
             </Switch>
         )

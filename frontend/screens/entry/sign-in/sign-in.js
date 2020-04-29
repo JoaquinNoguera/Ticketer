@@ -1,106 +1,90 @@
 import React from 'react';
+import useInput from '../../../utils/useInput';
 import { Redirect } from 'react-router-dom';
-import withRequest from '../../../utils/requestService'
+import withRequest from '../../../utils/requestService';
 import './style.scss';
 
-class SingIn extends React.Component{
-    
-    state = {
-            name: "",
-            password: "",
-            passwordConfirm: ""
-        }
+function SingIn (props){
 
-    handleInputChange = (event) => {
-        let field = '';
-        switch (event.target.id) {
-            case 'login-input-name': field = 'name'; break;
-            case 'login-input-password': field = 'password'; break;
-            case 'login-input-password-confirm':   field = 'passwordConfirm'; break;
+    const [username,usernameInput] = useInput(
+        {
+            init: "",
+            placeholder:"pedrito matagatos",
+            className: "singinInput"
         }
-        this.setState({ [field]: event.target.value });
-    }
-    
-    handleFormSubmit = async() => {
+    );
         
-        const{ name, password, passwordConfirm } = this.state;
+    const [password,passwordInput] = useInput({
+            init: "",
+            type:"password", 
+            placeholder:"********",
+            className:"singinInput"
+                            
+    });
 
+    const [passwordConfirm,passwordConfirmInput] = useInput({
+        init: "",
+        type:"password", 
+        placeholder:"********",
+        className:"singinInput"
+                        
+    });
+
+    
+    const handleFormSubmit = async() => {
         try{
             if (password === passwordConfirm)
-            await this.props.httpRequest('/api/users', {
+            await props.httpRequest('/api/users', {
                 method: 'POST',
                 body: JSON.stringify({
-                    name: name,
+                    name: username,
                     password: password
                 })
             });
-            this.props.onLogIn(name);
+            props.onLogIn(username);
         }catch(err){
             console.log('not singin in');
         }
     }
 
-    render(){
-        if (this.props.logedIn) return <Redirect to='projects' />
-        
-        const { name ,password, passwordConfirm } = this.state;
 
-        return(
-            <div className="singinContainer">
-                <h2>Sing In into Tiketer</h2>
-                <form
-                    className="
-                        singinForm
-                    "
-                    onSubmit={ (event) => { event.preventDefault(); this.handleFormSubmit() }}
-                >
-                    <span>Username</span>
-                    <input 
-                        id="login-input-name"
-                        placeholder="pedrito matagatos"
-                        className="
-                            singinInput
-                        "
-                        onChange={ this.handleInputChange }
-                        value={ name }
-                    />
+    if (props.logedIn) return <Redirect to='projects' />
+        
+    return(
+        <div className="singinContainer">
+            <h2>Sing In into Tiketer</h2>
+            
+            <form
+                className="singinForm"
+                onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
+            >
                     
-                    <span>Password</span>
-                    <input 
-                        id="login-input-password"
-                        type="password" 
-                        placeholder="********"
-                        className="
-                            singinInput
-                        "
-                        onChange={ this.handleInputChange }
-                        value={ password }
-                    />
+                <span>
+                    Username
+                </span>
+                {usernameInput}
+                    
+                <span>
+                    Password
+                </span>
+
+                {passwordInput}
     
-                    <span>Confirm Password</span>
-                    <input 
-                        id="login-input-password-confirm"
-                        type="password" 
-                        placeholder="********"
-                        className="
-                            singinInput
-                        "
-                        onChange={ this.handleInputChange }
-                        value={ passwordConfirm }
-                    />
+                <span>
+                    Confirm Password
+                </span>
+                   
+                {passwordConfirmInput}
                     
-                    <button 
-                        type="submit"
-                        className="
-                            singinButton
-                        "
-                    >
-                        Sing In
-                    </button>
-                </form>
-            </div>
-        );
-    }
+                <button 
+                    type="submit"
+                    className="singinButton"
+                >
+                    Sing In
+                </button>
+            </form>
+        </div>
+    );
 }
 
 export default withRequest(SingIn);
