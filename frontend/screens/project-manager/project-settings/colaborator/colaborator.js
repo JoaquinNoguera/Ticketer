@@ -1,15 +1,15 @@
 import React from 'react';
 import withRequest from'../../../../utils/requestService';
+import ProjectContext from '../../project-context';
 import {withRouter} from 'react-router-dom';
 import './style.scss';
 
 function Colaborator(props) {
 
-    const {name,newUpdate,inLoading, httpRequest} = props;
+    const {name, httpRequest} = props;
 
 
     const deleteColaborator = async () => {
-        inLoading();
         const project = await httpRequest(
             `/api/users/projects/${ props.match.params.projectId }`, 
             {   
@@ -21,25 +21,33 @@ function Colaborator(props) {
             }
         );
 
-        newUpdate(project);
+        return project;
     }
 
+    
+    console.log("hola");
 
     return(
-        <div className="colaboratorContainer">
-            
-            <h3>
-                {name}
-            </h3>
-            
-            <button 
-                className="colaboratorButton"
-                onClick={deleteColaborator}
-            >
-                X
-            </button>
+        <ProjectContext.Consumer>
+            {context =>
+            <div className="colaboratorContainer">
+                    <h3>
+                        {name}
+                    </h3>
+                    
+                    <button 
+                        className="colaboratorButton"
+                        onClick={()=>{
+                            context.inLoading();
+                            context.newUpdate(deleteColaborator())
+                        }}
+                        >
+                        X
+                    </button>
 
-        </div>
+                </div>
+            }
+        </ProjectContext.Consumer>
     );
 }
 

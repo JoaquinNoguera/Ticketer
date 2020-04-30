@@ -15,7 +15,7 @@ import Entry from './screens/entry';
 import UserSettings from './screens/user-settings';
 import ProtectedRoute from './components/protected-route';
 import withRequest from './utils/requestService';
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 
 import './styles.scss'
@@ -68,7 +68,7 @@ class App extends React.Component {
 
     handleLogOut = () => {
         Cookies.remove("token",{
-            path:"/"
+            path:"/",
         });
         this.setState({ logedIn: false });
     }

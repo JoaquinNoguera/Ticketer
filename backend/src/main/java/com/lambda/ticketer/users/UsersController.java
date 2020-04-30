@@ -29,6 +29,7 @@ public class UsersController {
 
         Cookie cookie = new Cookie("token", token);
         cookie.setMaxAge(60 * 15);
+        cookie.setPath("/");
         response.addCookie(cookie);
 
         return true;
