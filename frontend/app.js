@@ -33,23 +33,16 @@ class App extends React.Component {
     }
 
     componentDidMount(){
-        this.init();
-    }
-
-    init = async () => {
         const {httpRequest} = this.props;
-        try{
-            const response = await httpRequest('/api/authentication',{
-                method: 'GET'
-            });
-            this.setState({
+        httpRequest('/api/authentication',{
+            method: 'GET'
+        })
+        .then(
+            response =>   this.setState({
                 username: response.name,
                 logedIn: true
-            })
-        }catch(err){
-            console.log(err);
-        }
-
+            }))
+        .catch(_=>{});
     }
 
 

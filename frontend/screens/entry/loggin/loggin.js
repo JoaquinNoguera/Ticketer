@@ -22,6 +22,23 @@ function Loggin (props){
         className:"logginInput"
                         
     });
+
+    const initError = {
+        name: {
+            state: false,
+            message: null
+        },
+        password: {
+            state: false,
+            message: null
+        },
+        generic: {
+            state: false,
+            message: null,
+        }
+    };
+
+    const [error,setError] = React.useState(initError);
     
 
     const handleFormSubmit = async() => {
@@ -38,7 +55,23 @@ function Loggin (props){
 
 
         }catch(err){
-            console.log('not loged in');
+            const newError = Object.assign({},initError);
+            if(Array.isArray(err)){
+                err.map(e => 
+                    newError[e.field] = {
+                        state: true,
+                        message: e.message
+                    }
+                );
+            }else{
+                newError["generic"] = {
+                    state: true,
+                    message: err.message
+                }
+            }
+            if(error != newError){
+                setError(newError)
+            }
         }
     }
 
@@ -52,16 +85,21 @@ function Loggin (props){
                     className="logginForm"
                     onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
                 >
+
+                    { error.generic.state &&  <span> { error.generic.message } </span> }
+
                     <span>Username</span>
-                    {
-                        usernameInput
-                    }
+                    
+                    { usernameInput }
+
+                    { error.name.state &&  <span> { error.name.message } </span> }                    
                     
                     <span>Password</span>
-                    {
-                        passwordInput
-                    }
                     
+                    { passwordInput }
+                    
+                    { error.password.state &&  <span> { error.password.message } </span> }
+
                     <button 
                         type="submit"
                         className="logginButton"

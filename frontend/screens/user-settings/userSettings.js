@@ -37,9 +37,28 @@ function UserSettings(props){
     )
 
     const {httpRequest} = props;
+    
+    const initError = {
+        oldPassword: {
+            state: false,
+            message: null
+        },
+        password: {
+            state: false,
+            message: null
+        },
+        generic: {
+            state: false,
+            message: null,
+        }
+    };
+
+    const [error,setError] = React.useState(initError);
+
 
     const changePassword = async() => {
-        if(password === passwordConfirm){
+        try{
+            if(password === passwordConfirm){
             await httpRequest('/api/users', {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -48,7 +67,30 @@ function UserSettings(props){
                 })
             });
 
-        } else alert('las constraseñas no son iguales')
+        } else {
+            throw [{
+                message: "las contraseñas no coinciden",
+                field: "password"
+            }]
+        } } catch(err){
+            const newError = Object.assign({},initError);
+            if(Array.isArray(err)){
+                err.map(e => 
+                    newError[e.field] = {
+                        state: true,
+                        message: e.message
+                    }
+                );
+            }else{
+                newError["generic"] = {
+                    state: true,
+                    message: err.message
+                }
+            }
+            if(error != newError){
+                setError(newError)
+            }
+        }
     }
 
 
@@ -67,9 +109,16 @@ function UserSettings(props){
                     Volver al dashboard
                 </button>
             </Link>
+
+            { error.generic.state &&  <span> { error.generic.message } </span> }
+
             {oldPasswordInput}
 
+            { error.oldPassword.state &&  <span> { error.oldPassword.message } </span> }
+
             {passwordInput}
+
+            { error.password.state &&  <span> { error.password.message } </span> }
 
             {passwordConfirmInput}
             

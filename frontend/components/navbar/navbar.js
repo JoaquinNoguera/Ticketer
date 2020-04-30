@@ -27,6 +27,7 @@ class NavBar extends React.Component {
                     id='navbar-username' 
                     show={ showUserDropdown }
                     onLogOut={ this.props.onLogOut }
+                    close={ this.handleUserButtonClick}
                 >
                     <button onClick={ this.handleUserButtonClick }> 
                         { userName } 
