@@ -41,7 +41,7 @@ class ProjectManager extends React.Component{
 
     newUpdate = (project) => {
         const { name } = this.props;
-        
+
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
