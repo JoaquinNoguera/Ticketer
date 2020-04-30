@@ -22,7 +22,6 @@ public class InputTicket {
     private String header;
 
     @NotNull(message = "El valor no puede ser nulo")
-    @NotBlank(message = "El valor no puede ser vacio")
     @JsonProperty("body")
     private String body;
 }
