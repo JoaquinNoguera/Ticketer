@@ -1,6 +1,7 @@
 import React from 'react';
 import useInput from '../../utils/useInput';
 import whitRequest from '../../utils/requestService';
+import {Link} from 'react-router-dom'
 import './style.scss';
 
 function UserSettings(props){
@@ -59,6 +60,13 @@ function UserSettings(props){
                 Cambiar Contraseña  
             </h1>
 
+            <Link 
+                to="/projects"
+            >
+                <button>            
+                    Volver al dashboard
+                </button>
+            </Link>
             {oldPasswordInput}
 
             {passwordInput}

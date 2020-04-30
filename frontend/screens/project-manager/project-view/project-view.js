@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import whitRequest from '../../../utils/requestService';
+import { Link} from 'react-router-dom';
 import { categories } from '../../../utils';
 import PopupTicket from './popup-ticket'
 import Tickets from './tickets';
+import ProjectContext from '../project-context';
 
 import './styles.scss'
 
@@ -11,8 +11,9 @@ class ProjectView extends React.Component {
     
     constructor(props){
         super(props);
+        const {owner} = props;
         this.state = {
-            ...props,
+            owner: owner,
             showCreate: false,
             option: categories.PENDING
         }
@@ -29,44 +30,13 @@ class ProjectView extends React.Component {
         })
     }
 
-    addTicket = (newTicket) => {
-       this.setState((state)=>({
-           tickets: [...state.tickets, newTicket],
-           showCreate: false,
-       }))
-    }
-
-    handleTicketChange = (updatedTicket) => {
-        this.setState(
-            ({ tickets }) => (
-                { 
-                    tickets: tickets.map(
-                        ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket )
-                })
-        );
-    }
-
-    handleTicketDeleted = (ticketId) => {
-        this.setState(
-            ({ tickets }) => (
-                { 
-                    tickets: tickets.filter(
-                        ticket => ticket.id !== ticketId )
-                }
-            )
-        );
-    }
-
-    handleTicketCreated = (ticket) => {
-        this.setState(({ tickets }) => ({
-            tickets: [ ...tickets, ticket ]
-        }));
-    }
 
     render () {
-        console.log(this.state)
-        const { tickets, option, showCreate, owner } = this.state;
+        const { option, showCreate, owner } = this.state;
         return (
+        <ProjectContext.Consumer>
+            {
+                context=>  
             <div id='proyect_view'>
                 <h2> Titulo del proyecto </h2>
 
@@ -74,9 +44,9 @@ class ProjectView extends React.Component {
                     {
                         (owner 
                             && 
-                        <Link 
-                            to={`/project/${ this.props.match.params.projectId }/settings`} 
-                        >
+                            <Link 
+                            to={`/project/${ context.projectId }/settings`} 
+                            >
                             <button> Configurar</button>
                         </Link>
                         )
@@ -85,29 +55,28 @@ class ProjectView extends React.Component {
                 </div>
 
                 <Tickets
-                    projectId={ this.props.match.params.projectId }
-                    tickets={ tickets }
                     option={ option }
                     changeOption={ this.changeOption }
-                    onTicketChange={ this.handleTicketChange }
-                    onTicketDeleted={ this.handleTicketDeleted }
                 />
 
                 <div 
                     id='proyect_view-add_ticket'
                     onClick={ this.onChangeShow }
                 > 
-                + </div>
+                    + 
+                </div>
+
                 <PopupTicket
-                    projectId={ this.props.match.params.projectId }
                     show={ showCreate }
                     forCreate={ true }
                     onChangeShow={ this.onChangeShow }
-                    onCreatedTicket={ this.handleTicketCreated }
                 />
+
             </div>
+            }
+        </ProjectContext.Consumer>
         );
     }
 }
 
-export default whitRequest(withRouter(ProjectView));
+export default ProjectView;

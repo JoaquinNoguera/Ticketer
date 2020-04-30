@@ -3,6 +3,7 @@ import Modal from '../../../../components/modal'
 import { onChangeState } from '../../../../utils/utils';
 import './styles.scss';
 import withRequest from '../../../../utils/requestService';
+import ProjectContext from '../../project-context';
 
 class PopupTicket extends React.Component {
     
@@ -24,12 +25,12 @@ class PopupTicket extends React.Component {
         }))
     }
 
-    handleSave = () => {
+    handleSave = (projectId) => {
         this.setState(state => ({
             edit: !state.edit
         }));
 
-        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets/${ this.props.id }`,
+        this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ this.props.id }`,
         {
             method: 'PATCH',
             body: JSON.stringify({
@@ -44,93 +45,89 @@ class PopupTicket extends React.Component {
         .catch(_ => {});
     }
 
-    handleCreate = () => {
-        this.props.httpRequest(`/api/projects/${ this.props.projectId }/tickets`,
-        {
-            method: 'POST',
-            body: JSON.stringify({
-                header: this.state.header,
-                body: this.state.body
-            })
-        })
-        .then(ticket => {
-            this.props.onCreatedTicket(ticket);
-            this.props.onChangeShow();
-        })
-        .catch(_ => {});
-    }
-
     render(){
         const { show, onChangeShow, forCreate } = this.props;
         const { edit, name, body, header } = this.state;
 
         return(
-            <Modal 
+        <ProjectContext.Consumer>
+            {
+                context =>
+                <Modal 
                 show = {show}
                 onFocusLoss = {onChangeShow}
                 className= "ticketModalContainer"
-            >
-                    <button
-                        onClick={onChangeShow}
-                        className="ticketModalButtonClose"
-                    >
-                        X
-                    </button>
+                >
+                        <button
+                            onClick={onChangeShow}
+                            className="ticketModalButtonClose"
+                            >
+                            X
+                        </button>
 
-                    <h1> #{ name } </h1>
+                        <h1> #{ name } </h1>
 
-                    { (edit || forCreate) ? (
+                        { (edit || forCreate) ? (
                             <>
-                                <textarea 
-                                value={header}
-                                className='popupTicketInputD'
-                                onChange={(e) => {
-                                    onChangeState.call(this,e,"header");
-                                }}
-                                />
+                                    <textarea 
+                                    value={header}
+                                    className='popupTicketInputD'
+                                    onChange={(e) => {
+                                        onChangeState.call(this,e,"header");
+                                    }}
+                                    />
 
-                                <hr/>
+                                    <hr/>
 
-                                <textarea
-                                value={body} 
-                                className='popupTicketInputB'
-                                onChange={(e) => {
-                                    onChangeState.call(this,e,"body");
-                                }}
-                                />
-                               { (forCreate) ? (
+                                    <textarea
+                                    value={body} 
+                                    className='popupTicketInputB'
+                                    onChange={(e) => {
+                                        onChangeState.call(this,e,"body");
+                                    }}
+                                    />
+                                { (forCreate) ? (
                                     <button 
-                                    onClick={ this.handleCreate }
+                                    onClick={ async()=>{   
+                                        await context.handleTicketCreated(
+                                            header,body
+                                        );
+                                        this.props.onChangeShow();
+                                    }}
                                     > 
-                                        Crear
-                                    </button>
-                                   ):(
+                                            Crear
+                                        </button>
+                                    ):(
+                                        <button 
+                                        onClick={ async()=>{
+                                            await this.handleSave(context.projectId);
+                                        } }
+                                        > 
+                                            Guardar 
+                                        </button>
+                                    )
+                                }
+                                
+                                </>
+                            ):(
+                                <>
+                                    <p>{header}</p>
+
+                                    <hr/>
+
+                                    <p>{body}</p>
+
                                     <button 
-                                        onClick={ this.handleSave }
-                                    > 
-                                        Guardar 
+                                        onClick={this.onChangeEdit}
+                                        > 
+                                        editar 
                                     </button>
-                                   )
-                               }
-                              
-                            </>
-                        ):(
-                            <>
-                                <p>{header}</p>
-
-                                <hr/>
-
-                                <p>{body}</p>
-
-                                <button 
-                                    onClick={this.onChangeEdit}
-                                > 
-                                    editar 
-                                </button>
-                            </>
-                        )
-                    }
-            </Modal>
+                                </>
+                            )
+                        }
+                </Modal>
+            }    
+        </ProjectContext.Consumer>
         )
     }
 }

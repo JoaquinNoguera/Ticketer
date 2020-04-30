@@ -1,5 +1,6 @@
 import React from 'react';
 import PopupTicket from '../../popup-ticket'
+import ProjectContext from '../../../project-context';
 import { categories as ticketStatus, ticketActions } from '../../../../../utils';
 import './styles.scss';
 
@@ -10,50 +11,6 @@ class Ticket extends React.Component {
         this.state = {
             show: false,
         }
-        
-        this.actionButton = {
-            delete: <button
-            onClick={ _ => {
-                this.props.onDelete(this.props.id)   
-            }}
-            > Eliminar </button>,
-            
-            take: <button 
-            onClick={ (event) => {
-                event.stopPropagation();
-                props.onAction(this.props.id, ticketActions.TAKE); 
-                } 
-            }>
-                Tomar 
-            </button>,
-
-            leave: <button 
-            onClick={ (event) => {
-                event.stopPropagation();
-                props.onAction(this.props.id, ticketActions.DROP); 
-                } 
-            }> 
-                Dejar
-            </button>,
-
-            markSolved: <button 
-            onClick={ (event) => {
-                event.stopPropagation();
-                props.onAction(this.props.id, ticketActions.SOLVE); 
-                }
-            }>
-                Listo
-            </button>,
-
-            restore: <button
-            onClick={ (event) => {
-                event.stopPropagation();
-                props.onAction(this.props.id, ticketActions.DROP); 
-                } 
-            }> 
-                Restaurar 
-            </button>
-        }
     }
     
     onChangeShow = () => {
@@ -62,38 +19,85 @@ class Ticket extends React.Component {
         }))
     }
 
-    renderButtons = (status, owner) => {
-        switch(status) {
-            case ticketStatus.PENDING:
-                return [ this.actionButton.take, this.actionButton.delete ];
-            case ticketStatus.TAKEN:
-                return [ owner, this.actionButton.leave, this.actionButton.markSolved ];
-            case ticketStatus.SOLVED:
-                return [ owner, this.actionButton.delete, this.actionButton.take, this.actionButton.restore ];
-        }
-    }
-
     render() {
         const { id, name, header, body, status, owner } = this.props;
         const { show } = this.state;
         return (
-            <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShow }>
-                <h2> #{ name } </h2>
-                <p className='proyect_view-tickets-ticket-description'>{ header }</p>
+            <ProjectContext.Consumer>
+                {context=>{
+                    const actionButton = {
+                        delete: <button
+                        onClick={ _ => {
+                            context.handleTicketDeleted(this.props.id)   
+                        }}
+                        > Eliminar </button>,
+                        
+                        take: <button 
+                        onClick={ (event) => {
+                            event.stopPropagation();
+                            context.handleTicketAction(this.props.id, ticketActions.TAKE); 
+                            } 
+                        }>
+                            Tomar 
+                        </button>,
+            
+                        leave: <button 
+                        onClick={ (event) => {
+                            event.stopPropagation();
+                            context.handleTicketAction(this.props.id, ticketActions.DROP); 
+                            } 
+                        }> 
+                            Dejar
+                        </button>,
+            
+                        markSolved: <button 
+                        onClick={ (event) => {
+                            event.stopPropagation();
+                            context.handleTicketAction(this.props.id, ticketActions.SOLVE); 
+                            }
+                        }>
+                            Listo
+                        </button>,
+            
+                        restore: <button
+                        onClick={ (event) => {
+                            event.stopPropagation();
+                            context.handleTicketAction(this.props.id, ticketActions.DROP); 
+                            } 
+                        }> 
+                            Restaurar 
+                        </button>
+                    }
 
-                <div>{ this.renderButtons(status, owner) }</div>
+                    const renderButtons = (status, owner) => {
+                        switch(status) {
+                            case ticketStatus.PENDING:
+                                return [ actionButton.take, actionButton.delete ];
+                            case ticketStatus.TAKEN:
+                                return [ owner, actionButton.leave, actionButton.markSolved ];
+                            case ticketStatus.SOLVED:
+                                return [ owner, actionButton.delete, actionButton.take, actionButton.restore ];
+                        }
+                    }
 
-                <PopupTicket 
-                    id={ id }
-                    projectId={ this.props.projectId }
-                    name={ name }
-                    show={ show }
-                    body={ body }
-                    header={ header }
-                    onChangeShow={ this.onChangeShow }
-                    onEdited={ this.props.onEdited }
-                />
-            </div>
+                    return  <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShow }>
+                                <h2> #{ name } </h2>
+                                <p className='proyect_view-tickets-ticket-description'>{ header }</p>
+
+                                <div>{ renderButtons(status, owner) }</div>
+
+                                <PopupTicket 
+                                    id={ id }
+                                    name={ name }
+                                    show={ show }
+                                    body={ body }
+                                    header={ header }
+                                    onChangeShow={ this.onChangeShow }
+                                    onEdited={ this.props.onEdited }
+                                />
+                            </div>
+                }}
+            </ProjectContext.Consumer>
         );
     }
 }

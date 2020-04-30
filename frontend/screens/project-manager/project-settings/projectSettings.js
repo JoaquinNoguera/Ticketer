@@ -4,10 +4,11 @@ import useInput from '../../../utils/useInput';
 import withRequest from '../../../utils/requestService';
 import Colaborator from './colaborator';
 import { Link, withRouter, Redirect } from 'react-router-dom';
+import ProjectContext from '../project-context';
 
 const ProjectSettings = function(props){
 
-    const {owner, members, name, httpRequest, ownerId,newUpdate, inLoading} = props;
+    const {owner, members, name, httpRequest,ownerId} = props;
     
     if(!owner) return <Redirect to={ `/project/${ props.match.params.projectId }` }/>
 
@@ -21,13 +22,12 @@ const ProjectSettings = function(props){
 
     const [newColaborator, newColaboratorInput] = useInput(
         {
-            input: ""
+            init: ""
         }
     )
 
     
     const changeName = async() =>{
-        inLoading();
         const project = await httpRequest(
             `/api/users/projects/${ props.match.params.projectId }`, 
             {   
@@ -38,13 +38,11 @@ const ProjectSettings = function(props){
                 })
             }
         );
-
-        newUpdate(project);
+        return project;
         
     }
 
     const addColaborator = async() => {
-        inLoading();
         const project = await httpRequest(
             `/api/users/projects/${ props.match.params.projectId }`, 
             {   
@@ -55,12 +53,11 @@ const ProjectSettings = function(props){
                 })
             }
         );
-        newUpdate(project);
+        return project;
     }
 
     const deleteProject = async () => {
-        inLoading();
-        const project = await httpRequest(
+        await httpRequest(
             `/api/users/projects/${ props.match.params.projectId }`, 
             {   
                 method: 'DELETE'
@@ -72,74 +69,89 @@ const ProjectSettings = function(props){
 
     const listColaborator = members.map(m => 
                                 {
-                                    console.log(ownerId,m.id)
                                     if(ownerId !== m.id)
                                     return <Colaborator
                                                 key={m.id}
                                                 name={m.name}
-                                                newUpdate={newUpdate}
-                                                inLoading={inLoading}
                                             />
+                                    else return null;
                                 });
 
-
+    console.log(listColaborator)
     return(
-        <div className="settingContainer">
+    <ProjectContext.Consumer>
+        {
+            context =>
+            <div className="settingContainer">
 
-            <h1> Setting </h1>
+                <h1> Setting </h1>
 
-            <Link 
-                to={ `/project/${ props.match.params.projectId }`} 
-            >
-                <button> 
-                    Volver al proyecto 
-                </button>
-            </Link>
-            
-            <button 
-                className="settingButtonDelete"
-                onClick={deleteProject}
-            > 
-                delete 
-            </button>
-
-            <hr/>
-            
-            <h2>
-                Nombre del projecto: {name}
-            </h2>      
-            
-            <div>
-
-                {renameInput}
-    
-                <button
-                    onClick={changeName}
-                > 
-                    Rename 
-                </button>
-
-            </div>
-
-            <hr/>
-
-            <h2>Colaboradores</h2>
-            <div className="settingContainerColaborators">
+                <Link 
+                    to={ `/project/${ props.match.params.projectId }`} 
+                    >
+                    <button> 
+                        Volver al proyecto 
+                    </button>
+                </Link>
                 
-                <hr/>
-                <h2> Agregar colaborador </h2>
-                    {listColaborator}
-
-                    {newColaboratorInput}
-
-                <button
-                    onClick={addColaborator}
-                > 
-                    Agregar 
+                <button 
+                    className="settingButtonDelete"
+                    onClick={async ()=>{
+                        context.inLoading();
+                        await deleteProject();
+                    }}
+                    > 
+                    delete 
                 </button>
+
+                <hr/>
+                
+                <h2>
+                    Nombre del projecto: {name}
+                </h2>      
+                
+                <div>
+
+                    {renameInput}
+        
+                    <button
+                        onClick={async()=>{
+                            context.inLoading();  
+                            context.newUpdate(
+                                await changeName()
+                            );
+                        }}
+                        > 
+                        Rename 
+                    </button>
+
+                </div>
+
+                <hr/>
+
+                <h2>Colaboradores</h2>
+                <div className="settingContainerColaborators">
+                    
+                    <hr/>
+                    <h2> Agregar colaborador </h2>
+                        {listColaborator}
+                        {newColaboratorInput}
+
+                    <button
+                        onClick={async ()=>{
+                            context.inLoading();
+                            context.newUpdate(
+                                await addColaborator()
+                            );
+                        }}
+                        > 
+                        Agregar 
+                    </button>
+                </div>
+            
             </div>
-         
-        </div>
+        }
+    </ProjectContext.Consumer>
     );
 }
 

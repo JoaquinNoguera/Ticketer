@@ -3,12 +3,10 @@ import {Switch,Route, withRouter} from 'react-router-dom';
 import withRequest from '../../utils/requestService';
 import ProjectView from './project-view';
 import ProjectSettings from './project-settings';
-
-
+import ProjectContext from './project-context';
 
 class ProjectManager extends React.Component{
     
-
     constructor(props){
         super(props);
         this.state = {
@@ -19,8 +17,11 @@ class ProjectManager extends React.Component{
             name: "",
             loading: true,
             ownerId: null,
+            projectId: null
         }
     }
+    
+    
 
     componentDidMount() {
         this.init();
@@ -42,13 +43,15 @@ class ProjectManager extends React.Component{
 
     newUpdate = (project) => {
         const { name } = this.props;
+        console.log(project);
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
             name: project.name,
             members: project.members,
             loading: false,
-            ownerId: project.owner.id
+            ownerId: project.owner.id,
+            projectId: project.id,
         });
     }
 
@@ -58,38 +61,110 @@ class ProjectManager extends React.Component{
         });
     }
 
+     handleTicketDeleted = async (ticketId) => {
+        const {projectId} = this.state;
+        try{
+            await this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
+            {
+                method: 'DELETE'
+            });
+            this.setState(
+                ({ tickets }) => (
+                    { 
+                        tickets: tickets.filter(
+                            ticket => ticket.id !== ticketId )
+                    }
+                )
+            );
+        }catch(err){
+            console.log('error');
+        }
+     }
+ 
+     handleTicketCreated = async(header,body) => {
+        const {projectId} = this.state;
+        try{
+            console.log(header,body);
+            const ticket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets`,
+                                                        {
+                                                            method: 'POST',
+                                                            body: JSON.stringify({
+                                                                header: header,
+                                                                body:  body
+                                                            })
+                                                        });
+            this.setState(({ tickets }) => ({
+                tickets: [ ...tickets, ticket ]
+            }));
+        }catch(err){
+            console.log('error');
+        }
+     }
+
+     handleTicketAction = async (ticketId, action) => {
+        const {projectId} = this.state;
+        try{
+            const updatedTicket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
+                                    {
+                                        method: 'PATCH',
+                                        body: JSON.stringify({
+                                            action
+                                        })
+                                    });
+            this.setState(
+                ({ tickets }) => (
+                    { 
+                        tickets: tickets.map(
+                            ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket )
+                    })
+            );
+        }catch(err){
+            console.log('error');
+        }
+    }
+ 
+
     render(){
 
-        const { tickets, owner, members, name, loading, ownerId } = this.state;
+        const { tickets, owner, members, name, loading, ownerId, projectId } = this.state;
 
         if (loading) return <h1> Cargando... </h1>
 
         return(
-            <Switch>
-                
-                <Route
-                    exact path="/project/:projectId"
-                >
-                    <ProjectView
-                        tickets = {tickets}
-                        owner = {owner}
-                    />
-                </Route>
+            <ProjectContext.Provider
+                value = {{
+                    inLoading: this.inLoading,
+                    newUpdate: this.newUpdate,
+                    handleTicketCreated: this.handleTicketCreated,
+                    handleTicketDeleted: this.handleTicketDeleted,
+                    handleTicketAction: this.handleTicketAction,
+                    tickets: tickets,
+                    projectId: projectId
+                }}
+            >
+                <Switch>
+                    
+                    <Route
+                        exact path="/project/:projectId"
+                    >
+                        <ProjectView
+                            owner = {owner}
+                        />
+                    </Route>
 
-                <Route
-                exact path="/project/:projectId/settings"
-                >
-                    <ProjectSettings
-                        owner = {owner}
-                        name= {name}
-                        members = {members}
-                        ownerId = {ownerId}
-                        newUpdate = {this.newUpdate}
-                        inLoading = {this.inLoading}
-                    />
-                </Route>
+                    <Route
+                    exact path="/project/:projectId/settings"
+                    >
+                        <ProjectSettings
+                            owner = {owner}
+                            name= {name}
+                            members = {members}
+                            ownerId = {ownerId}
+                        />
+                    </Route>
 
-            </Switch>
+                </Switch>
+            </ProjectContext.Provider>
         )
     }
 }
