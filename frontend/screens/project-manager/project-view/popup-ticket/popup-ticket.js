@@ -1,21 +1,25 @@
 import React from 'react';
 import Modal from '../../../../components/modal'
 import { onChangeState } from '../../../../utils/utils';
-import './styles.scss';
 import withRequest from '../../../../utils/requestService';
 import ProjectContext from '../../project-context';
+import ErrorModal from '../../../../components/error-modal';
+
+import './styles.scss';
 
 class PopupTicket extends React.Component {
     
-    constructor(props){
+    constructor(props) {
         super(props);
+        
         const { name, body, header } = props;
 
         this.state = {
             edit: false,
             name: name,
             body: body,
-            header: header
+            header: header,
+            errors: []
         }
     }
 
@@ -25,31 +29,19 @@ class PopupTicket extends React.Component {
         }))
     }
 
-    handleSave = (projectId) => {
-        this.setState(state => ({
-            edit: !state.edit
-        }));
-
-        this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ this.props.id }`,
-        {
-            method: 'PATCH',
-            body: JSON.stringify({
-                action: 'CHANGE',
-                value: {
-                    header: this.state.header,
-                    body: this.state.body
-                }
-            })
-        })
-        .then(this.props.onEdited)
-        .catch(_ => {});
-    }
-
     render(){
         const { show, onChangeShow, forCreate } = this.props;
-        const { edit, name, body, header } = this.state;
+        const { edit, name, body, header, errors } = this.state;
 
         return(
+        <>
+        <ErrorModal 
+            show={ errors.length > 0 }
+            onClose={ () => {
+                this.setState({ errors: [] });
+            }}
+            message={ errors.length > 0 ? errors[0].message : '' }
+        />
         <ProjectContext.Consumer>
             {
                 context =>
@@ -59,9 +51,9 @@ class PopupTicket extends React.Component {
                 className= "ticketModalContainer"
                 >
                         <button
-                            onClick={onChangeShow}
-                            className="ticketModalButtonClose"
-                            >
+                        onClick={onChangeShow}
+                        className="ticketModalButtonClose"
+                        >
                             X
                         </button>
 
@@ -86,41 +78,62 @@ class PopupTicket extends React.Component {
                                         onChangeState.call(this,e,"body");
                                     }}
                                     />
+
                                 { (forCreate) ? (
                                     <button 
-                                    onClick={ async()=>{   
-                                        await context.handleTicketCreated(
-                                            header,body
-                                        );
-                                        this.props.onChangeShow();
+                                    onClick={ async () => {
+                                        try {
+                                            await context.handleTicketCreated(
+                                                header,body
+                                            );
+
+                                            this.props.onChangeShow();
+                                        }
+                                        catch (errors) {
+                                            this.setState({ errors });
+                                        }
                                     }}
                                     > 
-                                            Crear
-                                        </button>
-                                    ):(
+                                        Crear
+                                    </button>
+                                ):(
                                         <button 
-                                        onClick={ async()=>{
-                                            await this.handleSave(context.projectId);
-                                        } }
+                                        onClick={ async () => {
+                                            try {
+                                                await context.handleUpdateTicket(
+                                                    this.props.id,
+                                                    header,
+                                                    body
+                                                );
+
+                                                this.props.onChangeShow();
+
+                                                this.setState(state => ({
+                                                    edit: !state.edit
+                                                }));
+                                            }
+                                            catch (errors) {
+                                                this.setState({ errors });
+                                            }
+                                        }}
                                         > 
                                             Guardar 
                                         </button>
-                                    )
-                                }
+                                )}
                                 
                                 </>
                             ):(
                                 <>
-                                    <p>{header}</p>
+                                    <p>{ header }</p>
 
                                     <hr/>
 
-                                    <p>{body}</p>
+                                    <p>{ body }</p>
 
                                     <button 
-                                        onClick={this.onChangeEdit}
-                                        > 
-                                        editar 
+                                    onClick={this.onChangeEdit}
+                                    > 
+                                        Editar 
                                     </button>
                                 </>
                             )
@@ -128,15 +141,9 @@ class PopupTicket extends React.Component {
                 </Modal>
             }    
         </ProjectContext.Consumer>
+        </>
         )
     }
-}
-
-PopupTicket.defaultProps = {
-    id: 999,
-    description: "",
-    body: "",
-    forCreate: false,
 }
 
 export default withRequest(PopupTicket);

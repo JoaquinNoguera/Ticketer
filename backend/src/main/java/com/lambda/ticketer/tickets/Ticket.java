@@ -31,7 +31,6 @@ public class Ticket {
     String header;
 
     @NotNull(message = "El cuerpo de un ticket no puede ser nulo")
-    @NotBlank(message = "El cuerpo de un ticket no puede ser vacio")
     String body;
 
     @NotNull(message = "El estado de un ticket no puede ser nulo")
