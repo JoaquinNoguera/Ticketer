@@ -24,7 +24,7 @@ class Ticket extends React.Component {
         const { show } = this.state;
         return (
             <ProjectContext.Consumer>
-                {context=>{
+                { context => {
                     const actionButton = {
                         delete: <button
                         onClick={ _ => {

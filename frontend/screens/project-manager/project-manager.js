@@ -20,8 +20,6 @@ class ProjectManager extends React.Component{
             projectId: null
         }
     }
-    
-    
 
     componentDidMount() {
         this.init();
@@ -43,7 +41,7 @@ class ProjectManager extends React.Component{
 
     newUpdate = (project) => {
         const { name } = this.props;
-        console.log(project);
+
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
@@ -61,9 +59,9 @@ class ProjectManager extends React.Component{
         });
     }
 
-     handleTicketDeleted = async (ticketId) => {
-        const {projectId} = this.state;
-        try{
+    handleTicketDeleted = async (ticketId) => {
+        const { projectId } = this.state;
+        try {
             await this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
             {
                 method: 'DELETE'
@@ -76,41 +74,42 @@ class ProjectManager extends React.Component{
                     }
                 )
             );
-        }catch(err){
+        } catch(err) {
             console.log('error');
         }
-     }
+    }
  
-     handleTicketCreated = async(header,body) => {
-        const {projectId} = this.state;
-        try{
-            console.log(header,body);
-            const ticket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets`,
-                                                        {
-                                                            method: 'POST',
-                                                            body: JSON.stringify({
-                                                                header: header,
-                                                                body:  body
-                                                            })
-                                                        });
-            this.setState(({ tickets }) => ({
-                tickets: [ ...tickets, ticket ]
-            }));
-        }catch(err){
-            console.log('error');
-        }
-     }
+    handleTicketCreated = async (header, body) => {
+        const { projectId } = this.state;
+        
+        console.log(header, body);
 
-     handleTicketAction = async (ticketId, action) => {
-        const {projectId} = this.state;
-        try{
+        const ticket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets`,
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    header: header,
+                    body:  body
+                })
+            }
+        );
+
+        this.setState(({ tickets }) => ({
+            tickets: [ ...tickets, ticket ]
+        }));
+    }
+
+    handleTicketAction = async (ticketId, action) => {
+        const { projectId } = this.state;
+        try {
             const updatedTicket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
-                                    {
-                                        method: 'PATCH',
-                                        body: JSON.stringify({
-                                            action
-                                        })
-                                    });
+                {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        action
+                    })
+                }
+            );
             this.setState(
                 ({ tickets }) => (
                     { 
@@ -118,9 +117,30 @@ class ProjectManager extends React.Component{
                             ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket )
                     })
             );
-        }catch(err){
+        } catch (err){
             console.log('error');
         }
+    }
+
+    handleUpdateTicket = async (ticketId, header, body) => {
+
+        const { projectId } = this.state;
+
+        const updatedTicket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
+        {
+            method: 'PATCH',
+            body: JSON.stringify({
+                action: 'CHANGE',
+                value: {
+                    header,
+                    body
+                }
+            })
+        });
+
+        this.setState(({ tickets }) => ({
+            tickets: tickets.map(ticket => ticket.id === updatedTicket.id ? updatedTicket : ticket)
+        }));
     }
  
 
@@ -138,6 +158,7 @@ class ProjectManager extends React.Component{
                     handleTicketCreated: this.handleTicketCreated,
                     handleTicketDeleted: this.handleTicketDeleted,
                     handleTicketAction: this.handleTicketAction,
+                    handleUpdateTicket: this.handleUpdateTicket,
                     tickets: tickets,
                     projectId: projectId
                 }}
