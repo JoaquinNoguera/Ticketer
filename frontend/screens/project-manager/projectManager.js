@@ -43,7 +43,7 @@ class ProjectManager extends React.Component{
 
     newUpdate = (project) => {
         const { name } = this.props;
-        console.log(project);
+        
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
@@ -84,7 +84,6 @@ class ProjectManager extends React.Component{
      handleTicketCreated = async(header,body) => {
         const {projectId} = this.state;
         try{
-            console.log(header,body);
             const ticket = await this.props.httpRequest(`/api/projects/${ projectId }/tickets`,
                                                         {
                                                             method: 'POST',

@@ -24,8 +24,6 @@ function Colaborator(props) {
         return project;
     }
 
-    
-    console.log("hola");
 
     return(
         <ProjectContext.Consumer>

@@ -17,7 +17,7 @@ class UserDropdown extends React.Component {
     }
     
     render () {
-        const { show, children, onLogOut, ...otherProps } = this.props;
+        const { show, children, onLogOut, close, ...otherProps } = this.props;
 
         const toRender = [ children ];
 
@@ -27,6 +27,7 @@ class UserDropdown extends React.Component {
                 <div id='navbar-user-dropdown' style={ this.state.dropdownStyle }>
                     <Link
                         to="/user/setting"
+                        onClick={close}
                     >
                         <div 
                             className='navbar-user-dropdown-item' 

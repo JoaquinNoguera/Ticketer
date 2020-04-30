@@ -26,34 +26,90 @@ const ProjectSettings = function(props){
         }
     )
 
+    const initError = {
+        rename: {
+            state: false,
+            message: null
+        },
+        addMember: {
+            state: false,
+            message: null
+        },
+    };
+
+    const [error,setError] = React.useState(initError);
     
-    const changeName = async() =>{
-        const project = await httpRequest(
-            `/api/users/projects/${ props.match.params.projectId }`, 
-            {   
-                method: 'PATCH',
-                body: JSON.stringify({
-                    action: 'RENAME',
-                    value: rename
-                })
+    const changeName = async(inLoading,newUpdate) =>{
+        try{
+            const project = await httpRequest(
+                `/api/users/projects/${ props.match.params.projectId }`, 
+                {   
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        action: 'RENAME',
+                        value: rename
+                    })
+                }
+                );
+        inLoading();
+        newUpdate(project);
+        }catch(err){
+            const newError = Object.assign({},initError);
+            if(Array.isArray(err)){
+                err.map(e => 
+                    newError['rename'] = {
+                        state: true,
+                        message: e.message
+                    }
+                );
+            }else{
+                newError["rename"] = {
+                    state: true,
+                    message: err.message
+                }
             }
-        );
-        return project;
+            if(error != newError){
+                setError(newError)
+            }
+        }
         
     }
 
-    const addColaborator = async() => {
-        const project = await httpRequest(
-            `/api/users/projects/${ props.match.params.projectId }`, 
-            {   
-                method: 'PATCH',
-                body: JSON.stringify({
-                    action: 'ADD_MEMBER',
-                    value: newColaborator
-                })
+    const addColaborator = async(inLoading,newUpdate) => {
+        try{
+            const project = await httpRequest(
+                `/api/users/projects/${ props.match.params.projectId }`, 
+                {   
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        action: 'ADD_MEMBER',
+                        value: newColaborator
+                    })
+                }
+                );
+            console.log(project);
+            inLoading();
+            newUpdate(project);
+        
+        }catch(err){
+            const newError = Object.assign({},initError);
+            if(Array.isArray(err)){
+                err.map(e => 
+                    newError['addMember'] = {
+                        state: true,
+                        message: e.message
+                    }
+                );
+            }else{
+                newError["addMember"] = {
+                    state: true,
+                    message: err.message
+                }
             }
-        );
-        return project;
+            if(error != newError){
+                setError(newError)
+            }
+        }
     }
 
     const deleteProject = async () => {
@@ -116,14 +172,12 @@ const ProjectSettings = function(props){
         
                     <button
                         onClick={async()=>{
-                            context.inLoading();  
-                            context.newUpdate(
-                                await changeName()
-                            );
+                                await changeName(context.inLoading,context.newUpdate)
                         }}
                         > 
                         Rename 
                     </button>
+                    { error.rename.state &&  <span> { error.rename.message } </span> }
 
                 </div>
 
@@ -139,14 +193,13 @@ const ProjectSettings = function(props){
 
                     <button
                         onClick={async ()=>{
-                            context.inLoading();
-                            context.newUpdate(
-                                await addColaborator()
-                            );
+                            await addColaborator(context.inLoading,context.newUpdate)
                         }}
                         > 
                         Agregar 
                     </button>
+                    { error.addMember.state &&  <span> { error.addMember.message } </span> }
+
                 </div>
             
             </div>
