@@ -3,39 +3,45 @@ import PopupTicket from '../../popup-ticket'
 import ProjectContext from '../../../project-context';
 import { categories as ticketStatus, ticketActions } from '../../../../../utils';
 import './styles.scss';
+import ErrorModal from '../../../../../components/error-modal';
 
 class Ticket extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            show: false,
+            showPopup: false,
+            error: undefined
         }
     }
     
-    onChangeShow = () => {
+    onChangeShowPopup = () => {
         this.setState((state)=>({
-            show: !state.show,
+            showPopup: !state.showPopup,
         }))
     }
 
     render() {
         const { id, name, header, body, status, owner } = this.props;
-        const { show } = this.state;
+        const { showPopup, error } = this.state;
+
         return (
             <ProjectContext.Consumer>
                 { context => {
                     const actionButton = {
                         delete: <button
-                        onClick={ _ => {
-                            context.handleTicketDeleted(this.props.id)   
+                        onClick={ event => {
+                            event.stopPropagation();
+                            context.handleTicketDeleted(this.props.id)
+                                .catch(error => this.setState({ error }));
                         }}
                         > Eliminar </button>,
                         
                         take: <button 
                         onClick={ (event) => {
                             event.stopPropagation();
-                            context.handleTicketAction(this.props.id, ticketActions.TAKE); 
+                            context.handleTicketAction(this.props.id, ticketActions.TAKE)
+                                .catch(error => this.setState({ error }));
                             } 
                         }>
                             Tomar 
@@ -44,7 +50,8 @@ class Ticket extends React.Component {
                         leave: <button 
                         onClick={ (event) => {
                             event.stopPropagation();
-                            context.handleTicketAction(this.props.id, ticketActions.DROP); 
+                            context.handleTicketAction(this.props.id, ticketActions.DROP)
+                                .catch(error => this.setState({ error }));
                             } 
                         }> 
                             Dejar
@@ -53,7 +60,8 @@ class Ticket extends React.Component {
                         markSolved: <button 
                         onClick={ (event) => {
                             event.stopPropagation();
-                            context.handleTicketAction(this.props.id, ticketActions.SOLVE); 
+                            context.handleTicketAction(this.props.id, ticketActions.SOLVE)
+                                .catch(error => this.setState({ error }));
                             }
                         }>
                             Listo
@@ -62,7 +70,8 @@ class Ticket extends React.Component {
                         restore: <button
                         onClick={ (event) => {
                             event.stopPropagation();
-                            context.handleTicketAction(this.props.id, ticketActions.DROP); 
+                            context.handleTicketAction(this.props.id, ticketActions.DROP)
+                                .catch(error => this.setState({ error }));
                             } 
                         }> 
                             Restaurar 
@@ -80,22 +89,29 @@ class Ticket extends React.Component {
                         }
                     }
 
-                    return  <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShow }>
-                                <h2> #{ name } </h2>
-                                <p className='proyect_view-tickets-ticket-description'>{ header }</p>
+                    return  <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShowPopup }>
 
-                                <div>{ renderButtons(status, owner) }</div>
+                        <ErrorModal 
+                            show={ !!error }
+                            message={ !!error ? error.message : '' }
+                            onClose={ () => this.setState({ error: undefined })}
+                        />        
 
-                                <PopupTicket 
-                                    id={ id }
-                                    name={ name }
-                                    show={ show }
-                                    body={ body }
-                                    header={ header }
-                                    onChangeShow={ this.onChangeShow }
-                                    onEdited={ this.props.onEdited }
-                                />
-                            </div>
+                        <h2> #{ name } </h2>
+                        <p className='proyect_view-tickets-ticket-description'>{ header }</p>
+
+                        <div>{ renderButtons(status, owner) }</div>
+
+                        <PopupTicket 
+                            id={ id }
+                            name={ name }
+                            show={ showPopup }
+                            body={ body }
+                            header={ header }
+                            onChangeShow={ this.onChangeShowPopup }
+                            onEdited={ this.props.onEdited }
+                        />
+                    </div>
                 }}
             </ProjectContext.Consumer>
         );

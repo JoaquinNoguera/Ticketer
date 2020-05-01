@@ -29,6 +29,74 @@ class PopupTicket extends React.Component {
         }))
     }
 
+    renderEditableComponents = () => {
+        return <>
+            <textarea 
+            value={ this.state.header }
+            className='popupTicketInputD'
+            onChange={(e) => {
+                onChangeState.call(this,e,"header");
+            }}
+            />
+
+            <hr/>
+
+            <textarea
+            value={ this.state.body } 
+            className='popupTicketInputB'
+            onChange={(e) => {
+                onChangeState.call(this,e,"body");
+            }}
+            />
+        </>
+    }
+
+    renderCreateButton = (context) => {
+        return <button 
+        onClick={ 
+            async () => { 
+                try {
+                    await context.handleTicketCreated(
+                        this.state.header, this.state.body
+                    );
+
+                    this.props.onChangeShow();
+                } catch (errors) {
+                    this.setState({ errors });
+                }
+            }
+        }
+        > 
+            Crear
+        </button>
+    }
+
+    renderSaveButton = (context) => {
+        return <button 
+        onClick={ 
+            async () => { 
+                try {
+                    await context.handleUpdateTicket(
+                        this.props.id,
+                        this.state.header,
+                        this.state.body
+                    );
+
+                    this.props.onChangeShow();
+
+                    this.setState(state => ({
+                        edit: !state.edit
+                    }));
+                } catch (errors) {
+                    this.setState({ errors });
+                }
+            }
+        }
+        > 
+            Guardar 
+        </button>
+    }
+
     render(){
         const { show, onChangeShow, forCreate } = this.props;
         const { edit, name, body, header, errors } = this.state;
@@ -59,84 +127,31 @@ class PopupTicket extends React.Component {
 
                         <h1> #{ name } </h1>
 
-                        { (edit || forCreate) ? (
-                            <>
-                                    <textarea 
-                                    value={header}
-                                    className='popupTicketInputD'
-                                    onChange={(e) => {
-                                        onChangeState.call(this,e,"header");
-                                    }}
-                                    />
+                        { (edit || forCreate) ? <>
+                            
+                            { this.renderEditableComponents() }
 
-                                    <hr/>
-
-                                    <textarea
-                                    value={body} 
-                                    className='popupTicketInputB'
-                                    onChange={(e) => {
-                                        onChangeState.call(this,e,"body");
-                                    }}
-                                    />
-
-                                { (forCreate) ? (
-                                    <button 
-                                    onClick={ async () => {
-                                        try {
-                                            await context.handleTicketCreated(
-                                                header,body
-                                            );
-
-                                            this.props.onChangeShow();
-                                        }
-                                        catch (errors) {
-                                            this.setState({ errors });
-                                        }
-                                    }}
-                                    > 
-                                        Crear
-                                    </button>
-                                ):(
-                                        <button 
-                                        onClick={ async () => {
-                                            try {
-                                                await context.handleUpdateTicket(
-                                                    this.props.id,
-                                                    header,
-                                                    body
-                                                );
-
-                                                this.props.onChangeShow();
-
-                                                this.setState(state => ({
-                                                    edit: !state.edit
-                                                }));
-                                            }
-                                            catch (errors) {
-                                                this.setState({ errors });
-                                            }
-                                        }}
-                                        > 
-                                            Guardar 
-                                        </button>
-                                )}
+                            { forCreate ?
+                                this.renderCreateButton(context)
+                                :
+                                this.renderSaveButton(context)
+                            }
                                 
-                                </>
-                            ):(
-                                <>
-                                    <p>{ header }</p>
+                        </>
+                        :/* ELSE renderizar estático */
+                        <>
+                            <p>{ header }</p>
 
-                                    <hr/>
+                            <hr/>
 
-                                    <p>{ body }</p>
+                            <p>{ body }</p>
 
-                                    <button 
-                                    onClick={this.onChangeEdit}
-                                    > 
-                                        Editar 
-                                    </button>
-                                </>
-                            )
+                            <button 
+                            onClick={this.onChangeEdit}
+                            > 
+                                Editar 
+                            </button>
+                        </>
                         }
                 </Modal>
             }    
