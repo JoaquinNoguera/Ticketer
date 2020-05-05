@@ -70,7 +70,14 @@ class Dashboard extends React.Component {
                 <h2> Proyectos </h2>
 
                 <div id="dashboard-actions">
-                    <button id='dashboard-create-proyect' onClick={ this.handleCreateProyectClick }> + Crear proyecto </button>
+                    <button 
+                    id='dashboard-create-proyect'
+                    className='secondary'
+                    onClick={ this.handleCreateProyectClick }>
+                        + Crear proyecto 
+                    </button>
+
+                    <input placeholder='Escriba para buscar' />
                 </div>
 
                 <CreateProyectModal 

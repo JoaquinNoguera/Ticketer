@@ -6,49 +6,43 @@ import './styles.scss';
 
 function CreateProyectModal (props){
 
-    const [project, projectInput] = useInput(
+    const [ project, projectInput ] = useInput(
         {
-            init: "",
-            
+            init: '',
+            id: 'create-proyect-modal-input'
         }
     )
-
 
     const { onAccept, onCancel, ...otherProps } = props;
 
     return (
         <Modal
-                className='dashboard-create_proyect-modal'
-                { ...otherProps }
-                onFocusLoss={ onCancel }
+        className='dashboard-create_proyect-modal'
+        { ...otherProps }
+        onFocusLoss={ onCancel }
         >
-                
-            <div>
-                <label 
-                    htmlFor='create-proyect-modal'
-                > 
-                    Nombre del proyecto 
-                </label>
-                    
-                <br />
-                
-                {projectInput}
+            <h3> Agregar producto </h3>
 
+            { projectInput }
+
+            <div id='create-proyect-modal-actions'>
+                <button 
+                    id='create-proyect-modal-close'
+                    className="warn small" 
+                    onClick={ onCancel }
+                > 
+                    Cancelar
+                </button>
+                
+                <button 
+                    id='create-proyect-modal-button' 
+                    className="primary small"
+                    onClick={ () => onAccept(project) }
+                > 
+                    Aceptar 
+                </button>
             </div>
 
-            <button 
-                id='create-proyect-modal-button' 
-                onClick={ () => onAccept(project) }
-            > 
-                Aceptar 
-            </button>
-
-            <button 
-                id='create-proyect-modal-close' 
-                onClick={ onCancel }
-            > 
-                Cancelar
-            </button>
         
         </Modal>
     );

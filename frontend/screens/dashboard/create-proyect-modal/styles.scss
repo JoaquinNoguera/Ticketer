@@ -1,18 +1,22 @@
+@import '../../../vars.scss';
+
 .dashboard-create_proyect-modal {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+
+    border-radius: $space-2;
+    background-color: $color-background;
 }
 
 #create-proyect-modal-input {
-    margin-right: 1em;
+    margin: $space-1 0;
 }
 
-#create-proyect-modal-button {
-    align-self: flex-end;
+#create-proyect-modal-actions {
+    display: flex;
+    flex-direction: row-reverse;
 }
 
 #create-proyect-modal-close {
-    margin-left: .2em;
-
-    align-self: flex-end;
+    margin-right: 0;
 }

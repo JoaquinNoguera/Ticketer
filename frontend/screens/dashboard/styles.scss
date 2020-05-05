@@ -1,4 +1,25 @@
+@import '../../vars.scss';
+
+#dashboard {
+    margin: 0 $space-3;
+}
+
 #dashboard-actions {
     display: flex;
     flex-direction: row-reverse;
+    padding: 0;
+    margin: $space-2 0 $space-3 0;
+}
+
+#dashboard-actions button {
+    margin: 0;
+    flex-grow: 0;
+}
+
+#dashboard-actions input {
+    height: 36px;
+    border-radius: 18px;
+    
+    flex-grow: 1;
+    margin-right: $space-3;
 }

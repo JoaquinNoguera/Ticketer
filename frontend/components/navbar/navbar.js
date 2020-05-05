@@ -12,7 +12,7 @@ class NavBar extends React.Component {
     handleUserButtonClick = () => {
         this.setState(state => (
             { showUserDropdown: !state.showUserDropdown }
-            ));
+        ));
     }
 
     render () {
@@ -21,7 +21,7 @@ class NavBar extends React.Component {
     
         return (
             <div id='navbar' >
-                <h1> Ticketer </h1>
+                <h1> TICKETER </h1>
                 
                 <UserDropdown 
                     id='navbar-username' 
@@ -29,7 +29,7 @@ class NavBar extends React.Component {
                     onLogOut={ this.props.onLogOut }
                     close={ this.handleUserButtonClick}
                 >
-                    <button onClick={ this.handleUserButtonClick }> 
+                    <button onClick={ this.handleUserButtonClick } id='navbar--user-button'> 
                         { userName } 
                     </button>
                 </UserDropdown>

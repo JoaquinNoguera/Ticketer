@@ -1,17 +1,27 @@
-.dashboard-proyect {
-    margin: 1em;
+@import '../../../vars.scss';
 
-    background-color: #ededed;
+.dashboard-proyect {
+    height: 30px;
+    margin: $space-2 0;
+
+    background-color:  $color-background-light;
+    color: $color-text;
 
     position: relative;
     overflow: auto;
-    padding: 1em;
-    padding-left: .5em;
+    padding: $space-2 $space-3;
+
+    border-radius: $space-1;
+}
+
+.dashboard-proyect button {
+    margin: 0;
+    margin-left: $space-1;
 }
 
 .dashboard-proyect-actions {
     position: absolute;
 
-    bottom: .5em;
-    right: .5em;
+    bottom: $space-2;
+    right: $space-3;
 }

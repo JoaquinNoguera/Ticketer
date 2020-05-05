@@ -1,9 +1,11 @@
+@import '../../vars.scss';
+
 #navbar {
     display: flex;
     flex-direction: row;
     align-items: center;
 
-    padding: 1em 2em 1em 2em;
+    padding: $space-2 $space-3;
 }
 
 #navbar-username {
@@ -12,4 +14,9 @@
 
 #navbar-user-controls {
     position: relative;
+}
+
+#navbar--user-button {
+    background-color: transparent;
+    color: $color-text;
 }
