@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import './vars.scss';
+
 * {
     margin: 0;
     padding: 0;
+
+    font-family: $font-family;
+    font-size: $font-size;
+}
+
+body {
+    background-color: $color-background;
 }
 
 a {
@@ -9,8 +19,37 @@ a {
 }
 
 button {
-    padding: 3px;
-    margin: 2px;
+    height: 40px;
+    padding: 0 $space-3;
+    margin: $space-1;
+
+    border-style: none;
+    border-radius: $space-1;
+
+    font-weight: bold;
+}
+
+button.primary {
+    background-color: $color-primary;
+    color: $color-btn-text-primary;
+}
+
+input {
+    height: 32px;
+    padding: 0 $space-3;
+
+    border-radius: 16px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #2B2C36;
+
+    background-color: #2B2C36;
+
+    color: $color-text;
+}
+
+input::placeholder {
+    color: $color-text-dark;
 }
 
 #popup-root {

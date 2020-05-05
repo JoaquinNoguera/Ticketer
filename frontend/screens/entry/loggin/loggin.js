@@ -102,7 +102,7 @@ function Loggin (props){
 
                     <button 
                         type="submit"
-                        className="logginButton"
+                        className="logginButton primary"
                     >
                         Login
                     </button>
