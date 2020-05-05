@@ -72,7 +72,7 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
-                    <Route exact path='/(login|singin)'>
+                    <Route exact path='/(loggin|singin)'>
                         <Entry 
                             logedIn={ logedIn }
                             onLogIn={ this.handleLogIn }

@@ -1,34 +1,45 @@
-.welcomeContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 50%;
-    background: #2c3e50;
+@import "../../../vars.scss";
+
+#welcome{
+    background-color: $color-background;
     position: relative;
+    height: 500px;
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px 0 0 30px;
 }
 
-.welcomeBotton{
+#welcome__title{
+    font-size: 2em;
+    color: $color-text-dark;
+}
+
+.welcome__button{
+    background-color: $color-secondary;
+    border-radius: $space-3 0 0 $space-3;
+    margin: 0;
+    font-size: $font-size-btn-s;
+    height: 30px;
+    width: 130px;
+}
+
+.welcome__button--active{
+    background-color: $color-background-dark;
+    color: $color-text;
+}
+
+#loggin__button{
     position: absolute;
-    height: 20px;
-    width: 60px;
-    left: calc(100% - 60px);
-}
-.welcomeContainerText{
-    margin: 50px;
-    text-align: justify;
-    color: #f1f1f1;
-}
-.welcomeBottonLoggin {
-    bottom: 200px;
+    bottom: 72px;
+    right: 0;
+    text-align: right;
 }
 
-.welcomeBottonSingIn {
-    bottom: 160px;
-}
-
-.welcomeSpan {
-    color: #f1f1f1;
+#singIn__button{
     position: absolute;
-    bottom: 30px;
-    left: 30px;
+    bottom: 42px;
+    right: 0;
+    text-align: right;
 }

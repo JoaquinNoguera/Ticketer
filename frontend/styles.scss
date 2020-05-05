@@ -9,6 +9,27 @@
     font-size: $font-size;
 }
 
+
+h1 {
+    font-size: $font-size-l;
+    font-weight: bold;
+    color: $color-text-dark;
+}
+
+h2 {
+    font-size: $font-size-ml;
+    font-weight: bold;
+    color: $color-text;
+}
+
+h3 {
+    font-size: $font-size-m;
+    font-weight: bold;
+    color: $color-text;
+}
+
+
+
 body {
     background-color: $color-background;
 }
@@ -41,9 +62,9 @@ input {
     border-radius: 16px;
     border-style: solid;
     border-width: 2px;
-    border-color: #2B2C36;
+    border-color: $color-background-light;
 
-    background-color: #2B2C36;
+    background-color: $color-background-light;
 
     color: $color-text;
 }

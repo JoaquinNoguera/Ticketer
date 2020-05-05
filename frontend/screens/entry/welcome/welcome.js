@@ -14,48 +14,35 @@ function Welcome(props) {
         history.push('/singin')
     }
 
-
+    console.log()
     return(
-        <div className="welcomeContainer">
-            
-            <div 
-                className="welcomeContainerText"
-            >
-                <h1>
-                    Tiketer
-                </h1>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ut convallis lectus, sed tincidunt sem. Vivamus sed aliquet ligula. Praesent eget purus vel purus hendrerit ultricies non vel odio. Phasellus sem mi, pharetra a fermentum non, lobortis id sapien. Nulla et augue sed neque volutpat tristique. Nunc fringilla ipsum sed metus consequat, vel congue augue fermentum. Ut ut porta urna, a cursus mi. Nam vel cursus felis. Nulla hendrerit est sit amet nibh iaculis, ut faucibus tellus mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. 
-                </p>
-            </div>
-            
-            <button 
-                className="
-                    welcomeBotton
-                    welcomeBottonLoggin
-                "
+        <div id="welcome">
+
+            <h1 id="welcome__title">
+                Bienvenido a TICKETER
+            </h1>
+
+            <button
+                id="loggin__button" 
+                className={
+                    (props.location.pathname === '/loggin') ? 
+                    ("welcome__button welcome__button--active") : ("welcome__button")
+                }
                 onClick={goLoggin}
             >
-                        Loggin
+                        Ingresar
             </button>
             
             <button 
-                className="
-                    welcomeBotton
-                    welcomeBottonSingIn
-                "
+                id="singIn__button"
+                className={
+                    (props.location.pathname === '/singin') ? 
+                    ("welcome__button welcome__button--active") : ("welcome__button")
+                }
                 onClick={goSingIn}
             >
-                        Sing In
+                        Crear cuenta
             </button>
-            
-            <span
-                className="
-                welcomeSpan
-                "
-            >
-                @coppyright
-            </span>
         </div>
     )
 }
