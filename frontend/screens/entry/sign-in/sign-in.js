@@ -26,7 +26,7 @@ function SingIn (props){
         {
             init: "",
             placeholder:"Nombre de usuario",
-            className: (error["name"].state) ? "entry--input entry--input--error" : "entry--input"
+            className: (error["name"].state) ? "entry--input input--error" : "entry--input"
         }
     );
         
@@ -34,7 +34,7 @@ function SingIn (props){
             init: "",
             type:"password", 
             placeholder:"Contraseña",
-            className: (error["password"].state) ? "entry--input entry--input--error" : "entry--input"
+            className: (error["password"].state) ? "entry--input input--error" : "entry--input"
                             
     });
 
@@ -98,7 +98,7 @@ function SingIn (props){
             >
                 
                 <span
-                    className="entry--span"
+                    className="input--span"
                 > 
                     { error.generic.message }
                 </span>
@@ -107,7 +107,7 @@ function SingIn (props){
                 {usernameInput}
 
                 <span
-                    className="entry--span"
+                    className="input--span"
                 > 
                     { error.name.message } 
                 </span>
@@ -117,7 +117,7 @@ function SingIn (props){
                 {passwordInput}
                 
                 <span
-                    className="entry--span"
+                    className="input--span"
                 > 
                     { error.password.message } 
                 </span>

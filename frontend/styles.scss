@@ -101,3 +101,22 @@ input::placeholder {
 #proyect_view {
     margin: 0 1em 0 1em;
 }
+
+#dashboard {
+    margin: 0 1em 0 1em;
+}
+
+.input--error{
+    border-color: $color-warn;
+    color: $color-warn;
+}
+
+.input--span{
+    margin: 0 !important;
+    width: 100%;
+    height: $font-size-s;
+    display: inline-block;
+    padding-left: $space-3;
+    color: $color-warn;
+    font-size: $font-size-s;
+}

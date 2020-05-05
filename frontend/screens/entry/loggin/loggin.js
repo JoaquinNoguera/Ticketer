@@ -26,14 +26,14 @@ function Loggin (props){
         {
             init: "",
             placeholder:"Nombre de usuario",
-            className: (error["name"].state) ? "entry--input entry--input--error" : "entry--input",
+            className: (error["name"].state) ? "entry--input input--error" : "entry--input",
         }
     );
     const [password,passwordInput] = useInput({
         init: "",
         type:"password", 
         placeholder:"Contraseña",
-        className: (error["password"].state) ? "entry--input entry--input--error" : "entry--input"
+        className: (error["password"].state) ? "entry--input input--error" : "entry--input"
                         
     });
 
@@ -84,7 +84,7 @@ function Loggin (props){
 
                   
                     <span
-                        className="entry--span"
+                        className="input--span"
                     > 
                         { error.generic.message }
                     </span> 
@@ -94,7 +94,7 @@ function Loggin (props){
                     { usernameInput }
 
                     <span
-                        className="entry--span"
+                        className="input--span"
                     > 
                         { error.name.message }
                     </span> 
@@ -105,7 +105,7 @@ function Loggin (props){
                     
                    
                     <span
-                        className="entry--span"
+                        className="input--span"
                     > 
                         { error.password.message } 
                     </span> 
