@@ -6,38 +6,6 @@ import './style.scss';
 
 function UserSettings(props){
 
-
-    
-    const [oldPassword, oldPasswordInput] = useInput(
-        {
-            init: "",
-            type:"password",
-            placeholder:"Contraseña vieja"
-            
-        }
-    )
-
-
-    const [password, passwordInput] = useInput(
-        {
-            init: "",
-            placeholder:"nueva contraseña",
-            type:"password"
-            
-        }
-    )
-
-    const [passwordConfirm, passwordConfirmInput] = useInput(
-        {
-            init: "",
-            placeholder:"repetir contraseña",
-            type:"password"
-            
-        }
-    )
-
-    const {httpRequest} = props;
-    
     const initError = {
         oldPassword: {
             state: false,
@@ -54,6 +22,40 @@ function UserSettings(props){
     };
 
     const [error,setError] = React.useState(initError);
+    
+    const [oldPassword, oldPasswordInput] = useInput(
+        {
+            init: "",
+            type:"password",
+            placeholder:"Contraseña vieja",
+            className: (error["oldPassword"].state) ? "input--error" : ""
+            
+        }
+    )
+
+
+    const [password, passwordInput] = useInput(
+        {
+            init: "",
+            placeholder:"nueva contraseña",
+            type:"password",
+            className: (error["password"].state) ? "input--error" : ""
+            
+        }
+    )
+
+    const [passwordConfirm, passwordConfirmInput] = useInput(
+        {
+            init: "",
+            placeholder:"repetir contraseña",
+            type:"password"
+            
+        }
+    )
+
+    const {httpRequest} = props;
+    
+
 
 
     const changePassword = async() => {
@@ -98,35 +100,59 @@ function UserSettings(props){
         <div
             id="userSettings"
         >
-            <h1>
-                Cambiar Contraseña  
-            </h1>
-
-            <Link 
-                to="/projects"
+            <div
+                id="userSettings-header"
             >
-                <button>            
-                    Volver al dashboard
-                </button>
-            </Link>
+                <h2>
+                    Configuración de usuario
+                </h2>
 
-            { error.generic.state &&  <span> { error.generic.message } </span> }
-
-            {oldPasswordInput}
-
-            { error.oldPassword.state &&  <span> { error.oldPassword.message } </span> }
-
-            {passwordInput}
-
-            { error.password.state &&  <span> { error.password.message } </span> }
-
-            {passwordConfirmInput}
+                <Link 
+                    to="/projects"
+                >
+                    <button>            
+                        Volver
+                    </button>
+                </Link>
+            </div>
             
-            <button
-                onClick={changePassword}
+            <div
+                id="userSettings-form"
             >
-                Cambiar Contraseña
-            </button>
+                <h3>
+                    Cambiar contraseña
+                </h3>
+
+                <span
+                    className="input--span"
+                > 
+                    { error.generic.message } 
+                </span>
+
+                {oldPasswordInput}
+
+                <span
+                    className="input--span"
+                > 
+                    { error.oldPassword.message } 
+                </span> 
+
+                {passwordInput}
+
+                <span
+                    className="input--span"
+                > 
+                    { error.password.message } 
+                </span>
+
+                {passwordConfirmInput}
+                
+                <button
+                    onClick={changePassword}
+                >
+                    Renombrar
+                </button>
+            </div>
         </div>
     )
 }

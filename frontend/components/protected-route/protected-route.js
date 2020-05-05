@@ -5,7 +5,7 @@ const ProtectedRoute = function ({ logedIn, children, ...otherProps }) {
     if (logedIn)
         return <Route { ...otherProps } > { children } </Route>
     else
-        return <Redirect to='/login' />
+        return <Redirect to='/loggin' />
 }
 
 export default ProtectedRoute;
