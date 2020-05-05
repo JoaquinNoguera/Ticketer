@@ -2,33 +2,8 @@ import React from 'react';
 import useInput from '../../../utils/useInput';
 import { Redirect } from 'react-router-dom';
 import withRequest from '../../../utils/requestService';
-import './style.scss';
 
 function SingIn (props){
-
-    const [username,usernameInput] = useInput(
-        {
-            init: "",
-            placeholder:"pedrito matagatos",
-            className: "singinInput"
-        }
-    );
-        
-    const [password,passwordInput] = useInput({
-            init: "",
-            type:"password", 
-            placeholder:"********",
-            className:"singinInput"
-                            
-    });
-
-    const [passwordConfirm,passwordConfirmInput] = useInput({
-        init: "",
-        type:"password", 
-        placeholder:"********",
-        className:"singinInput"
-                        
-    });
 
     const initError = {
         name: {
@@ -46,6 +21,31 @@ function SingIn (props){
     };
 
     const [error,setError] = React.useState(initError);
+
+    const [username,usernameInput] = useInput(
+        {
+            init: "",
+            placeholder:"Nombre de usuario",
+            className: (error["name"].state) ? "entry--input entry--input--error" : "entry--input"
+        }
+    );
+        
+    const [password,passwordInput] = useInput({
+            init: "",
+            type:"password", 
+            placeholder:"Contraseña",
+            className: (error["password"].state) ? "entry--input entry--input--error" : "entry--input"
+                            
+    });
+
+    const [passwordConfirm,passwordConfirmInput] = useInput({
+        init: "",
+        type:"password", 
+        placeholder:"Confirmar contraseña",
+        className:"entry--input"
+                        
+    });
+
 
     
     const handleFormSubmit = async() => {
@@ -90,42 +90,45 @@ function SingIn (props){
     if (props.logedIn) return <Redirect to='projects' />
         
     return(
-        <div className="singinContainer">
-            <h2>Sing In into Tiketer</h2>
+        <div className="entry--container">
+            <h2>Crear Cuenta</h2>
             
             <form
-                className="singinForm"
                 onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
             >
                 
-                { error.generic.state &&  <span> { error.generic.message } </span> }
-
-                <span>
-                    Username
+                <span
+                    className="entry--span"
+                > 
+                    { error.generic.message }
                 </span>
+
+         
                 {usernameInput}
 
-                { error.name.state &&  <span> { error.name.message } </span> }
-
-                <span>
-                    Password
+                <span
+                    className="entry--span"
+                > 
+                    { error.name.message } 
                 </span>
+
+      
 
                 {passwordInput}
                 
-                { error.password.state &&  <span> { error.password.message } </span> }
-                
-                <span>
-                    Confirm Password
+                <span
+                    className="entry--span"
+                > 
+                    { error.password.message } 
                 </span>
-                   
+                
+  
                 {passwordConfirmInput}
                     
                 <button 
                     type="submit"
-                    className="singinButton"
                 >
-                    Sing In
+                    Crear Cuenta
                 </button>
             </form>
         </div>

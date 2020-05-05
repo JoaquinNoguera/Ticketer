@@ -12,12 +12,11 @@ import './style.scss';
 
 export default function Entry ({ onLogIn, logedIn }) {
     return(
-        <div className="entry">
-            <div className="entryContainer">
+        <div id="entry">
                 
                 <Switch>
                     
-                    <Route exact path ="/login">
+                    <Route exact path ="/loggin">
                         
                         <Welcome/>
                         <Loggin 
@@ -38,8 +37,6 @@ export default function Entry ({ onLogIn, logedIn }) {
                     </Route>
 
                 </Switch>
-            
-            </div>
         </div>
     )
 }

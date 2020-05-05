@@ -1,28 +1,10 @@
 import React from 'react';
 import withRequest from '../../../utils/requestService';
 import useInput from '../../../utils/useInput';
-
-import './style.scss';
 import { Redirect } from 'react-router-dom';
 
 function Loggin (props){
     
-
-    const [username,usernameInput] = useInput(
-        {
-            init: "",
-            placeholder:"pedrito matagatos",
-            className: "logginInput"
-        }
-    );
-    const [password,passwordInput] = useInput({
-        init: "",
-        type:"password", 
-        placeholder:"********",
-        className:"logginInput"
-                        
-    });
-
     const initError = {
         name: {
             state: false,
@@ -40,6 +22,21 @@ function Loggin (props){
 
     const [error,setError] = React.useState(initError);
     
+    const [username,usernameInput] = useInput(
+        {
+            init: "",
+            placeholder:"Nombre de usuario",
+            className: (error["name"].state) ? "entry--input entry--input--error" : "entry--input",
+        }
+    );
+    const [password,passwordInput] = useInput({
+        init: "",
+        type:"password", 
+        placeholder:"Contraseña",
+        className: (error["password"].state) ? "entry--input entry--input--error" : "entry--input"
+                        
+    });
+
 
     const handleFormSubmit = async() => {
         try{
@@ -78,33 +75,46 @@ function Loggin (props){
         if (props.logedIn) return <Redirect to='projects' />
 
         return(
-            <div className="logginContainer">
-                <h2>Loggin into Tiketer</h2>
+            <div className="entry--container">
+                <h2>Ingresar</h2>
     
                 <form
-                    className="logginForm"
                     onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
                 >
 
-                    { error.generic.state &&  <span> { error.generic.message } </span> }
+                  
+                    <span
+                        className="entry--span"
+                    > 
+                        { error.generic.message }
+                    </span> 
+                    
 
-                    <span>Username</span>
                     
                     { usernameInput }
 
-                    { error.name.state &&  <span> { error.name.message } </span> }                    
+                    <span
+                        className="entry--span"
+                    > 
+                        { error.name.message }
+                    </span> 
+                                        
                     
-                    <span>Password</span>
                     
                     { passwordInput }
                     
-                    { error.password.state &&  <span> { error.password.message } </span> }
+                   
+                    <span
+                        className="entry--span"
+                    > 
+                        { error.password.message } 
+                    </span> 
+                    
 
                     <button 
                         type="submit"
-                        className="logginButton primary"
                     >
-                        Login
+                        Ingresar
                     </button>
                 </form>
             </div>
