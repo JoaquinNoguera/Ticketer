@@ -1,15 +1,24 @@
-.colaboratorContainer{
-    display: flex;
-    width: 100%;
-    position: relative;
-    h3 {
-        margin: 20px;
-    }
-    border: 0.5px solid black;
-}
+@import "../../../../vars.scss";
 
-.colaboratorButton{
-    margin: 20px;
-    position: absolute;
-    right: 0px;
+#colaborator{
+    display: flex;
+    align-items: center;
+    padding-left: $space-3;
+    background-color: $color-background-light;
+    position: relative;
+    height: 40px;
+    border-radius: 20px;
+    margin: 10px 0 !important;
+
+    button{
+        background-color: $color-warn;
+        font-size: $font-size-m;
+        font-weight: 800;
+        position: absolute;
+        right: 5px;
+        padding: 0;
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+    }
 }

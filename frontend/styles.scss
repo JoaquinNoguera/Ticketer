@@ -27,6 +27,11 @@ h3 {
     color: $color-text;
 }
 
+p{
+    font-size: $font-size;
+    color: $color-text;
+}
+
 body {
     background-color: $color-background;
 }
@@ -46,6 +51,8 @@ button {
 
     font-weight: bold;
     font-size: $font-size;
+
+    cursor: pointer;
 }
 
 button.small {
@@ -106,12 +113,12 @@ input::placeholder {
     margin: 0 1em 0 1em;
 }
 
-.input--error{
+input.warn{
     border-color: $color-warn;
     color: $color-warn;
 }
 
-.input--span{
+span.warn{
     margin: 0 !important;
     width: 100%;
     height: $font-size-s;
@@ -119,4 +126,8 @@ input::placeholder {
     padding-left: $space-3;
     color: $color-warn;
     font-size: $font-size-s;
+}
+
+span.fine{
+    font-weight: 400;
 }

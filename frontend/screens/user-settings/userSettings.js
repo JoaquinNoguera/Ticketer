@@ -28,7 +28,7 @@ function UserSettings(props){
             init: "",
             type:"password",
             placeholder:"Contraseña vieja",
-            className: (error["oldPassword"].state) ? "input--error" : ""
+            className: (error["oldPassword"].state) ? "warn" : ""
             
         }
     )
@@ -39,7 +39,7 @@ function UserSettings(props){
             init: "",
             placeholder:"nueva contraseña",
             type:"password",
-            className: (error["password"].state) ? "input--error" : ""
+            className: (error["password"].state) ? "warn" : ""
             
         }
     )
@@ -100,17 +100,20 @@ function UserSettings(props){
         <div
             id="userSettings"
         >
-            <div
-                id="userSettings-header"
-            >
-                <h2>
-                    Configuración de usuario
-                </h2>
+       
+            <h2>
+                Configuración de usuario
+            </h2>
 
+            <div
+                id="userSettings-actions"
+            >
                 <Link 
                     to="/projects"
                 >
-                    <button>            
+                    <button
+                        className="secondary"
+                    >            
                         Volver
                     </button>
                 </Link>
@@ -124,7 +127,7 @@ function UserSettings(props){
                 </h3>
 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.generic.message } 
                 </span>
@@ -132,7 +135,7 @@ function UserSettings(props){
                 {oldPasswordInput}
 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.oldPassword.message } 
                 </span> 
@@ -140,7 +143,7 @@ function UserSettings(props){
                 {passwordInput}
 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.password.message } 
                 </span>
@@ -148,6 +151,7 @@ function UserSettings(props){
                 {passwordConfirmInput}
                 
                 <button
+                    className="primary"
                     onClick={changePassword}
                 >
                     Renombrar

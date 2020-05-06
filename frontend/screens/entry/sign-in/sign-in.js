@@ -26,15 +26,15 @@ function SingIn (props){
         {
             init: "",
             placeholder:"Nombre de usuario",
-            className: (error["name"].state) ? "entry--input input--error" : "entry--input"
+            className: (error["name"].state) ? "entry--input warn" : "entry--input"
         }
     );
         
     const [password,passwordInput] = useInput({
             init: "",
-            type:"password", 
+            type:'password', 
             placeholder:"Contraseña",
-            className: (error["password"].state) ? "entry--input input--error" : "entry--input"
+            className: (error["password"].state) ? "entry--input warn" : "entry--input"
                             
     });
 
@@ -98,7 +98,7 @@ function SingIn (props){
             >
                 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.generic.message }
                 </span>
@@ -107,7 +107,7 @@ function SingIn (props){
                 {usernameInput}
 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.name.message } 
                 </span>
@@ -117,7 +117,7 @@ function SingIn (props){
                 {passwordInput}
                 
                 <span
-                    className="input--span"
+                    className="warn"
                 > 
                     { error.password.message } 
                 </span>
@@ -126,6 +126,7 @@ function SingIn (props){
                 {passwordConfirmInput}
                     
                 <button 
+                    className="primary"
                     type="submit"
                 >
                     Crear Cuenta

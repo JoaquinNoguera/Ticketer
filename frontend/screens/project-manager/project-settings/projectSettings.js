@@ -12,20 +12,6 @@ const ProjectSettings = function(props){
     
     if(!owner) return <Redirect to={ `/project/${ props.match.params.projectId }` }/>
 
-
-    const [rename,renameInput] = useInput(
-        {
-            init: "",
-
-        }
-    );
-
-    const [newColaborator, newColaboratorInput] = useInput(
-        {
-            init: ""
-        }
-    )
-
     const initError = {
         rename: {
             state: false,
@@ -38,6 +24,23 @@ const ProjectSettings = function(props){
     };
 
     const [error,setError] = React.useState(initError);
+
+    const [rename,renameInput] = useInput(
+        {
+            init: "",
+            placeholder:"Nuevo nombre...",
+            className: (error["rename"].state) ? "warn" : ""
+
+        }
+    );
+
+    const [newColaborator, newColaboratorInput] = useInput(
+        {
+            init: "",
+            placeholder:"Nuevo colaborador...",
+            className: (error["addMember"].state) ? "warn" : ""
+        }
+    )
     
     const changeName = async(inLoading,newUpdate) =>{
         try{
@@ -138,70 +141,93 @@ const ProjectSettings = function(props){
     <ProjectContext.Consumer>
         {
             context =>
-            <div className="settingContainer">
+            <div id="projectSettings">
 
-                <h1> Setting </h1>
+                <h2> Setting </h2>
 
-                <Link 
-                    to={ `/project/${ props.match.params.projectId }`} 
-                    >
-                    <button> 
-                        Volver al proyecto 
-                    </button>
-                </Link>
-                
-                <button 
-                    className="settingButtonDelete"
-                    onClick={async ()=>{
-                        context.inLoading();
-                        await deleteProject();
-                    }}
-                    > 
-                    delete 
-                </button>
-
-                <hr/>
-                
-                <h2>
-                    Nombre del projecto: {name}
-                </h2>      
-                
-                <div>
-
-                    {renameInput}
-        
-                    <button
-                        onClick={async()=>{
-                                await changeName(context.inLoading,context.newUpdate)
+                <div
+                    id="projectSettings-actions"
+                >
+                    <Link 
+                        to={ `/project/${ props.match.params.projectId }`} 
+                        >
+                        <button
+                            className="secondary"
+                        > 
+                            Volver
+                        </button>
+                    </Link>
+                    
+                    <button 
+                        className="warn"
+                        onClick={async ()=>{
+                            context.inLoading();
+                            await deleteProject();
                         }}
                         > 
-                        Rename 
+                        Eliminar 
                     </button>
-                    { error.rename.state &&  <span> { error.rename.message } </span> }
-
                 </div>
 
-                <hr/>
 
-                <h2>Colaboradores</h2>
-                <div className="settingContainerColaborators">
+                <div id="projectSettings-options">
+                    <h3>
+                        Nombre actual: <span className="fine">{name}</span>
+                    </h3>      
                     
-                    <hr/>
-                    <h2> Agregar colaborador </h2>
-                        {listColaborator}
-                        {newColaboratorInput}
+                    <div>
 
+                        {renameInput}
+            
+                        <span
+                            className="warn"
+                        > 
+                            { error.rename.message } 
+                        </span>
+                        
+                        <button
+                            className="primary"
+                            onClick={async()=>{
+                                    await changeName(context.inLoading,context.newUpdate)
+                            }}
+                        > 
+                            Renombrar
+                        </button>
+                        
+
+                    </div>
+
+                    <hr/>
+                        
+                    <h3> 
+                        Agregar colaborador 
+                    </h3>
+                    
+                    {newColaboratorInput}
+                        
+                    <span
+                        className="warn"
+                    > 
+                        { error.addMember.message } 
+                    </span> 
+                    
                     <button
+                        className="primary"
                         onClick={async ()=>{
                             await addColaborator(context.inLoading,context.newUpdate)
-                        }}
-                        > 
-                        Agregar 
+                    }}
+                    > 
+                        Agregar Colaborador
                     </button>
-                    { error.addMember.state &&  <span> { error.addMember.message } </span> }
+                    
+                    <h3> Colaboradoradores </h3>
+
+                    <div id="colaborator-list">
+                    {listColaborator}
+                    </div>
+
 
                 </div>
-            
             </div>
         }
     </ProjectContext.Consumer>

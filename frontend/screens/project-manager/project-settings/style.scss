@@ -1,24 +1,46 @@
+@import"../../../vars.scss";
 
-.settingContainer {
-    display: flex;
-    flex-direction: column;
-    width: 920px;
-    margin: auto;
-    position: relative;
+#projectSettings{
+    margin: 0  $space-3;
+
+    #projectSettings-actions{
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    #projectSettings-options{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 400px;
+        margin: auto;
+
+        *{
+            margin-top: $space-2;
+        }
+
+        button.primary{
+            width: 200px;
+        }
+
+        input{
+            width: 100%;
+        }
+        span.warn{
+            width: 100%;
+        }
+
+        hr{
+            width: 100%;
+            margin: $space-3 0;
+        }
+
+        #colaborator-list{
+            *{
+                margin: 0;
+            }
+        }
+    }
 }
 
-.settingButtonDelete{
-    position: absolute;
-    width: 100px;
-    height: 20px;
-    right: 0px;
-    top: 10px;
-}
-
-.settingContainerColaborators{
-    min-height: 200px;
-    width: 100%;
-    border-radius: 20px;
-    border: 1px solid black;
-    overflow: hidden;
-}

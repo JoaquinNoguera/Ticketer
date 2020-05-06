@@ -28,13 +28,14 @@ function Colaborator(props) {
     return(
         <ProjectContext.Consumer>
             {context =>
-            <div className="colaboratorContainer">
-                    <h3>
+            <div
+                id="colaborator"
+            >
+                    <p>
                         {name}
-                    </h3>
+                    </p>
                     
-                    <button 
-                        className="colaboratorButton"
+                    <button
                         onClick={()=>{
                             context.inLoading();
                             context.newUpdate(deleteColaborator())

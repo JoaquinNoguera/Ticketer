@@ -2,6 +2,7 @@ import React from 'react';
 import Proyect from './proyect';
 import CreateProyectModal from './create-proyect-modal';
 import whitRequest from '../../utils/requestService';
+import { onChangeState } from '../../utils/utils';
 
 import './styles.scss';
 
@@ -11,6 +12,7 @@ class Dashboard extends React.Component {
         showCreateProyectModal: false,
         projects: [],
         loading: true,
+        search: ''
     }
 
     componentDidMount(){
@@ -61,9 +63,22 @@ class Dashboard extends React.Component {
     }
 
     render () {
-        const { projects, showCreateProyectModal, loading } = this.state;
+        const { projects, showCreateProyectModal, loading, search } = this.state;
 
         if(loading) return <h1>Cargando</h1>;
+
+
+        const re = new RegExp(`(${search.toUpperCase()})`);
+
+        const projectList = projects.map(project => {
+            if(search === "" || project.name.toUpperCase().search(re) !== -1){
+                return <Proyect
+                            key={ project.id }
+                            id={ project.id }
+                            name={ project.name }
+                        />
+            }
+        }); 
 
         return (
             <div id='dashboard' >
@@ -77,7 +92,13 @@ class Dashboard extends React.Component {
                         + Crear proyecto 
                     </button>
 
-                    <input placeholder='Escriba para buscar' />
+                    <input 
+                        value={search}
+                        onChange={(e) => {
+                                onChangeState.call(this,e,"search");
+                        }}
+                        placeholder='Escriba para buscar'
+                    />
                 </div>
 
                 <CreateProyectModal 
@@ -87,13 +108,7 @@ class Dashboard extends React.Component {
                 />
 
                 <div>
-                    { projects.map(project => (
-                        <Proyect
-                            key={ project.id }
-                            id={ project.id }
-                            name={ project.name }
-                        />
-                    )) }
+                    {  projectList }
                 </div>
             </div>
         );
