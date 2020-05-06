@@ -1,24 +1,35 @@
-#proyect_view-tickets-tabs {
+@import"../../../../vars.scss";
+
+#tickets{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    height: 100%;
+    flex: 1;
 }
 
-#proyect_view-tickets-view {
+#tickets-actions{
+    display: flex; 
+    margin-left: $space-3;
+}
+
+.tickets__tab{
+    font-size: $font-size;
+    color: $color-text-dark;
+    padding: $space-1 $space-3;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
+}
+
+.tickets__tab--active{
+    background: $color-background-dark;
+    color: $color-primary;
+}
+
+#tickets-panel{
+    background: $color-background-dark;
+    flex: 1;
+    min-height: 100%;
+    padding: $space-3;
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-}
-
-.proyect_view-tickets-tab {
-    display: inline-block;
-    padding: .2em;
-    cursor: pointer;
-
-    background-color: #ededed;
-    cursor: pointer;
-}
-
-.proyect_view-tickets-tab-active {
-    background-color: red;
-    cursor: default;
 }

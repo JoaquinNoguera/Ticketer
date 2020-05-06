@@ -1,15 +1,35 @@
-.proyect_view-tickets-ticket {
-    width: 200px;
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 2;
-    padding: 15px;
-    overflow: hidden;
-    background-color: #ededed;
-    margin: .5em;
-}
+@import"../../../../../vars.scss";
 
-.proyect_view-tickets-ticket-description {
-    flex-grow: 1;
-}
+.ticket{
+    height: 140px;
+    width: 250px;
+    background-color: $color-background;
+    margin: $space-2;
+    border-radius: $space-2;
+    padding: $space-3;
+    position: relative;
 
+    p.text{
+        color: $color-text-dark;
+        text-align: justify;
+        margin-top: 10px;
+    }
+
+    .ticket__owner{
+        position: absolute;
+        top: $space-2;
+        right: $space-2;
+        background-color: $color-text-dark;
+        padding: 2px $space-3;
+        border-radius: 15px;
+        
+        span{
+            font-size: 14px;
+            color: $color-background;
+        }
+    }
+
+    .ticket__owner--active{
+        background-color: $color-secondary;
+    }
+}

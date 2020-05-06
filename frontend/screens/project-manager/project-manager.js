@@ -50,6 +50,7 @@ class ProjectManager extends React.Component{
             loading: false,
             ownerId: project.owner.id,
             projectId: project.id,
+            userName: name
         });
     }
 
@@ -142,7 +143,7 @@ class ProjectManager extends React.Component{
 
     render(){
 
-        const { tickets, owner, members, name, loading, ownerId, projectId } = this.state;
+        const { tickets, owner, members, name, loading, ownerId, projectId, userName } = this.state;
 
         if (loading) return <h1> Cargando... </h1>
 
@@ -156,7 +157,8 @@ class ProjectManager extends React.Component{
                     handleTicketAction: this.handleTicketAction,
                     handleUpdateTicket: this.handleUpdateTicket,
                     tickets: tickets,
-                    projectId: projectId
+                    projectId: projectId,
+                    userName: userName,
                 }}
             >
                 <Switch>

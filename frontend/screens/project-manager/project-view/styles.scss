@@ -1,20 +1,30 @@
+@import"../../../vars.scss";
+
+#proyect_view{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    h2{
+        margin-left: $space-3;
+    }
+}
+
 #proyect_view-actions {
     display: flex;
     flex-direction: row-reverse;
+    margin-right: $space-3;
 }
 
-#proyect_view-add_ticket {
-    height: 60px;
-    width: 60px;
+#proyectView-add {
+    height: 50px;
+    width: 50px;
 
     border-radius: 50%;
 
     position: absolute;
 
-    bottom: 1em;
-    right: 1em;
-
-    background-color: blue;
+    bottom: 2em;
+    right: 2em;
 
     display: flex;
     align-items: center;

@@ -37,32 +37,34 @@ class Tickets extends React.Component {
                 {
                     context => {
                         const ticketComponents = this.createTicketComponents(context.tickets,option);
-                        return <div id="proyect_view-tickets">
-                                    <div id="proyect_view-tickets-tabs">
+                        return <div id="tickets">
+                                    <div id="tickets-actions">
                                         <div 
-                                            className={`proyect_view-tickets-tab ${ 
-                                                option === categories.PENDING && 'proyect_view-tickets-tab-active' }`}
+                                            className={`tickets__tab ${ 
+                                                option === categories.PENDING && 'tickets__tab--active' }`}
                                             onClick={()=>changeOption(categories.PENDING)}
                                             > 
-                                            pendientes
+                                            Pendientes
                                         </div>
                                         <div 
-                                            className={`proyect_view-tickets-tab ${ 
-                                                option === categories.TAKEN && 'proyect_view-tickets-tab-active' }`}
+                                            className={`tickets__tab ${ 
+                                                option === categories.TAKEN && 'tickets__tab--active' }`}
                                                 onClick={()=>changeOption(categories.TAKEN)}
                                                 > 
-                                            en proceso
+                                            En proceso
                                         </div>
                                         <div 
-                                            className={`proyect_view-tickets-tab ${ 
-                                                option === categories.SOLVED && 'proyect_view-tickets-tab-active' }`}
+                                            className={`tickets__tab ${ 
+                                                option === categories.SOLVED && 'tickets__tab--active' }`}
                                                 onClick={()=>changeOption(categories.SOLVED)}
                                                 > 
-                                            terminados
+                                            Terminados
                                         </div>
                                     </div>
                         
-                                    <div id="proyect_view-tickets-view">
+                                    <div
+                                        id="tickets-panel"
+                                    >
                                         { ticketComponents }
                                     </div>
                                 </div>

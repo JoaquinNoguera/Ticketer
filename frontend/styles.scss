@@ -93,26 +93,6 @@ input::placeholder {
     color: $color-text-dark;
 }
 
-#popup-root {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
-
-    pointer-events: none;
-    
-    z-index: 100;
-}
-
-#proyect_view {
-    margin: 0 1em 0 1em;
-}
-
-#dashboard {
-    margin: 0 1em 0 1em;
-}
-
 input.warn{
     border-color: $color-warn;
     color: $color-warn;
@@ -130,4 +110,24 @@ span.warn{
 
 span.fine{
     font-weight: 400;
+}
+
+#popup-root {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    pointer-events: none;
+    
+    z-index: 100;
+}
+
+#app-root {
+    min-width: 100vw;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }

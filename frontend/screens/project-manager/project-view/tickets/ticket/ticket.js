@@ -24,7 +24,6 @@ class Ticket extends React.Component {
     render() {
         const { id, name, header, body, status, owner } = this.props;
         const { showPopup, error } = this.state;
-
         return (
             <ProjectContext.Consumer>
                 { context => {
@@ -88,30 +87,60 @@ class Ticket extends React.Component {
                                 return [ owner, actionButton.delete, actionButton.take, actionButton.restore ];
                         }
                     }
+                    
+                    const my = (owner === context.userName);
+                    console.log(my);
 
-                    return  <div className='proyect_view-tickets-ticket' onClick={ this.onChangeShowPopup }>
+                    return  <div  
+                                className="ticket"
+                                onClick={ this.onChangeShowPopup }
+                            >
 
-                        <ErrorModal 
-                            show={ !!error }
-                            message={ !!error ? error.message : '' }
-                            onClose={ () => this.setState({ error: undefined })}
-                        />        
+                                <ErrorModal 
+                                    show={ !!error }
+                                    message={ !!error ? error.message : '' }
+                                    onClose={ () => this.setState({ error: undefined })}
+                                />        
 
-                        <h2> #{ name } </h2>
-                        <p className='proyect_view-tickets-ticket-description'>{ header }</p>
+                                <div
+                                    className={
+                                        (my) ? 
+                                            ("ticket__owner ticket__owner--active") 
+                                                : 
+                                            ("ticket__owner")
+                                    }
+                                >
+                                    <span>
+                                        {
+                                            (my) ? 
+                                                ( "tuyo") 
+                                                    : 
+                                                (`de: ${ owner }`)
+                                        }
+                                    </span>
+                                </div>
+                                
+                                <h2> 
+                                    #{ name } 
+                                </h2>
+                                
+                                <p
+                                    className="text"
+                                >
+                                    { header }
+                                </p>
 
-                        <div>{ renderButtons(status, owner) }</div>
 
-                        <PopupTicket 
-                            id={ id }
-                            name={ name }
-                            show={ showPopup }
-                            body={ body }
-                            header={ header }
-                            onChangeShow={ this.onChangeShowPopup }
-                            onEdited={ this.props.onEdited }
-                        />
-                    </div>
+                                <PopupTicket 
+                                    id={ id }
+                                    name={ name }
+                                    show={ showPopup }
+                                    body={ body }
+                                    header={ header }
+                                    onChangeShow={ this.onChangeShowPopup }
+                                    onEdited={ this.props.onEdited }
+                                />
+                            </div>
                 }}
             </ProjectContext.Consumer>
         );

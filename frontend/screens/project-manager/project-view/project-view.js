@@ -47,11 +47,23 @@ class ProjectView extends React.Component {
                             <Link 
                             to={`/project/${ context.projectId }/settings`} 
                             >
-                            <button> Configurar</button>
+                            <button
+                                className="secondary"
+                            > 
+                                Configurar
+                            </button>
                         </Link>
                         )
                     }
-                    <Link to='/projects' ><button> Volver al dashboard </button></Link>
+                    
+                    <Link to='/projects' >
+                        <button
+                            className="secondary"
+                        > 
+                            Volver 
+                        </button>
+                    </Link>
+                
                 </div>
 
                 <Tickets
@@ -59,12 +71,13 @@ class ProjectView extends React.Component {
                     changeOption={ this.changeOption }
                 />
 
-                <div 
-                    id='proyect_view-add_ticket'
+                <button 
+                    id='proyectView-add'
+                    className="primary"
                     onClick={ this.onChangeShow }
                 > 
                     + 
-                </div>
+                </button>
 
                 <PopupTicket
                     show={ showCreate }
