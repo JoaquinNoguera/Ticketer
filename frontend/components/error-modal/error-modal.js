@@ -9,16 +9,19 @@ function ErrorModal({ errors , show, onClose }) {
     ((Array.isArray(errors)) ? (errors[0].message) : (errors.message)) : 
     ('');
     return <Modal 
-    show={ show } 
-    onFocusLoss={ onClose }
-    >    
-        <p> { message } </p>
+                id="error-modal"
+                show={ show } 
+                onFocusLoss={ onClose }
+            >    
+                <h3> Error </h3>
+                <p> { message } </p>
         
-        <button 
-        onClick={ onClose }
-        >
-            OK
-        </button>
+                <button 
+                    className="primary small"
+                    onClick={ onClose }
+                >
+                    OK
+                </button>
     </Modal>
 }
 

@@ -1,0 +1,19 @@
+@import"../../vars.scss";
+
+#error-modal{
+    display: flex;
+    flex-direction: column;
+    height: 140px;
+    width: 210px;
+    background-color: $color-background-light;
+    border-radius: 15px;
+
+
+    *{
+        margin: $space-1;
+    }
+
+    button{
+        align-self: flex-start;
+    }
+}
