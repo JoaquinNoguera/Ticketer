@@ -1,23 +1,86 @@
-.ticketModalContainer {
-    width: 500px;
+@import"../../../../vars.scss";
+
+#popup-ticket{
     height: 500px;
-    overflow: auto;
-}
+    width: 400px;
+    border-radius: $space-3;
+    background-color: $color-background;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 
-.ticketModalButtonClose {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-}
+    h2{
+        margin: $space-3 0 0 $space-3;
+    }
 
-.popupTicketInputD {
-    width: 480px;
-    height: 50px;
-    resize: none;
-}
+    h3{
+        color: $color-text-dark;
+    }
 
-.popupTicketInputB{
-    width: 480px;
-    height: 300px;
-    resize: none;
+    textarea{
+        background: transparent;
+        width: 100%;
+        resize: none;
+        border: none;
+        color: $color-text-dark;
+    }
+
+    textarea.header{
+        height: 60px;
+    }
+
+    textarea.description{
+        height: 180px;
+    }
+
+    p{
+        height: 60px;
+        color: $color-text-dark;
+    }
+
+    hr{
+        color: $color-text-dark;
+    }
+
+    button.secondary{
+        align-self: center;
+        margin-bottom: $space-3;
+    }
+
+    #popup-actions{
+        height: 40px;
+        display: flex;
+        align-items: center;
+        padding: $space-1 $space-3;
+        
+        button.primary{
+            flex: 1;
+            margin: 0 $space-1;
+        }
+    }
+
+
+    .popup__ticket--close{
+        background-color: $color-text-dark;
+        font-size: $font-size-m;
+        font-weight: 800;
+        position: absolute;
+        right: 5px;
+        padding: 0;
+        border-radius: 50%;
+        height: 30px;
+        width: 30px;
+    }
+
+    .popup__content{
+        background-color: $color-background-dark;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: $space-2;
+        margin: $space-1 0 $space-3 0;
+        *{
+            margin: $space-1 0;
+        }
+    }
 }
