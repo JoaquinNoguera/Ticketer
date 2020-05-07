@@ -38,88 +38,80 @@ function Loggin (props){
     });
 
 
-    const handleFormSubmit = async() => {
-        try{
-            await props.httpRequest('/api/login', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: username,
-                    password: password
-                })
-            });
-
+    const handleFormSubmit = () => {
+        props.httpRequest('/api/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                name: username,
+                password: password
+            })
+        })
+        .then(_ => {
             props.onLogIn(username);
+        })
+        .catch(props.errorHandler(error => {
+            const newError = Object.assign({}, initError);
 
-
-        }catch(err){
-            const newError = Object.assign({},initError);
-            if(Array.isArray(err)){
-                err.map(e => 
+            if (Array.isArray(error))
+                error.map(e => 
                     newError[e.field] = {
                         state: true,
                         message: e.message
                     }
                 );
-            }else{
-                newError["generic"] = {
+            else 
+                newError['generic'] = {
                     state: true,
-                    message: err.message
+                    message: error.message
                 }
-            }
+
             if(error != newError){
                 setError(newError)
             }
-        }
+        }));
     }
 
-        if (props.logedIn) return <Redirect to='projects' />
+    if (props.logedIn) return <Redirect to='projects' />
 
-        return(
-            <div className="entry--container">
-                <h2>Ingresar</h2>
-    
-                <form
-                    onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
+    return (
+        <div className="entry--container">
+            <h2>Ingresar</h2>
+
+            <form
+                onSubmit={ event => { event.preventDefault(); handleFormSubmit(); }}
+            >
+                <span
+                className="warn"
+                > 
+                    { error.generic.message }
+                </span> 
+                
+                { usernameInput }
+
+                <span
+                className="warn"
+                > 
+                    { error.name.message }
+                </span> 
+                                    
+                { passwordInput }
+                                    
+                <span
+                className="warn"
+                > 
+                    { error.password.message } 
+                </span> 
+                
+
+                <button 
+                className="primary"
+                type="submit"
                 >
-
-                  
-                    <span
-                        className="warn"
-                    > 
-                        { error.generic.message }
-                    </span> 
-                    
-
-                    
-                    { usernameInput }
-
-                    <span
-                        className="warn"
-                    > 
-                        { error.name.message }
-                    </span> 
-                                        
-                    
-                    
-                    { passwordInput }
-                    
-                   
-                    <span
-                        className="warn"
-                    > 
-                        { error.password.message } 
-                    </span> 
-                    
-
-                    <button 
-                        className="primary"
-                        type="submit"
-                    >
-                        Ingresar
-                    </button>
-                </form>
-            </div>
-        );
+                    Ingresar
+                </button>
+            </form>
+        </div>
+    );
 }
 
 export default withRequest(Loggin);

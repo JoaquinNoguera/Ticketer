@@ -20,70 +20,67 @@ function SingIn (props){
         }
     };
 
-    const [error,setError] = React.useState(initError);
+    const [ error, setError ] = React.useState(initError);
 
-    const [username,usernameInput] = useInput(
-        {
+    const [ username, usernameInput ] = useInput({
             init: "",
             placeholder:"Nombre de usuario",
-            className: (error["name"].state) ? "entry--input warn" : "entry--input"
-        }
-    );
+            className: (error["name"].state) ? "entry--input warn" : "entry--input"    
+    });
         
-    const [password,passwordInput] = useInput({
+    const [ password, passwordInput ] = useInput({
             init: "",
             type:'password', 
             placeholder:"Contraseña",
             className: (error["password"].state) ? "entry--input warn" : "entry--input"
-                            
     });
 
-    const [passwordConfirm,passwordConfirmInput] = useInput({
+    const [ passwordConfirm, passwordConfirmInput ] = useInput({
         init: "",
         type:"password", 
         placeholder:"Confirmar contraseña",
         className:"entry--input"
-                        
     });
 
-
-    
     const handleFormSubmit = async() => {
-        try{
-            if (password === passwordConfirm){
-            await props.httpRequest('/api/users', {
+        if (password === passwordConfirm) {
+            props.httpRequest('/api/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: username,
                     password: password
                 })
-            });
-            props.onLogIn(username);
-            }else{
-                throw [{
-                    message: "las contraseñas no coinciden",
-                    field: "password"
-                }]
-            }
-        }catch(err){
-            const newError = Object.assign({},initError);
-            if(Array.isArray(err)){
-                err.map(e => 
-                    newError[e.field] = {
+            })
+            .then(_ => {
+                props.onLogIn(username);
+            })
+            .catch(props.errorHandler(err => {
+                const newError = Object.assign({},initError);
+                if (Array.isArray(err))
+                    err.map(e => 
+                        newError[e.field] = {
+                            state: true,
+                            message: e.message
+                        }
+                    );
+                else
+                    newError["generic"] = {
                         state: true,
-                        message: e.message
+                        message: err.message
                     }
-                );
-            }else{
-                newError["generic"] = {
-                    state: true,
-                    message: err.message
+
+                if(error != newError){
+                    setError(newError)
                 }
-            }
-            if(error != newError){
-                setError(newError)
-            }
-        }
+            }));
+        } else
+            setError(error => ({
+                ...error,
+                password: {
+                    message: 'Las contraseñas no coinciden',
+                    field: 'password'
+                }
+            }));
     }
 
 
@@ -94,7 +91,7 @@ function SingIn (props){
             <h2>Crear Cuenta</h2>
             
             <form
-                onSubmit={ (event) => { event.preventDefault(); handleFormSubmit() }}
+                onSubmit={ (event) => { event.preventDefault(); handleFormSubmit(); }}
             >
                 
                 <span
