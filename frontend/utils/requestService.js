@@ -1,8 +1,17 @@
 import React from 'react';
-import { categories } from './utils'
 
 export default function withRequest(WrappedComponent){
     return class extends React.Component {
+
+        mounted = true;
+
+        errorHandlerFactory = (handler) => {
+            return error => {
+                if (this.mounted)
+                    handler(error);
+            }
+        }
+
         httpRequest = async function (url, options) {
             if (!options) options = {}
 
@@ -16,22 +25,16 @@ export default function withRequest(WrappedComponent){
 
             try {
                 
-                if (!options) options = {}
-
-                if (!options.headers) options.headers = new Headers();
-    
-                if (!options.headers['Content-Type'])
-                    options.headers = {
-                        ...options.headers,
-                        'Content-Type': 'application/json'
-                    }
-                
-                const response = await fetch(url,options);
+                const response = await fetch(url, options);
                 
                 const responseBody = await response.json();
                 
-                if (!response.ok)
+                if (!response.ok) {
+                    if ((response.status === 403 || response.status === 401) && window.on401)
+                        window.on401()
+
                     throw responseBody;
+                }
                 else {
                     console.log('Server responded: ', responseBody);
         
@@ -44,13 +47,16 @@ export default function withRequest(WrappedComponent){
             }
         
         }
+
+        componentWillUnmount() {
+            this.mounted = false;
+        }
     
-        
-        
         render(){
             return(
                 <WrappedComponent 
                     httpRequest = { this.httpRequest }
+                    errorHandler = { this.errorHandlerFactory }
                     { ...this.props }
                 />
             );

@@ -16,24 +16,19 @@ class Dashboard extends React.Component {
     }
 
     componentDidMount(){
-        this.init();
-    }
-
-    init = async () => {
-        try{
-            const projects = await this.props.httpRequest('/api/users/projects', {
-                                                        method: 'GET',
-                                                    });
+        this.props.httpRequest('/api/users/projects', {
+            method: 'GET',
+        })
+        .then(projects => {
             this.setState({
                 projects: projects,
                 loading: false
-                        });
-
-        }catch(err){
-            console('error');
-        }
+            });
+        })
+        .catch(this.props.errorHandler(_ => {
+            console.log('error in dashboad.js');
+        }));
     }
-
 
     handleCreateProyectClick = () => {
         this.setState(state => ({ showCreateProyectModal: !state.showCreateProyectModal }));
@@ -43,23 +38,24 @@ class Dashboard extends React.Component {
         this.setState({ showCreateProyectModal: false });
     }
 
-    handleCreateProject = async (projectName) => {
+    handleCreateProject = (projectName) => {
         
-        try{
-            this.setState({ showCreateProyectModal: false });
+        this.setState({ showCreateProyectModal: false });
         
-            const project = await this.props.httpRequest(
-                                        '/api/users/projects', {
-                                                    method: 'POST',
-                                                    body: JSON.stringify({ projectName })
-                                                });
+        this.props.httpRequest(
+        '/api/users/projects',
+        {
+            method: 'POST',
+            body: JSON.stringify({ projectName })
+        })
+        .then(project => {
             this.setState(state => ({
                 projects: [ ...state.projects, project ]
             }));
-            
-        }catch(er){
-            console.log('error');
-        }
+        })
+        .catch(_ => {
+            console.log('error in dashboard.js');
+        });
     }
 
     render () {
@@ -73,10 +69,10 @@ class Dashboard extends React.Component {
         const projectList = projects.map(project => {
             if(search === "" || project.name.toUpperCase().search(re) !== -1){
                 return <Proyect
-                            key={ project.id }
-                            id={ project.id }
-                            name={ project.name }
-                        />
+                    key={ project.id }
+                    id={ project.id }
+                    name={ project.name }
+                />
             }
         }); 
 
