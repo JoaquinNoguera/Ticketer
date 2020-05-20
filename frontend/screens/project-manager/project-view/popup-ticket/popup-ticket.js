@@ -253,6 +253,10 @@ class PopupTicket extends React.Component {
 
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.show && !this.props.show)
+            this.setState({ name: this.props.name, body: this.props.body, header: this.props.header });
+    }
 
     onChangeShow = () => {
         this.setState({
