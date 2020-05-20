@@ -2,8 +2,8 @@ import "@babel/polyfill";
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { 
-    BrowserRouter as Router, 
+import {
+    BrowserRouter as Router,
     Switch,
     Route
 } from 'react-router-dom';
@@ -23,26 +23,30 @@ import './styles.scss'
 class App extends React.Component {
 
     state = {
+        awaitingAuthResponse: true,
         logedIn: false,
         username: null,
     }
 
-    constructor (props) {
+    constructor(props) {
         super(props);
         window.on401 = this.handle401;
     }
 
-    componentDidMount(){
-        const {httpRequest} = this.props;
-        httpRequest('/api/authentication',{
+    componentDidMount() {
+        const { httpRequest } = this.props;
+        httpRequest('/api/authentication', {
             method: 'GET'
         })
-        .then(
-            response =>   this.setState({
-                username: response.name,
-                logedIn: true
-            }))
-        .catch(_=>{});
+            .then(
+                response => this.setState({
+                    username: response.name,
+                    logedIn: true,
+                    awaitingAuthResponse: false
+                }))
+            .catch(_ => {
+                this.setState({ awaitingAuthResponse: false });
+            });
     }
 
 
@@ -52,50 +56,54 @@ class App extends React.Component {
     }
 
     handleLogIn = (username) => {
-        console.log(`user ${ username } loged in`);
-        this.setState({ 
+        console.log(`user ${username} loged in`);
+        this.setState({
             logedIn: true,
             username: username
         });
     }
 
     handleLogOut = () => {
-        Cookies.remove("token",{
-            path:"/",
+        Cookies.remove("token", {
+            path: "/",
         });
         this.setState({ logedIn: false });
     }
 
-    render () {
-        const { logedIn, username } = this.state;
+    render() {
+        const { logedIn, username, awaitingAuthResponse } = this.state;
+
+        if (awaitingAuthResponse) {
+            return 'Cargando';
+        }
 
         return (
             <Router>
                 <Switch>
                     <Route exact path='/(loggin|singin)'>
-                        <Entry 
-                            logedIn={ logedIn }
-                            onLogIn={ this.handleLogIn }
+                        <Entry
+                            logedIn={logedIn}
+                            onLogIn={this.handleLogIn}
                         />
                     </Route>
-                    
+
                     <ProtectedRoute
-                        logedIn={ logedIn }
+                        logedIn={logedIn}
                     >
                         <NavBar
-                            onLogOut={ this.handleLogOut }
+                            onLogOut={this.handleLogOut}
                         />
                         <Switch>
-                            
+
                             <Route
                                 exact
                                 path="/user/setting"
                             >
-                                <UserSettings/>
+                                <UserSettings />
                             </Route>
 
                             <Route
-                                exact 
+                                exact
                                 path='/projects'
                             >
                                 <Dashboard />
@@ -104,15 +112,15 @@ class App extends React.Component {
                             <Route
                                 path='/project/:projectId'
                             >
-                                <ProjectManager 
-                                    name ={username}
+                                <ProjectManager
+                                    name={username}
                                 />
                             </Route>
 
                         </Switch>
                     </ProtectedRoute>
 
-                    <Route path='/' component={ Entry } />
+                    <Route path='/' component={Entry} />
                 </Switch>
             </Router>
         );
@@ -122,4 +130,4 @@ class App extends React.Component {
 
 const WrapperApp = withRequest(App)
 
-ReactDOM.render(<WrapperApp/>, document.getElementById('app-root'));
+ReactDOM.render(<WrapperApp />, document.getElementById('app-root'));
