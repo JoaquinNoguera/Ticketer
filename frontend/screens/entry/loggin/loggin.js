@@ -1,7 +1,6 @@
 import React from 'react';
 import withRequest from '../../../utils/requestService';
 import useInput from '../../../utils/useInput';
-import { Redirect } from 'react-router-dom';
 
 function Loggin (props){
     
@@ -71,7 +70,6 @@ function Loggin (props){
         }));
     }
 
-    if (props.logedIn) return <Redirect to='projects' />
 
     return (
         <div className="entry--container">

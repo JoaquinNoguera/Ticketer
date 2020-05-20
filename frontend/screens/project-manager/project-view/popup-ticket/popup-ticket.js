@@ -156,18 +156,18 @@ class PopupTicket extends React.Component {
 
         const actionButton = {
             delete: <button
-                key="dalete"
-                className="warn small"
-                onClick={event => {
-                    event.stopPropagation();
-                    context.handleTicketDeleted(this.props.name)
-                        .catch(errors => this.setState({ errors }));
-                }}
-            >
-                <FontAwesomeIcon
-                    icon={faTrash}
-                />
-            </button>,
+                        key="dalete"
+                        className="warn small"
+                        onClick={ event => {
+                        event.stopPropagation();
+                        context.handleTicketDeleted(this.props.id)
+                        .catch(errors => this.setState( { errors }) );
+                        }}
+                    >
+                        <FontAwesomeIcon 
+                        icon={ faTrash }
+                        />
+                    </button>,
 
             take: <button
                 key="take"
@@ -259,9 +259,19 @@ class PopupTicket extends React.Component {
     }
 
     onChangeShow = () => {
-        this.setState({
-            edit: false
-        });
+        
+        if(this.props.forCreate){
+            this.setState({
+                edit:false,
+                body: "",
+                header: ""
+            });
+        }else{
+            this.setState({
+                edit:false,
+            });
+        }
+        
         this.props.onChangeShow();
     }
 

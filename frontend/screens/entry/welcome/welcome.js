@@ -14,7 +14,6 @@ function Welcome(props) {
         history.push('/singin')
     }
 
-    console.log()
     return(
         <div id="welcome">
 
