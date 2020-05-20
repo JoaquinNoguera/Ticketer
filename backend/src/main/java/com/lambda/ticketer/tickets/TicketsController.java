@@ -85,9 +85,12 @@ public class TicketsController {
                 break;
             }
             case SOLVE: {
-                if (ticket.getResponsible().equals(user) && ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)) {
-                    ticket.setStatus(Ticket.TicketStatus.SOLVED);
-                    ticket = ticketsRepository.save(ticket);
+                if ((ticket.getResponsible().equals(user) &&
+                    ticket.getStatus().equals(Ticket.TicketStatus.TAKEN)) ||
+                    ticket.getStatus().equals(Ticket.TicketStatus.PENDING)) {
+
+                        ticket.setStatus(Ticket.TicketStatus.SOLVED);
+                        ticket = ticketsRepository.save(ticket);
                 }
                 else
                     throw new CustomException("El ticket no es suyo");

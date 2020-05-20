@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    BrowserRouter as Router,
+    Redirect,
     Switch,
     Route
   } from "react-router-dom";
@@ -11,6 +11,9 @@ import SingIn from './sign-in';
 import './style.scss';
 
 export default function Entry ({ onLogIn, logedIn }) {
+
+    if(logedIn) return <Redirect to="/projects"/>
+    else
     return(
         <div id="entry">
                 
@@ -21,7 +24,6 @@ export default function Entry ({ onLogIn, logedIn }) {
                         <Welcome/>
                         <Loggin 
                             onLogIn={ onLogIn } 
-                            logedIn={ logedIn } 
                         />
                     
                     </Route>
@@ -31,12 +33,11 @@ export default function Entry ({ onLogIn, logedIn }) {
                         <Welcome/>
                         <SingIn 
                             onLogIn={ onLogIn } 
-                            logedIn={ logedIn }
                         />
                         
                     </Route>
 
                 </Switch>
         </div>
-    )
+    );
 }

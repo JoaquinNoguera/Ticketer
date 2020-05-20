@@ -1,0 +1,23 @@
+@import '../../vars.scss';
+
+#LoadingContainer{
+    height: calc( 100vh - 82px );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    div{
+        border: 1 solid white;
+        border-top-color: $color-secondary;
+        border-top-style: groove;
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        margin: auto;
+        animation: girar 1.5s linear infinite;
+    }
+    @keyframes  girar {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+    }
+}

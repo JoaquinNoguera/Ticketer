@@ -160,7 +160,7 @@ class PopupTicket extends React.Component {
                         className="warn small"
                         onClick={ event => {
                         event.stopPropagation();
-                        context.handleTicketDeleted(this.props.name)
+                        context.handleTicketDeleted(this.props.id)
                         .catch(errors => this.setState( { errors }) );
                         }}
                     >
@@ -254,16 +254,25 @@ class PopupTicket extends React.Component {
 
         
     onChangeShow = () => {
-        this.setState({
-            edit:false
-        });
+        
+        if(this.props.forCreate){
+            this.setState({
+                edit:false,
+                body: "",
+                header: ""
+            });
+        }else{
+            this.setState({
+                edit:false,
+            });
+        }
+        
         this.props.onChangeShow();
     }
 
     render(){
         const { show, forCreate} = this.props;
         const { name, errors } = this.state;
-        console.log(errors);
         return(
         <>
         <ErrorModal 

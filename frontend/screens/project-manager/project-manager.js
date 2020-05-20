@@ -4,6 +4,7 @@ import withRequest from '../../utils/requestService';
 import ProjectView from './project-view';
 import ProjectSettings from './project-settings';
 import ProjectContext from './project-context';
+import Loading from '../../components/Loading';
 
 class ProjectManager extends React.Component{
     
@@ -151,7 +152,7 @@ class ProjectManager extends React.Component{
 
         const { tickets, owner, members, name, loading, ownerId, projectId, userName } = this.state;
 
-        if (loading) return <h1> Cargando... </h1>
+        if (loading) return <Loading/>
 
         return(
             <ProjectContext.Provider

@@ -16,6 +16,7 @@ import UserSettings from './screens/user-settings';
 import ProtectedRoute from './components/protected-route';
 import withRequest from './utils/requestService';
 import Cookies from 'js-cookie';
+import Loading from './components/Loading';
 
 
 import './styles.scss'
@@ -25,6 +26,7 @@ class App extends React.Component {
     state = {
         logedIn: false,
         username: null,
+        loading: true,
     }
 
     constructor (props) {
@@ -40,9 +42,10 @@ class App extends React.Component {
         .then(
             response =>   this.setState({
                 username: response.name,
-                logedIn: true
+                logedIn: true,
+                loading: false,
             }))
-        .catch(_=>{});
+        .catch(_=>{this.setState({loading: false})});
     }
 
 
@@ -67,8 +70,10 @@ class App extends React.Component {
     }
 
     render () {
-        const { logedIn, username } = this.state;
-
+        const { logedIn, username, loading } = this.state;
+        console.log(loading, logedIn)
+        if(loading) return <Loading/>;
+        else
         return (
             <Router>
                 <Switch>
