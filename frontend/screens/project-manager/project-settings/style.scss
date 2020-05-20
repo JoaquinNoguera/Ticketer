@@ -7,6 +7,10 @@
         width: 100%;
         display: flex;
         justify-content: flex-end;
+
+        button {
+            margin-left: $space-1;
+        }
     }
 
     #projectSettings-options{
@@ -14,22 +18,27 @@
         flex-direction: column;
         justify-content: flex-start;
         width: 400px;
-        margin: auto;
+        margin: $space-2 auto;
 
         input, button {
             margin-top: $space-2;
         }
 
+        h3 {
+            margin-top: $space-3;
+        }
+
         input{
             width: 100%;
         }
+
         span.warn{
             width: 100%;
         }
 
         hr{
+            margin-top: $space-3;
             width: 100%;
-            margin: $space-3 0;
         }
 
         #colaborator-list{

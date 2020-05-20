@@ -144,7 +144,7 @@ const ProjectSettings = function (props) {
                 context =>
                     <div id="projectSettings">
 
-                        <h2> Setting </h2>
+                        <h2> Configuracion de proyecto </h2>
 
                         <div
                             id="projectSettings-actions"
@@ -156,8 +156,8 @@ const ProjectSettings = function (props) {
                                     className="secondary"
                                 >
                                     <FontAwesomeIcon icon={faArrowCircleLeft} className='mr1' />
-                            Volver
-                        </button>
+                                    Volver
+                                </button>
                             </Link>
 
                             <button
@@ -168,8 +168,8 @@ const ProjectSettings = function (props) {
                                 }}
                             >
                                 <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
-                        Eliminar
-                    </button>
+                                Eliminar
+                            </button>
                         </div>
 
 
@@ -178,28 +178,24 @@ const ProjectSettings = function (props) {
                                 Nombre actual: <span className="fine">{name}</span>
                             </h3>
 
-                            <div>
+                            {renameInput}
 
-                                {renameInput}
+                            <span
+                                className="warn"
+                            >
+                                {error.rename.message}
+                            </span>
 
-                                <span
-                                    className="warn"
-                                >
-                                    {error.rename.message}
-                                </span>
+                            <button
+                                className="primary"
+                                onClick={async () => {
+                                    await changeName(context.inLoading, context.newUpdate)
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faPen} className='mr1' />
+                                Renombrar
+                            </button>
 
-                                <button
-                                    className="primary"
-                                    onClick={async () => {
-                                        await changeName(context.inLoading, context.newUpdate)
-                                    }}
-                                >
-                                    <FontAwesomeIcon icon={faPen} className='mr1' />
-                                    Renombrar
-                        </button>
-
-
-                            </div>
 
                             <hr />
 
@@ -223,7 +219,7 @@ const ProjectSettings = function (props) {
                             >
                                 <FontAwesomeIcon icon={faPlus} className='mr1' />
                                 Agregar Colaborador
-                    </button>
+                            </button>
 
                             <h3> Colaboradoradores </h3>
 

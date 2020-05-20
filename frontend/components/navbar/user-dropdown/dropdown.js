@@ -15,7 +15,7 @@ class UserDropdown extends React.Component {
         if (this.childrenRef)
             this.setState({
                 dropdownStyle: {
-                    top: `${this.childrenRef.current.offsetTop + this.childrenRef.current.offsetHeight}px`,
+                    top: `${this.childrenRef.current.offsetTop + this.childrenRef.current.clientHeight}px`,
                     right: '0px'
                 }
             });

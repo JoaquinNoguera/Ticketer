@@ -53,9 +53,17 @@
         align-items: center;
         padding: $space-1 $space-3;
         
-        button.primary{
+        button {
             flex: 1;
-            margin: 0 $space-1;
+            margin-left: $space-1;
+        }
+
+        button.warn {
+            flex: 0;
+        }
+
+        button:first-child {
+            margin: 0;
         }
     }
 
@@ -66,7 +74,8 @@
 
         font-size: $font-size-m;
         position: absolute;
-        right: 5px;
+        right: $space-1;
+        top: $space-1;
         padding: 0;
         border-radius: 50%;
         height: 30px;

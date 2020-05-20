@@ -42,9 +42,13 @@ a {
 }
 
 button {
+    display: inline-block;
+
     height: 40px;
     padding: 0 $space-3;
-    margin: $space-1;
+    margin: 0;
+
+    width: max-content;
 
     border-style: none;
     border-radius: $space-1;
