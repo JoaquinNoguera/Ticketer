@@ -6,6 +6,9 @@ import ProjectContext from '../../project-context';
 import ErrorModal from '../../../../components/error-modal';
 import { categories as ticketStatus, ticketActions } from '../../../../utils';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faTimesCircle, faPlus, faCheck, faPen, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import './styles.scss';
 
 class PopupTicket extends React.Component {
@@ -90,6 +93,10 @@ class PopupTicket extends React.Component {
                             }
                         }
                     > 
+                        <FontAwesomeIcon 
+                        icon={ faPlus }
+                        className='mr1'
+                        />
                         Crear
                     </button>
         }
@@ -116,26 +123,37 @@ class PopupTicket extends React.Component {
                                         }
                                     }
                         > 
+                            <FontAwesomeIcon 
+                            icon={ faSave }
+                            className='mr1'
+                            />
                             Guardar 
                         </button>;
         }
         return <button
                     className="secondary small" 
                     onClick={this.onChangeEdit}
-                > 
+                >
+                    <FontAwesomeIcon 
+                        icon={ faPen }
+                        className='mr1'
+                        />
                     Editar 
                 </button>
     }
 
     renderActionButton = (context) => {
-        const {status, owner} = this.props;
-        const {edit} = this.state;
-        if( !owner  && status === ticketStatus.TAKEN ) return null;
-        if(edit)  return   <div
+        const { status, owner } = this.props;
+        const { edit } = this.state;
+
+        if (!owner && status === ticketStatus.TAKEN) return null;
+
+        if (edit)  return   <div
                                 id="popup-actions"
                             >
                                 <h3> Editando... </h3>
                             </div>
+
         const actionButton =    {
             delete: <button
                         key="dalete"
@@ -145,8 +163,10 @@ class PopupTicket extends React.Component {
                         context.handleTicketDeleted(this.props.name)
                         .catch(errors => this.setState( { errors }) );
                         }}
-                    > 
-                        x
+                    >
+                        <FontAwesomeIcon 
+                        icon={ faTrash }
+                        />
                     </button>,
 
             take: <button
@@ -158,6 +178,10 @@ class PopupTicket extends React.Component {
                         .catch(errors => this.setState({ errors }));
                         }}
                     >
+                        <FontAwesomeIcon 
+                        icon={ faPlus }
+                        className='mr1'
+                        />
                         Tomar 
                     </button>,
     
@@ -170,33 +194,46 @@ class PopupTicket extends React.Component {
                         .catch(errors => this.setState({ errors }));
                         }}
                     > 
+                        <FontAwesomeIcon 
+                        icon={ faTimesCircle }
+                        className='mr1'
+                        />
                         Dejar
                     </button>,
 
-                    markSolved: <button
-                                    key="markSolved"
-                                    className= "primary small"
-                                    onClick={ (event) => {
-                                    event.stopPropagation();
-                                    context.handleTicketAction(this.props.id, ticketActions.SOLVE)
-                                    .catch(errors => this.setState({ errors }));
-                                    }}
-                                >
-                                    Terminar
-                                </button>,
+            markSolved: <button
+                            key="markSolved"
+                            className= "primary small"
+                            onClick={ (event) => {
+                            event.stopPropagation();
+                            context.handleTicketAction(this.props.id, ticketActions.SOLVE)
+                            .catch(errors => this.setState({ errors }));
+                            }}
+                        >
+                            <FontAwesomeIcon 
+                            icon={ faCheck }
+                            className='mr1'
+                            />
+                            Terminar
+                        </button>,
 
-                    restore: <button
-                                key="restore"
-                                className="primary small"
-                                onClick={ (event) => {
-                                event.stopPropagation();
-                                context.handleTicketAction(this.props.id, ticketActions.DROP)
-                                .catch(errors => this.setState({ errors }));
-                                }}
-                            > 
-                             Restaurar 
-                             </button>
+            restore: <button
+                        key="restore"
+                        className="primary small"
+                        onClick={ (event) => {
+                        event.stopPropagation();
+                        context.handleTicketAction(this.props.id, ticketActions.DROP)
+                        .catch(errors => this.setState({ errors }));
+                        }}
+                    > 
+                        <FontAwesomeIcon 
+                        icon={ faPlus }
+                        className='mr1'
+                        />
+                        Restaurar 
+                    </button>
         }
+
         const renderButtons = () => {
             switch(status) {
                 case ticketStatus.PENDING:
@@ -247,7 +284,9 @@ class PopupTicket extends React.Component {
                             className="popup__ticket--close"
                             onClick={this.onChangeShow}
                         >
-                            X
+                            <FontAwesomeIcon 
+                            icon={ faTimes }
+                            />
                         </button>
 
                         <h2> { (forCreate) ? ('Nuevo Ticket') : (`# ${name}`)} </h2>

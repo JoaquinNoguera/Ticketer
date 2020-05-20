@@ -5,6 +5,9 @@ import PopupTicket from './popup-ticket'
 import Tickets from './tickets';
 import ProjectContext from '../project-context';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleLeft, faCog } from '@fortawesome/free-solid-svg-icons';
+
 import './styles.scss'
 
 class ProjectView extends React.Component {
@@ -50,6 +53,10 @@ class ProjectView extends React.Component {
                             <button
                                 className="secondary"
                             > 
+                                <FontAwesomeIcon 
+                                icon={ faCog }
+                                className='mr1'
+                                />
                                 Configurar
                             </button>
                         </Link>
@@ -59,7 +66,11 @@ class ProjectView extends React.Component {
                     <Link to='/projects' >
                         <button
                             className="secondary"
-                        > 
+                        >
+                            <FontAwesomeIcon 
+                            icon={ faArrowCircleLeft }
+                            className='mr1'
+                            />
                             Volver 
                         </button>
                     </Link>

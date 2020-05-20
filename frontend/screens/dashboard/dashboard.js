@@ -4,6 +4,9 @@ import CreateProyectModal from './create-proyect-modal';
 import whitRequest from '../../utils/requestService';
 import { onChangeState } from '../../utils/utils';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+
 import './styles.scss';
 
 class Dashboard extends React.Component {
@@ -85,7 +88,8 @@ class Dashboard extends React.Component {
                     id='dashboard-create-proyect'
                     className='secondary'
                     onClick={ this.handleCreateProyectClick }>
-                        + Crear proyecto 
+                        <FontAwesomeIcon icon={ faPlus } className='mr1' />
+                        Crear proyecto 
                     </button>
 
                     <input 

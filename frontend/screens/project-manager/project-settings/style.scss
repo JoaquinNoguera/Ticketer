@@ -16,12 +16,8 @@
         width: 400px;
         margin: auto;
 
-        *{
+        input, button {
             margin-top: $space-2;
-        }
-
-        button.primary{
-            width: 200px;
         }
 
         input{

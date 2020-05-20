@@ -2,11 +2,14 @@ import React from 'react';
 import Modal from '../../../components/modal';
 import useInput from '../../../utils/useInput';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+
 import './styles.scss';
 
-function CreateProyectModal (props){
+function CreateProyectModal(props) {
 
-    const [ project, projectInput ] = useInput(
+    const [project, projectInput] = useInput(
         {
             init: '',
             id: 'create-proyect-modal-input'
@@ -17,33 +20,35 @@ function CreateProyectModal (props){
 
     return (
         <Modal
-        className='dashboard-create_proyect-modal'
-        { ...otherProps }
-        onFocusLoss={ onCancel }
+            className='dashboard-create_proyect-modal'
+            {...otherProps}
+            onFocusLoss={onCancel}
         >
-            <h3> Agregar producto </h3>
+            <h3> Agregar proyecto </h3>
 
-            { projectInput }
+            {projectInput}
 
             <div id='create-proyect-modal-actions'>
-                <button 
+                <button
                     id='create-proyect-modal-close'
-                    className="warn small" 
-                    onClick={ onCancel }
-                > 
+                    className="warn small"
+                    onClick={onCancel}
+                >
+                    <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
                     Cancelar
                 </button>
-                
-                <button 
-                    id='create-proyect-modal-button' 
+
+                <button
+                    id='create-proyect-modal-button'
                     className="primary small"
-                    onClick={ () => onAccept(project) }
-                > 
-                    Aceptar 
+                    onClick={() => onAccept(project)}
+                >
+                    <FontAwesomeIcon icon={faCheck} className='mr1' />
+                    Aceptar
                 </button>
             </div>
 
-        
+
         </Modal>
     );
 }

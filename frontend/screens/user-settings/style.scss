@@ -21,11 +21,12 @@
         display: flex;
         flex-direction: column;
         width: 400px;
+
         button{
             margin-top: $space-3;
-            width: 150px;
         }
-        *{
+
+        input, button {
             margin-top: $space-2;
         }
     }

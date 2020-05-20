@@ -1,10 +1,13 @@
 import React from 'react';
 import useInput from '../../utils/useInput';
 import whitRequest from '../../utils/requestService';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowCircleLeft, faPen } from '@fortawesome/free-solid-svg-icons';
+
 import './style.scss';
 
-function UserSettings(props){
+function UserSettings(props) {
 
     const initError = {
         oldPassword: {
@@ -21,15 +24,15 @@ function UserSettings(props){
         }
     };
 
-    const [error,setError] = React.useState(initError);
-    
+    const [error, setError] = React.useState(initError);
+
     const [oldPassword, oldPasswordInput] = useInput(
         {
             init: "",
-            type:"password",
-            placeholder:"Contraseña vieja",
+            type: "password",
+            placeholder: "Contraseña vieja",
             className: (error["oldPassword"].state) ? "warn" : ""
-            
+
         }
     )
 
@@ -37,70 +40,71 @@ function UserSettings(props){
     const [password, passwordInput] = useInput(
         {
             init: "",
-            placeholder:"nueva contraseña",
-            type:"password",
+            placeholder: "nueva contraseña",
+            type: "password",
             className: (error["password"].state) ? "warn" : ""
-            
+
         }
     )
 
     const [passwordConfirm, passwordConfirmInput] = useInput(
         {
             init: "",
-            placeholder:"repetir contraseña",
-            type:"password"
-            
+            placeholder: "repetir contraseña",
+            type: "password"
+
         }
     )
 
-    const {httpRequest} = props;
-    
+    const { httpRequest } = props;
 
 
 
-    const changePassword = async() => {
-        try{
-            if(password === passwordConfirm){
-            await httpRequest('/api/users', {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    oldPassword: oldPassword,
-                    password: password
-                })
-            });
 
-        } else {
-            throw [{
-                message: "las contraseñas no coinciden",
-                field: "password"
-            }]
-        } } catch(err){
-            const newError = Object.assign({},initError);
-            if(Array.isArray(err)){
-                err.map(e => 
+    const changePassword = async () => {
+        try {
+            if (password === passwordConfirm) {
+                await httpRequest('/api/users', {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        oldPassword: oldPassword,
+                        password: password
+                    })
+                });
+
+            } else {
+                throw [{
+                    message: "las contraseñas no coinciden",
+                    field: "password"
+                }]
+            }
+        } catch (err) {
+            const newError = Object.assign({}, initError);
+            if (Array.isArray(err)) {
+                err.map(e =>
                     newError[e.field] = {
                         state: true,
                         message: e.message
                     }
                 );
-            }else{
+            } else {
                 newError["generic"] = {
                     state: true,
                     message: err.message
                 }
             }
-            if(error != newError){
+            if (error != newError) {
                 setError(newError)
             }
         }
     }
 
 
-    return(
+    return (
         <div
             id="userSettings"
         >
-       
+
             <h2>
                 Configuración de usuario
             </h2>
@@ -108,17 +112,18 @@ function UserSettings(props){
             <div
                 id="userSettings-actions"
             >
-                <Link 
+                <Link
                     to="/projects"
                 >
                     <button
                         className="secondary"
-                    >            
+                    >
+                        <FontAwesomeIcon icon={faArrowCircleLeft} className='mr1' />
                         Volver
                     </button>
                 </Link>
             </div>
-            
+
             <div
                 id="userSettings-form"
             >
@@ -128,33 +133,34 @@ function UserSettings(props){
 
                 <span
                     className="warn"
-                > 
-                    { error.generic.message } 
+                >
+                    {error.generic.message}
                 </span>
 
                 {oldPasswordInput}
 
                 <span
                     className="warn"
-                > 
-                    { error.oldPassword.message } 
-                </span> 
+                >
+                    {error.oldPassword.message}
+                </span>
 
                 {passwordInput}
 
                 <span
                     className="warn"
-                > 
-                    { error.password.message } 
+                >
+                    {error.password.message}
                 </span>
 
                 {passwordConfirmInput}
-                
+
                 <button
                     className="primary"
                     onClick={changePassword}
                 >
-                    Renombrar
+                    <FontAwesomeIcon icon={faPen} className='mr1' />
+                    Cambiar contraseña
                 </button>
             </div>
         </div>

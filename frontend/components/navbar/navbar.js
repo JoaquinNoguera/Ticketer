@@ -1,6 +1,9 @@
 import React from 'react';
 import UserDropdown from './user-dropdown';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle } from '@fortawesome/free-solid-svg-icons';
+
 import './styles.scss';
 
 class NavBar extends React.Component {
@@ -29,7 +32,11 @@ class NavBar extends React.Component {
                     onLogOut={ this.props.onLogOut }
                     close={ this.handleUserButtonClick}
                 >
-                    <button onClick={ this.handleUserButtonClick } id='navbar--user-button'> 
+                    <button onClick={ this.handleUserButtonClick } id='navbar--user-button'>
+                        <FontAwesomeIcon 
+                        icon={ faUserCircle }
+                        className='mr1'
+                        />
                         { userName } 
                     </button>
                 </UserDropdown>
