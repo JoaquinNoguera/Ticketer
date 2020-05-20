@@ -28,31 +28,31 @@ class UserDropdown extends React.Component {
 
         if (show) {
             toRender.push(ReactDOM.createPortal(
-
-                <div id='navbar-user-dropdown' style={this.state.dropdownStyle}>
-                    <Link
-                        to="/user/setting"
-                        onClick={close}
-                    >
-                        <div
-                            className='navbar-user-dropdown-item'
+                <div id='user-dropdown--background' onClick={close}>
+                    <div id='navbar-user-dropdown' style={this.state.dropdownStyle}>
+                        <Link
+                            to="/user/setting"
                         >
-                            <FontAwesomeIcon icon={faCog} className='mr1' />
-                            Configuración
-                        </div>
-                    </Link>
+                            <div
+                                className='navbar-user-dropdown-item'
+                            >
+                                <FontAwesomeIcon icon={faCog} className='mr1' />
+                                Configuración
+                            </div>
+                        </Link>
 
-                    <Link
-                        to='/login'
-                    >
-                        <div
-                            className='navbar-user-dropdown-item'
-                            onClick={onLogOut}
+                        <Link
+                            to='/login'
                         >
-                            <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
-                            Cerrar sesion
-                        </div>
-                    </Link>
+                            <div
+                                className='navbar-user-dropdown-item'
+                                onClick={onLogOut}
+                            >
+                                <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
+                                Cerrar sesion
+                            </div>
+                        </Link>
+                    </div>
                 </div>
 
                 , document.getElementById('popup-root')));

@@ -18,26 +18,26 @@ class NavBar extends React.Component {
         ));
     }
 
-    render () {
+    render() {
         const userName = 'Usuario';
         const { showUserDropdown } = this.state;
-    
+
         return (
             <div id='navbar' >
                 <h1> TICKETER </h1>
-                
-                <UserDropdown 
-                    id='navbar-username' 
-                    show={ showUserDropdown }
-                    onLogOut={ this.props.onLogOut }
-                    close={ this.handleUserButtonClick}
+
+                <UserDropdown
+                    id='navbar-username'
+                    show={showUserDropdown}
+                    onLogOut={this.props.onLogOut}
+                    close={this.handleUserButtonClick}
                 >
-                    <button onClick={ this.handleUserButtonClick } id='navbar--user-button'>
-                        <FontAwesomeIcon 
-                        icon={ faUserCircle }
-                        className='mr1'
+                    <button onClick={this.handleUserButtonClick} id='navbar--user-button'>
+                        <FontAwesomeIcon
+                            icon={faUserCircle}
+                            className='mr1'
                         />
-                        { userName } 
+                        {userName}
                     </button>
                 </UserDropdown>
             </div>
