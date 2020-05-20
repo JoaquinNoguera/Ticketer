@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect} from "react";
 
 export default function useInput({ init, ...otherProps }) {
 
@@ -6,7 +6,10 @@ export default function useInput({ init, ...otherProps }) {
 
   const input = <input 
   { ...otherProps } 
-  onChange={e=> setValue(e.target.value)}
+  onChange={e=> {
+    if(e.target.className === "warn") e.target.className="";
+    setValue(e.target.value)
+  }}
   />
 
   return [ value, input ];

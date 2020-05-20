@@ -1,6 +1,5 @@
 import React from 'react';
 import useInput from '../../../utils/useInput';
-import { Redirect } from 'react-router-dom';
 import withRequest from '../../../utils/requestService';
 
 function SingIn (props){
@@ -84,7 +83,6 @@ function SingIn (props){
     }
 
 
-    if (props.logedIn) return <Redirect to='projects' />
         
     return(
         <div className="entry--container">

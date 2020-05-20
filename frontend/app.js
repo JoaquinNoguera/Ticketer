@@ -16,6 +16,7 @@ import UserSettings from './screens/user-settings';
 import ProtectedRoute from './components/protected-route';
 import withRequest from './utils/requestService';
 import Cookies from 'js-cookie';
+import Loading from './components/Loading';
 
 
 import './styles.scss'
@@ -74,7 +75,7 @@ class App extends React.Component {
         const { logedIn, username, awaitingAuthResponse } = this.state;
 
         if (awaitingAuthResponse) {
-            return 'Cargando';
+            return <Loading/>;;
         }
 
         return (
