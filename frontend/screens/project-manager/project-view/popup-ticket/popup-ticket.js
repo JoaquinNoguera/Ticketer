@@ -160,8 +160,7 @@ class PopupTicket extends React.Component {
             delete: <ConfirmationButton
                 key="delete"
                 className="warn small"
-                onConfirm={event => {
-                    event.stopPropagation();
+                onConfirm={_ => {
                     context.handleTicketDeleted(this.props.id)
                         .catch(errors => this.setState({ errors }));
                 }}
