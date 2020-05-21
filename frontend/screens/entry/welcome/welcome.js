@@ -1,4 +1,5 @@
 import React from 'react';
+import svg from './../../../components/logo'
 import './style.scss';
 import { withRouter } from "react-router";
 
@@ -20,6 +21,8 @@ function Welcome(props) {
             <h1 id="welcome__title">
                 Bienvenido a TICKETER
             </h1>
+            
+            { svg }
 
             <button
                 id="loggin__button" 
