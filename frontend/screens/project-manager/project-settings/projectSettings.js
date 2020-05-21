@@ -8,6 +8,8 @@ import ProjectContext from '../project-context';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowCircleLeft, faTimesCircle, faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import ConfirmationButton from '../../../components/confirmation-button';
+
 const ProjectSettings = function (props) {
 
     const { owner, members, name, httpRequest, ownerId } = props;
@@ -160,16 +162,17 @@ const ProjectSettings = function (props) {
                                 </button>
                             </Link>
 
-                            <button
+                            <ConfirmationButton
                                 className="warn"
-                                onClick={async () => {
+                                onConfirm={async () => {
                                     context.inLoading();
                                     await deleteProject();
                                 }}
+                                message='¿Está seguro que desea eliminar el proyecto y todos sus tickets?'
                             >
                                 <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
                                 Eliminar
-                            </button>
+                            </ConfirmationButton>
                         </div>
 
 

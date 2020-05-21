@@ -6,6 +6,8 @@ import ProjectContext from '../../project-context';
 import ErrorModal from '../../../../components/error-modal';
 import { categories as ticketStatus, ticketActions } from '../../../../utils';
 
+import ConfirmationButton from '../../../../components/confirmation-button';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faTimesCircle, faPlus, faCheck, faPen, faSave, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -138,8 +140,8 @@ class PopupTicket extends React.Component {
                 icon={faPen}
                 className='mr1'
             />
-                    Editar
-                </button>
+            Editar
+        </button>
     }
 
     renderActionButton = (context) => {
@@ -155,19 +157,20 @@ class PopupTicket extends React.Component {
         </div>
 
         const actionButton = {
-            delete: <button
-                        key="dalete"
-                        className="warn small"
-                        onClick={ event => {
-                        event.stopPropagation();
-                        context.handleTicketDeleted(this.props.id)
-                        .catch(errors => this.setState( { errors }) );
-                        }}
-                    >
-                        <FontAwesomeIcon 
-                        icon={ faTrash }
-                        />
-                    </button>,
+            delete: <ConfirmationButton
+                key="delete"
+                className="warn small"
+                onConfirm={event => {
+                    event.stopPropagation();
+                    context.handleTicketDeleted(this.props.id)
+                        .catch(errors => this.setState({ errors }));
+                }}
+                message='¿Está seguro que desea borrar este ticket?'
+            >
+                <FontAwesomeIcon
+                    icon={faTrash}
+                />
+            </ConfirmationButton>,
 
             take: <button
                 key="take"
@@ -259,19 +262,19 @@ class PopupTicket extends React.Component {
     }
 
     onChangeShow = () => {
-        
-        if(this.props.forCreate){
+
+        if (this.props.forCreate) {
             this.setState({
-                edit:false,
+                edit: false,
                 body: "",
                 header: ""
             });
-        }else{
+        } else {
             this.setState({
-                edit:false,
+                edit: false,
             });
         }
-        
+
         this.props.onChangeShow();
     }
 
