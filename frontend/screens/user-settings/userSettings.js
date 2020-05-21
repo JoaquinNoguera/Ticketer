@@ -58,7 +58,8 @@ function UserSettings(props) {
 
     const { httpRequest } = props;
 
-
+    
+    const [changeMessage, setChangeMessage] = React.useState(false);
 
 
     const changePassword = async () => {
@@ -71,7 +72,7 @@ function UserSettings(props) {
                         password: password
                     })
                 });
-
+                setChangeMessage("La contraseña ha sido cambiada exitosamente");
             } else {
                 throw [{
                     message: "las contraseñas no coinciden",
@@ -154,7 +155,8 @@ function UserSettings(props) {
                 </span>
 
                 {passwordConfirmInput}
-
+                
+                
                 <button
                     className="primary"
                     onClick={changePassword}
@@ -162,6 +164,13 @@ function UserSettings(props) {
                     <FontAwesomeIcon icon={faPen} className='mr1' />
                     Cambiar contraseña
                 </button>
+
+                <span
+                    className="successful"
+                >
+                    {changeMessage}
+                </span>
+
             </div>
         </div>
     )
