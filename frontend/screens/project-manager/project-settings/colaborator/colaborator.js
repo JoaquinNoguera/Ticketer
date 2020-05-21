@@ -2,9 +2,12 @@ import React from 'react';
 import withRequest from '../../../../utils/requestService';
 import ProjectContext from '../../project-context';
 import { withRouter } from 'react-router-dom';
-import './style.scss';
 
 import ConfirmationButton from '../../../../components/confirmation-button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
+import './style.scss';
 
 function Colaborator(props) {
 
@@ -43,7 +46,7 @@ function Colaborator(props) {
                         }}
                         message='¿Está seguro que desea eliminar este miembro del proyecto?'
                     >
-                        X
+                        <FontAwesomeIcon icon={faTimes} />
                     </ConfirmationButton>
 
                 </div>
