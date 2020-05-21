@@ -1,18 +1,22 @@
 import React from 'react';
-import withRequest from'../../../../utils/requestService';
+import withRequest from '../../../../utils/requestService';
 import ProjectContext from '../../project-context';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+
+import ConfirmationButton from '../../../../components/confirmation-button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+
 import './style.scss';
 
 function Colaborator(props) {
 
-    const {name, httpRequest} = props;
-
+    const { name, httpRequest } = props;
 
     const deleteColaborator = async () => {
         const project = await httpRequest(
-            `/api/users/projects/${ props.match.params.projectId }`, 
-            {   
+            `/api/users/projects/${props.match.params.projectId}`,
+            {
                 method: 'PATCH',
                 body: JSON.stringify({
                     action: 'REMOVE_MEMBER',
@@ -25,23 +29,25 @@ function Colaborator(props) {
     }
 
 
-    return(
+    return (
         <ProjectContext.Consumer>
             {context =>
-            <div
-                id="colaborator"
-            >
+                <div
+                    id="colaborator"
+                >
                     <p>
                         {name}
                     </p>
-                    <button
-                        onClick={async()=>{
+
+                    <ConfirmationButton
+                        onConfirm={async () => {
                             context.inLoading();
-                            context.newUpdate( await deleteColaborator())
+                            context.newUpdate(await deleteColaborator())
                         }}
-                        >
-                        X
-                    </button>
+                        message='¿Está seguro que desea eliminar este miembro del proyecto?'
+                    >
+                        <FontAwesomeIcon icon={faTimes} />
+                    </ConfirmationButton>
 
                 </div>
             }
