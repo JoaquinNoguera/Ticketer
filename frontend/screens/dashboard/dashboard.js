@@ -3,7 +3,7 @@ import Proyect from './proyect';
 import CreateProyectModal from './create-proyect-modal';
 import whitRequest from '../../utils/requestService';
 import { onChangeState } from '../../utils/utils';
-
+import Loading from '../../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -65,7 +65,7 @@ class Dashboard extends React.Component {
 
         const { projects, showCreateProyectModal, loading, search } = this.state;
 
-        if (loading) return <h1>Cargando</h1>;
+        if(loading) return <Loading/>;
 
 
         const re = new RegExp(`(${search.toUpperCase()})`);

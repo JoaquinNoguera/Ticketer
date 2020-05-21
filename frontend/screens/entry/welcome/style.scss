@@ -6,14 +6,22 @@
     height: 500px;
     width: 400px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     border-radius: 30px 0 0 30px;
+
+    svg {
+        width: 250px;
+        height: 250px;
+    }
 }
 
 #welcome__title{
     font-size: 2em;
     color: $color-text-dark;
+    margin: $space-1;
+    text-align: center;
 }
 
 .welcome__button{

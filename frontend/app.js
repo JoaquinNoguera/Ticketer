@@ -17,7 +17,7 @@ import ProtectedRoute from './components/protected-route';
 import withRequest from './utils/requestService';
 import Cookies from 'js-cookie';
 import Loading from './components/Loading';
-
+import NotFound from './screens/not-found';
 
 import './styles.scss'
 
@@ -117,6 +117,7 @@ class App extends React.Component {
                                     name={username}
                                 />
                             </Route>
+                            <Route component={NotFound}/>
 
                         </Switch>
                     </ProtectedRoute>
