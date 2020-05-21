@@ -10,7 +10,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './styles.scss';
 
 class Dashboard extends React.Component {
-    
+
     state = {
         showCreateProyectModal: false,
         projects: [],
@@ -18,19 +18,19 @@ class Dashboard extends React.Component {
         search: ''
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.httpRequest('/api/users/projects', {
             method: 'GET',
         })
-        .then(projects => {
-            this.setState({
-                projects: projects,
-                loading: false
-            });
-        })
-        .catch(this.props.errorHandler(_ => {
-            console.log('error in dashboad.js');
-        }));
+            .then(projects => {
+                this.setState({
+                    projects: projects,
+                    loading: false
+                });
+            })
+            .catch(this.props.errorHandler(_ => {
+                console.log('error in dashboad.js');
+            }));
     }
 
     handleCreateProyectClick = () => {
@@ -42,73 +42,74 @@ class Dashboard extends React.Component {
     }
 
     handleCreateProject = (projectName) => {
-        
+
         this.setState({ showCreateProyectModal: false });
-        
+
         this.props.httpRequest(
-        '/api/users/projects',
-        {
-            method: 'POST',
-            body: JSON.stringify({ projectName })
-        })
-        .then(project => {
-            this.setState(state => ({
-                projects: [ ...state.projects, project ]
-            }));
-        })
-        .catch(_ => {
-            console.log('error in dashboard.js');
-        });
+            '/api/users/projects',
+            {
+                method: 'POST',
+                body: JSON.stringify({ projectName })
+            })
+            .then(project => {
+                this.setState(state => ({
+                    projects: [...state.projects, project]
+                }));
+            })
+            .catch(_ => {
+                console.log('error in dashboard.js');
+            });
     }
 
-    render () {
+    render() {
+
         const { projects, showCreateProyectModal, loading, search } = this.state;
 
-        if(loading) return <h1>Cargando</h1>;
+        if (loading) return <h1>Cargando</h1>;
 
 
         const re = new RegExp(`(${search.toUpperCase()})`);
 
         const projectList = projects.map(project => {
-            if(search === "" || project.name.toUpperCase().search(re) !== -1){
+            if (search === "" || project.name.toUpperCase().search(re) !== -1) {
                 return <Proyect
-                    key={ project.id }
-                    id={ project.id }
-                    name={ project.name }
+                    key={project.id}
+                    id={project.id}
+                    name={project.name}
                 />
             }
-        }); 
+        });
 
         return (
             <div id='dashboard' >
                 <h2> Proyectos </h2>
 
                 <div id="dashboard-actions">
-                    <button 
-                    id='dashboard-create-proyect'
-                    className='secondary'
-                    onClick={ this.handleCreateProyectClick }>
-                        <FontAwesomeIcon icon={ faPlus } className='mr1' />
-                        Crear proyecto 
+                    <button
+                        id='dashboard-create-proyect'
+                        className='secondary'
+                        onClick={this.handleCreateProyectClick}>
+                        <FontAwesomeIcon icon={faPlus} className='mr1' />
+                        Crear proyecto
                     </button>
 
-                    <input 
+                    <input
                         value={search}
                         onChange={(e) => {
-                                onChangeState.call(this,e,"search");
+                            onChangeState.call(this, e, "search");
                         }}
                         placeholder='Escriba para buscar'
                     />
                 </div>
 
-                <CreateProyectModal 
-                show={ showCreateProyectModal } 
-                onAccept={ this.handleCreateProject } 
-                onCancel={ this.handleCreateProyectCanceled } 
+                <CreateProyectModal
+                    show={showCreateProyectModal}
+                    onAccept={this.handleCreateProject}
+                    onCancel={this.handleCreateProyectCanceled}
                 />
 
                 <div>
-                    {  projectList }
+                    {projectList}
                 </div>
             </div>
         );

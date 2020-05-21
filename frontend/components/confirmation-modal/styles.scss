@@ -1,0 +1,23 @@
+@import "../../vars.scss";
+
+.confirmation-modal {
+    padding: $space-2 $space-3;
+    max-width: 200px;
+
+    background-color: $color-background;
+    border-radius: $space-2;
+
+    h3 {
+        margin-bottom: $space-2;
+        font-size: 1.2em;
+    }
+}
+
+.confirmation-modal--actions {
+    display: flex;
+    justify-content: flex-end;
+
+    button.warn {
+        margin-left: $space-1;
+    }
+}
