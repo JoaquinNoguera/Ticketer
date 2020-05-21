@@ -77,7 +77,7 @@ class App extends React.Component {
         if (awaitingAuthResponse) {
             return <Loading/>;;
         }
-
+        else
         return (
             <Router>
                 <Switch>

@@ -42,7 +42,7 @@ class ProjectManager extends React.Component{
 
     newUpdate = (project) => {
         const { name } = this.props;
-
+        console.log(project, name);
         this.setState({
             tickets: project.tickets,
             owner: (project.owner.name === name),
@@ -153,7 +153,7 @@ class ProjectManager extends React.Component{
         const { tickets, owner, members, name, loading, ownerId, projectId, userName } = this.state;
 
         if (loading) return <Loading/>
-
+        else{
         return(
             <ProjectContext.Provider
                 value = {{
@@ -191,7 +191,7 @@ class ProjectManager extends React.Component{
 
                 </Switch>
             </ProjectContext.Provider>
-        )
+        )}
     }
 }
 

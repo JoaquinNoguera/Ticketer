@@ -112,6 +112,16 @@ span.warn{
     font-size: $font-size-s;
 }
 
+span.successful{
+    margin: $space-3;
+    width: 100%;
+    height: $font-size-s;
+    display: inline-block;
+    padding-left: $space-3;
+    color: $color-secondary;
+    font-size: $font-size;
+}
+
 span.fine{
     font-weight: 400;
 }

@@ -20,7 +20,7 @@ function Colaborator(props) {
                 })
             }
         );
-
+        console.log(project);
         return project;
     }
 
@@ -34,11 +34,10 @@ function Colaborator(props) {
                     <p>
                         {name}
                     </p>
-                    
                     <button
-                        onClick={()=>{
+                        onClick={async()=>{
                             context.inLoading();
-                            context.newUpdate(deleteColaborator())
+                            context.newUpdate( await deleteColaborator())
                         }}
                         >
                         X

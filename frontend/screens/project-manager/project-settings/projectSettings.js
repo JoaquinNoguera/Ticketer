@@ -94,7 +94,6 @@ const ProjectSettings = function (props) {
                     })
                 }
             );
-            console.log(project);
             inLoading();
             newUpdate(project);
 
@@ -139,7 +138,6 @@ const ProjectSettings = function (props) {
         else return null;
     });
 
-    console.log(listColaborator)
     return (
         <ProjectContext.Consumer>
             {

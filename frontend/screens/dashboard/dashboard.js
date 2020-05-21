@@ -67,9 +67,6 @@ class Dashboard extends React.Component {
 
         if(loading) return <Loading/>;
 
-
-
- 
         const re = new RegExp(`(${search.toUpperCase()})`);
 
         const projectList = projects.map(project => {
