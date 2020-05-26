@@ -3,6 +3,7 @@ package com.lambda.ticketer.users;
 import com.lambda.ticketer.exceptions.CustomException;
 import com.lambda.ticketer.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -20,9 +21,13 @@ public class UsersController {
     @Autowired
     JwtUtils jwt;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @PostMapping("/api/users")
     public Boolean createUser(@Valid @RequestBody User user, HttpServletResponse response) {
 
+        user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
         user = usersRepository.save(user);
 
         final String token = jwt.generateToken(user.getName());
@@ -41,8 +46,8 @@ public class UsersController {
         User user = usersRepository.findByName(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("No se encuentra el usuario "+ principal.getName()));
 
-        if (user.getPasswordHash().equals(passwordRequest.getOldPassword())) {
-            user.setPasswordHash(passwordRequest.getPassword());
+        if (passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPasswordHash())) {
+            user.setPasswordHash(passwordEncoder.encode(passwordRequest.getPassword()));
             usersRepository.save(user);
 
             return true;
