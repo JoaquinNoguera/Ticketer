@@ -4,46 +4,46 @@ import './style.scss';
 import { withRouter } from "react-router";
 
 function Welcome(props) {
-    const {history} = props;
+    const { history } = props;
 
-    function goLoggin(){
+    function goLoggin() {
         history.push('/loggin')
     }
 
 
-    function goSingIn(){
+    function goSingIn() {
         history.push('/singin')
     }
 
-    return(
+    return (
         <div id="welcome">
 
             <h1 id="welcome__title">
                 Bienvenido a TICKETER
             </h1>
-            
-            { svg }
+
+            {svg}
 
             <button
-                id="loggin__button" 
+                id="loggin__button"
                 className={
-                    (props.location.pathname === '/loggin') ? 
-                    ("welcome__button welcome__button--active") : ("welcome__button")
+                    (props.location.pathname === '/loggin') ?
+                        ("welcome__button welcome__button--active") : ("welcome__button")
                 }
                 onClick={goLoggin}
             >
-                        Ingresar
+                Ingresar
             </button>
-            
-            <button 
+
+            <button
                 id="singIn__button"
                 className={
-                    (props.location.pathname === '/singin') ? 
-                    ("welcome__button welcome__button--active") : ("welcome__button")
+                    (props.location.pathname === '/singin') ?
+                        ("welcome__button welcome__button--active") : ("welcome__button")
                 }
                 onClick={goSingIn}
             >
-                        Crear cuenta
+                Crear cuenta
             </button>
         </div>
     )
