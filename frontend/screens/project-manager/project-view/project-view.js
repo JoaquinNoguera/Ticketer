@@ -41,7 +41,7 @@ class ProjectView extends React.Component {
             {
                 context=>  
             <div id='proyect_view'>
-                <h2> Titulo del proyecto </h2>
+                <h2>{ context.projectName }</h2>
 
                 <div id="proyect_view-actions">
                     {

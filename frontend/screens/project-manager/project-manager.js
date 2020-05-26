@@ -165,6 +165,7 @@ class ProjectManager extends React.Component{
                     handleUpdateTicket: this.handleUpdateTicket,
                     tickets: tickets,
                     projectId: projectId,
+                    projectName: name,
                     userName: userName,
                 }}
             >
