@@ -23,3 +23,19 @@
     flex-grow: 1;
     margin-right: $space-3;
 }
+
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px) {
+    #dashboard-actions{
+        flex-direction: column;
+        
+        button{
+            width: 100%;
+            margin: $space-1 0;
+        }
+
+        input{
+            margin: $space-1 0;
+        }
+    }
+}

@@ -33,3 +33,25 @@
 .entry--input{
     width: 308px;
 }
+
+.entry--link{
+    font-size: 0.8em;
+    a{
+        margin-left: $space-1;
+        color: $color-secondary
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px), 
+screen and (min-device-height: 320px) and (max-device-height: 556px) {
+    
+    .entry--container{
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .entry--input{
+        width: 80%;
+    }
+}

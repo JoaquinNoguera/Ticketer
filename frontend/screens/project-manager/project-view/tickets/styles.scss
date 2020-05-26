@@ -34,3 +34,14 @@
     flex-wrap: wrap;
     align-content: flex-start;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px){
+    #tickets-actions{
+        max-width: 90%;
+        .tickets__tab{
+            flex: 1;
+            padding: $space-1;
+            text-align: center;
+        }
+    }
+}

@@ -49,3 +49,26 @@
     }
 }
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px){
+    #projectSettings{
+        #projectSettings-actions{
+            width: 100%;
+            flex-direction: column;
+            a{
+                width: 100%;
+            }
+            button{
+                width: 100%;
+                margin: $space-1 0;
+            }
+        }
+        #projectSettings-options{
+            margin-top: $space-1;
+            width: 100%;
+            input{
+                max-width: calc( 100% - 42px);
+            }
+        }
+    }
+}
+

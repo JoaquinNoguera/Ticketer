@@ -5,6 +5,8 @@
     width: 400px;
     border-radius: $space-3;
     background-color: $color-background;
+    max-width: 90vw;
+    max-height: 90vh;
     padding: 0;
     display: flex;
     flex-direction: column;
@@ -97,4 +99,25 @@
             margin: $space-1 0;
         }
     }
+}
+
+@media only screen and (min-device-height: 320px) and (max-device-height: 556px){
+    #popup-ticket {
+        h2{
+            margin: $space-2 0 0 $space-2;
+        }
+        textarea.header {    
+            height: 30px;
+        }
+        textarea.description{
+            height: 80px;
+        }
+        .popup__content{
+            margin: $space-2 0;
+        }
+    }
+
+    
+
+
 }
