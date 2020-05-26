@@ -93,6 +93,7 @@ class App extends React.Component {
                     >
                         <NavBar
                             onLogOut={this.handleLogOut}
+                            username={ username }
                         />
                         <Switch>
 

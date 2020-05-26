@@ -19,7 +19,7 @@ class NavBar extends React.Component {
     }
 
     render() {
-        const userName = 'Usuario';
+        const { username } = this.props;
         const { showUserDropdown } = this.state;
 
         return (
@@ -37,7 +37,7 @@ class NavBar extends React.Component {
                             icon={faUserCircle}
                             className='mr1'
                         />
-                        {userName}
+                        {username}
                     </button>
                 </UserDropdown>
             </div>
