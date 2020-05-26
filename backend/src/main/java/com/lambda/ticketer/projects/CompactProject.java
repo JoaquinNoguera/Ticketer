@@ -10,9 +10,11 @@ import lombok.Setter;
 public class CompactProject {
     private long id;
     private String name;
+    private Boolean owner;
 
-    public CompactProject(Project project) {
+    public CompactProject(Project project, Boolean owner) {
         this.id = project.getId();
         this.name = project.getName();
+        this.owner = owner;
     }
 }

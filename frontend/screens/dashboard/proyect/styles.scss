@@ -48,5 +48,19 @@
         min-width: 0;
         max-width: calc( 95vw - 42px );
     }
+}
 
+.dashboard-proyect--pill {
+    display: inline-block;
+
+    font-size: $font-size-s;
+    font-weight: normal;
+    padding: .1em 1em;
+
+    border-radius: 1em / 50%;
+
+    background-color: $color-secondary;
+    color: $color-background;
+
+    margin-left: 1em;
 }
