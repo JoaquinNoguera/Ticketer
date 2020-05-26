@@ -25,3 +25,17 @@
     bottom: $space-2;
     right: $space-3;
 }
+.dashboard-proyect--pill {
+    display: inline-block;
+
+    font-size: $font-size-s;
+    font-weight: normal;
+    padding: .1em 1em;
+
+    border-radius: 1em / 50%;
+
+    background-color: $color-secondary;
+    color: $color-background;
+
+    margin-left: 1em;
+}

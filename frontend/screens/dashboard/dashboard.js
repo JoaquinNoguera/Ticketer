@@ -75,6 +75,7 @@ class Dashboard extends React.Component {
                     key={project.id}
                     id={project.id}
                     name={project.name}
+                    owner={ project.owner } 
                 />
             }
         });
