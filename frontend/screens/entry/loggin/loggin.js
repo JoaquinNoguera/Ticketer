@@ -1,7 +1,7 @@
 import React from 'react';
 import withRequest from '../../../utils/requestService';
 import useInput from '../../../utils/useInput';
-
+import { Link } from 'react-router-dom';
 function Loggin (props){
     
     const initError = {
@@ -107,6 +107,13 @@ function Loggin (props){
                 >
                     Ingresar
                 </button>
+                <p
+                    className="entry--link"
+                >
+                    ¿No tienes una cuenta?
+                    <Link to="/singin"> Crear cuenta </Link>
+
+                </p>
             </form>
         </div>
     );

@@ -25,3 +25,28 @@
     bottom: $space-2;
     right: $space-3;
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px) {
+    .dashboard-proyect-actions{
+        position: static;
+        margin: $space-1 auto;
+
+        button.primary{
+            margin-left: 0;
+        }
+    }
+    .dashboard-proyect{
+        h1{
+            width: 90%;
+        }
+        height: auto;
+    }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px){
+    .dashboard-create_proyect-modal{
+        min-width: 0;
+        max-width: calc( 95vw - 42px );
+    }
+
+}

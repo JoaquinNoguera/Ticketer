@@ -1,6 +1,7 @@
 import React from 'react';
 import useInput from '../../../utils/useInput';
 import withRequest from '../../../utils/requestService';
+import { Link } from 'react-router-dom';
 
 function SingIn (props){
 
@@ -126,6 +127,14 @@ function SingIn (props){
                 >
                     Crear Cuenta
                 </button>
+                <p
+                    className="entry--link"
+                >
+                    ¿Ya tienes cuenta?
+                    <Link to="login">
+                        Ingresar   
+                    </Link>
+                </p>
             </form>
         </div>
     );

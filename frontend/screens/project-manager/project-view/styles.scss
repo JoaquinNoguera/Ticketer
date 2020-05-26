@@ -37,3 +37,20 @@
     cursor: pointer;
     box-shadow: 10px 10px 17px -7px rgba(0,0,0,0.75);
 }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 556px){
+        #proyect_view-actions{
+            margin: $space-2 auto;
+            flex-direction: column-reverse;
+            width: 90vw;
+            align-items: stretch;
+            a{
+                margin-top: $space-2;
+                width: 100%;
+                button{
+                    width: 100%;
+                    margin: 0;
+                }
+            }
+        }
+}
