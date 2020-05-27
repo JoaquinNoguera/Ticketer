@@ -108,7 +108,9 @@ class App extends React.Component {
                                 exact
                                 path='/projects'
                             >
-                                <Dashboard />
+                                <Dashboard 
+                                    username={username}
+                                />
                             </Route>
 
                             <Route

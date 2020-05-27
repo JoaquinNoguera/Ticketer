@@ -138,6 +138,7 @@ const ProjectSettings = function (props) {
         else return null;
     });
 
+    
     return (
         <ProjectContext.Consumer>
             {
@@ -222,7 +223,7 @@ const ProjectSettings = function (props) {
                                 Agregar Colaborador
                             </button>
 
-                            <h3> Colaboradoradores </h3>
+                            { listColaborator[0] && <h3> Colaboradoradores </h3>}
 
                             <div id="colaborator-list">
                                 {listColaborator}

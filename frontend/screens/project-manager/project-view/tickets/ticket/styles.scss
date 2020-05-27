@@ -43,4 +43,7 @@
         margin-bottom: $space-2;
         width: calc( 90vw - 14px );
     }
+    p.text{
+        max-width: 80vw;
+    }
 }

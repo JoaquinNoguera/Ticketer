@@ -24,7 +24,6 @@ function Colaborator(props) {
                 })
             }
         );
-        console.log(project);
         return project;
     }
 

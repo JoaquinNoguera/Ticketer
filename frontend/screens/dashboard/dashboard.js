@@ -33,6 +33,17 @@ class Dashboard extends React.Component {
             }));
     }
 
+    handleDropOut = async (f) => {
+        const { projects } = this.state;
+        this.setState({loading: true});
+        
+        const id = await f();
+        this.setState({
+            projects: projects.filter( p => p.id !== id ),
+            loading: false
+        });
+    }
+
     handleCreateProyectClick = () => {
         this.setState(state => ({ showCreateProyectModal: !state.showCreateProyectModal }));
     }
@@ -68,13 +79,17 @@ class Dashboard extends React.Component {
         if(loading) return <Loading/>;
 
         const re = new RegExp(`(${search.toUpperCase()})`);
-
+        
+        const { username } = this.props;
+        
         const projectList = projects.map(project => {
             if (search === "" || project.name.toUpperCase().search(re) !== -1) {
                 return <Proyect
                     key={project.id}
                     id={project.id}
                     name={project.name}
+                    username={username}
+                    handleDropOut={this.handleDropOut}
                 />
             }
         });
