@@ -36,7 +36,7 @@ public class ProjectsController {
         List<CompactProject> projects = new ArrayList<>(user.getProjects().size());
 
         for (Project project : user.getProjects())
-            projects.add(new CompactProject(project));
+            projects.add(new CompactProject(project, project.getOwner() == user));
 
         return projects;
     }
@@ -48,7 +48,7 @@ public class ProjectsController {
         Project newProject = new Project(inputProject.getProjectName(), user);
         newProject = projectsRepository.save(newProject);
 
-        return new CompactProject(newProject);
+        return new CompactProject(newProject, newProject.getOwner() == user);
     }
 
     @DeleteMapping("/api/users/projects/{id}")

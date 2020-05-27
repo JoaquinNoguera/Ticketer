@@ -9,7 +9,7 @@ import ConfirmationButton from '../../../components/confirmation-button';
 
 import './styles.scss'
 
-const Proyect = function ({ name, id, username, httpRequest, handleDropOut }) {
+const Proyect = function ({ name, id, username, httpRequest, handleDropOut, owner }) {
     
     const deleteColaborator = async () => {
         await httpRequest(
@@ -27,7 +27,11 @@ const Proyect = function ({ name, id, username, httpRequest, handleDropOut }) {
 
     return (
         <div className='dashboard-proyect'>
-            <h3>{name} </h3>
+            <h3>
+                { name }
+                { owner && <span className='dashboard-proyect--pill'>tuyo</span> }
+            </h3>
+            
             <div className='dashboard-proyect-actions' >
                 <Link to={`/project/${id}`} >
                     <button className='primary small'>
@@ -35,7 +39,7 @@ const Proyect = function ({ name, id, username, httpRequest, handleDropOut }) {
                         Abrir
                     </button>
                 </Link>
-
+                { !owner &&
                 <ConfirmationButton
                     className='warn small'
                     onConfirm={async() => {
@@ -46,6 +50,7 @@ const Proyect = function ({ name, id, username, httpRequest, handleDropOut }) {
                     <FontAwesomeIcon icon={faTimesCircle} className='mr1' />
                     Darse de baja
                 </ConfirmationButton>
+                }
             </div>
         </div>
     );

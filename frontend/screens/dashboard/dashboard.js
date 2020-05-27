@@ -90,6 +90,7 @@ class Dashboard extends React.Component {
                     name={project.name}
                     username={username}
                     handleDropOut={this.handleDropOut}
+                    owner={ project.owner } 
                 />
             }
         });
