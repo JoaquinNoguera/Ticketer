@@ -19,11 +19,10 @@ class PopupTicket extends React.Component {
         super(props);
 
         const { name, body, header } = props;
-
         this.state = {
             edit: false,
             name: name,
-            body: body,
+            body: (!body) ? "": body,
             header: header,
             errors: null
         }
@@ -279,8 +278,7 @@ class PopupTicket extends React.Component {
 
     render() {
         const { show, forCreate } = this.props;
-        const { name, errors } = this.state;
-        console.log(errors);
+        const { name, errors} = this.state;
         return (
             <>
                 <ErrorModal

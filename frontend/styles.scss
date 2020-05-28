@@ -59,6 +59,10 @@ button {
     cursor: pointer;
 }
 
+button:hover{
+    opacity: 0.9;
+}
+
 button.small {
     height: 30px;
     font-size: $font-size-s;

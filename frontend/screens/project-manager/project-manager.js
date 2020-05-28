@@ -83,7 +83,7 @@ class ProjectManager extends React.Component{
  
     handleTicketCreated = async (header, body) => {
         const { projectId } = this.state;
-
+        if( !body ) body = "";
         return this.props.httpRequest(`/api/projects/${ projectId }/tickets`,
             {
                 method: 'POST',
@@ -127,7 +127,7 @@ class ProjectManager extends React.Component{
     handleUpdateTicket = async (ticketId, header, body) => {
 
         const { projectId } = this.state;
-
+        if( !body ) body = "";
         return this.props.httpRequest(`/api/projects/${ projectId }/tickets/${ ticketId }`,
         {
             method: 'PATCH',
