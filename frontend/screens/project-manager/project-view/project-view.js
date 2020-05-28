@@ -6,7 +6,7 @@ import Tickets from './tickets';
 import ProjectContext from '../project-context';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowCircleLeft, faCog } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleLeft, faCog, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import './styles.scss'
 
@@ -87,7 +87,9 @@ class ProjectView extends React.Component {
                     className="primary"
                     onClick={ this.onChangeShow }
                 > 
-                    + 
+                     <FontAwesomeIcon 
+                    icon={ faPlus }
+                    />
                 </button>
 
                 <PopupTicket
