@@ -4,7 +4,7 @@ module.exports = {
     mode: 'development',
     entry: './frontend/app.js',
     output: {
-        path: path.resolve(__dirname, 'build/frontend'),
+        path: path.resolve(__dirname, 'backend/src/main/resources/static'),
         filename: 'app.js',
         publicPath: '/'
     },
