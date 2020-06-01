@@ -2,9 +2,9 @@ const path = require('path');
 
 module.exports = {
     mode: 'development',
-    entry: './frontend/app.js',
+    entry: './src/app.js',
     output: {
-        path: path.resolve(__dirname, 'backend/src/main/resources/static'),
+        path: path.resolve(__dirname, '../backend/src/main/resources/static'),
         filename: 'app.js',
         publicPath: '/'
     },
@@ -24,7 +24,7 @@ module.exports = {
     devServer: {
         open: true,
         historyApiFallback: true,
-        contentBase: path.resolve(__dirname, 'build/frontend'),
+        contentBase: path.resolve(__dirname, '../backend/src/main/resources/static'),
         port: 3000,
         proxy: {
             '/api': {

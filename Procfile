@@ -1,0 +1,1 @@
+web: java -jar backend/target/ticketer-0.0.1-SNAPSHOT.jar

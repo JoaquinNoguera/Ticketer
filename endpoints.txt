@@ -1,9 +1,0 @@
-/api
-	/login - POST
-	/users - POST, PATCH
-		/projects - POST, GET
-			/:proyectId - DELETE, PATCH
-	/projects
-		/:projectId - GET
-			/tickets - POST
-				/:ticketId - DELETE, PATCH

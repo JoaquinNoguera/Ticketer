@@ -5,6 +5,8 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,17 @@ import java.util.Date;
 
 @Service
 public class JwtUtils {
+    private final Algorithm algorithm;
+    private final JWTVerifier verifier;
 
-    private final String SECRET_KEY = "secret";
-    private final Algorithm algorithm = Algorithm.HMAC256(SECRET_KEY);
-    private final JWTVerifier verifier = JWT.require(algorithm).build();
+    public JwtUtils(Environment env) throws Exception {
+        String SECRET_KEY = env.getProperty("AUTHORIZATION_SECRET");
+        if (SECRET_KEY == null)
+            throw new Exception("AUTHORIZATION_SECRET es nulo");
+
+        this.algorithm  = Algorithm.HMAC256(SECRET_KEY);
+        this.verifier  = JWT.require(algorithm).build();
+    }
 
     public String extractUsername(String token){
         DecodedJWT decodedJWT = verifier.verify(token);
