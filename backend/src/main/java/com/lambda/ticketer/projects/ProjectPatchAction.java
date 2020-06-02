@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -20,6 +21,7 @@ public class ProjectPatchAction {
     @JsonProperty("action")
     private Verb verb;
 
+    @Size(max = 140, message = "El nombre no puede tener mas de 140 caracteres")
     @NotNull(message = "El valor no puede ser nulo")
     @NotBlank(message = "El valor no puede ser vacio")
     private String value;

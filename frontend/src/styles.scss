@@ -9,6 +9,13 @@
     font-size: $font-size;
 }
 
+h1, h2, h3, p{
+    max-width: 100%;
+    height: auto;
+    overflow-wrap: break-word;
+    overflow: hidden;
+}
+
 h1 {
     font-size: $font-size-l;
     font-weight: bold;
@@ -109,7 +116,8 @@ input.warn{
 span.warn{
     margin: 0 !important;
     width: 100%;
-    height: $font-size-s;
+    overflow: hidden;
+    height: 1em;
     display: inline-block;
     padding-left: $space-3;
     color: $color-warn;

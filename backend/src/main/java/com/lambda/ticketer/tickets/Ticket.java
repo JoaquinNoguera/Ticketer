@@ -31,6 +31,7 @@ public class Ticket {
     String header;
 
     @NotNull(message = "El cuerpo de un ticket no puede ser nulo")
+    @Column(columnDefinition="TEXT")
     String body;
 
     @NotNull(message = "El estado de un ticket no puede ser nulo")

@@ -1,12 +1,15 @@
 @import '../../../vars.scss';
 
 .dashboard-proyect {
-    height: 30px;
+    height: auto;
     margin: $space-2 0;
 
     background-color:  $color-background-light;
     color: $color-text;
 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
     overflow: auto;
     padding: $space-2 $space-3;
@@ -19,12 +22,7 @@
     margin-left: $space-1;
 }
 
-.dashboard-proyect-actions {
-    position: absolute;
 
-    bottom: $space-2;
-    right: $space-3;
-}
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 556px) {
     .dashboard-proyect-actions{

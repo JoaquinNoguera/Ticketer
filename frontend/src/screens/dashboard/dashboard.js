@@ -6,6 +6,7 @@ import { onChangeState } from '../../utils/utils';
 import Loading from '../../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ErrorModal from '../../components/error-modal';
 
 import './styles.scss';
 
@@ -15,7 +16,8 @@ class Dashboard extends React.Component {
         showCreateProyectModal: false,
         projects: [],
         loading: true,
-        search: ''
+        search: '',
+        errors: null
     }
 
     componentDidMount() {
@@ -67,14 +69,12 @@ class Dashboard extends React.Component {
                     projects: [...state.projects, project]
                 }));
             })
-            .catch(_ => {
-                console.log('error in dashboard.js');
-            });
-    }
+            .catch(errors => this.setState({ errors }));
+        }
 
     render() {
 
-        const { projects, showCreateProyectModal, loading, search } = this.state;
+        const { projects, showCreateProyectModal, loading, search, errors } = this.state;
 
         if(loading) return <Loading/>;
 
@@ -96,6 +96,14 @@ class Dashboard extends React.Component {
         });
 
         return (
+            <>
+                <ErrorModal
+                    show={errors !== null}
+                    onClose={() => {
+                        this.setState({ errors: null });
+                    }}
+                    errors={errors}
+                />
             <div id='dashboard' >
                 <h2> Proyectos </h2>
 
@@ -127,6 +135,7 @@ class Dashboard extends React.Component {
                     {projectList}
                 </div>
             </div>
+            </>
         );
     }
 }

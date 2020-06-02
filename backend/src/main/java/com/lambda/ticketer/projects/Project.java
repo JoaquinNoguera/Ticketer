@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,6 +24,7 @@ public class Project {
 
     @NotNull(message = "El nombre de proyecto no puede ser nulo")
     @NotBlank(message = "El nombre de proyecto no puede estar vacio")
+    @Size(max = 140, message = "El nombre de un proyecto no puede tener mas de 140 caracteres")
     String name;
 
     Integer totalTickets;

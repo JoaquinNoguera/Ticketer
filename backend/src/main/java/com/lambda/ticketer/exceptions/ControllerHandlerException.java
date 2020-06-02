@@ -50,7 +50,7 @@ public class ControllerHandlerException {
     public ResponseEntity<ExceptionResponse> exceptionHandler(Exception exception){
 
         log.error(exception.toString());
-
+        String a = exception.toString();
         return new ResponseEntity<>(
                 (new ExceptionResponse("A ocurrido un error inesperado")), HttpStatus.BAD_REQUEST
         );

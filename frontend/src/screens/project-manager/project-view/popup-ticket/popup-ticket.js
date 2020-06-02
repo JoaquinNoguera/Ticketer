@@ -43,6 +43,7 @@ class PopupTicket extends React.Component {
                 className="popup__content"
             >
                 <textarea
+                    placeholder="Ingrese el header"
                     className="header"
                     value={header}
                     onChange={(e) => {
@@ -53,6 +54,7 @@ class PopupTicket extends React.Component {
                 <hr />
 
                 <textarea
+                    placeholder="Ingrese la descripción"
                     className="description"
                     value={body}
                     onChange={(e) => {
@@ -68,7 +70,7 @@ class PopupTicket extends React.Component {
 
                 <hr />
 
-                <p> {body} </p>
+                <p className="body"> {body} </p>
             </div>
         }
 

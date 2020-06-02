@@ -40,7 +40,7 @@ function UserSettings(props) {
     const [password, passwordInput] = useInput(
         {
             init: "",
-            placeholder: "nueva contraseña",
+            placeholder: "Nueva contraseña",
             type: "password",
             className: (error["password"].state) ? "warn" : ""
 
@@ -50,7 +50,7 @@ function UserSettings(props) {
     const [passwordConfirm, passwordConfirmInput] = useInput(
         {
             init: "",
-            placeholder: "repetir contraseña",
+            placeholder: "Repetir contraseña",
             type: "password"
 
         }

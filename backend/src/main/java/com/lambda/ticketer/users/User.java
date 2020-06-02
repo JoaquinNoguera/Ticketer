@@ -22,6 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
+    @Size(max = 30, message = "El nombre de un usuario no puede tener mas de 30 caracteres")
     @NotNull(message = "El nombre no puede ser nulo")
     @NotBlank(message = "El nombre no puede estar vacío")
     @Column(unique = true)
