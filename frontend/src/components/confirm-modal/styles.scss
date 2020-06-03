@@ -1,0 +1,21 @@
+@import"../../vars.scss";
+
+#confirm-modal{
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    background-color: $color-background-light;
+    border-radius: 15px;
+
+    padding: $space-2 $space-3;
+
+
+    p {
+        margin-top: $space-1;
+    }
+
+    button{
+        margin-top: $space-2;
+        align-self: flex-start;
+    }
+}

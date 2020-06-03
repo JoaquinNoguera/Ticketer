@@ -7,6 +7,7 @@ import Loading from '../../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import ErrorModal from '../../components/error-modal';
+import ConfirmModal from '../../components/confirm-modal';
 
 import './styles.scss';
 
@@ -17,7 +18,8 @@ class Dashboard extends React.Component {
         projects: [],
         loading: true,
         search: '',
-        errors: null
+        errors: null,
+        confirm: null,
     }
 
     componentDidMount() {
@@ -66,7 +68,8 @@ class Dashboard extends React.Component {
             })
             .then(project => {
                 this.setState(state => ({
-                    projects: [...state.projects, project]
+                    projects: [...state.projects, project],
+                    confirm: "El proyecto ha sido creado exitosamente"
                 }));
             })
             .catch(errors => this.setState({ errors }));
@@ -74,7 +77,7 @@ class Dashboard extends React.Component {
 
     render() {
 
-        const { projects, showCreateProyectModal, loading, search, errors } = this.state;
+        const { projects, showCreateProyectModal, loading, search, errors, confirm } = this.state;
 
         if(loading) return <Loading/>;
 
@@ -103,6 +106,13 @@ class Dashboard extends React.Component {
                         this.setState({ errors: null });
                     }}
                     errors={errors}
+                />
+                <ConfirmModal
+                    show={confirm !== null}
+                    onClose={() => {
+                        this.setState({ confirm: null });
+                    }}
+                    message={confirm}
                 />
             <div id='dashboard' >
                 <h2> Proyectos </h2>
