@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import './styles.scss';
 
 class Modal extends React.Component {
+
+    pointerDownStartedHere = false;
     
     render () {
         const { show, children, className, onFocusLoss, ...otherProps } = this.props;
@@ -13,11 +15,22 @@ class Modal extends React.Component {
 
                 <div 
                     className='modal-background'
-                    onClick={ event => { event.stopPropagation(); onFocusLoss(); } }
+                    onPointerDown={ event => { 
+                        event.stopPropagation();
+                        this.pointerDownStartedHere = true; 
+                    }}
+                    onClick={ event => { 
+                        event.stopPropagation(); 
+                        if (this.pointerDownStartedHere) {
+                            onFocusLoss(); 
+                        }
+                        this.pointerDownStartedHere = false;
+                    }}
                 >
                     <div 
                         className={ `modal-root ${ className || '' }` }
                         onClick={ event => event.stopPropagation() }
+                        onPointerDown={ event => event.stopPropagation() }
                         { ...otherProps }
                     >
                         { children }
