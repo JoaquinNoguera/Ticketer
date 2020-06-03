@@ -4,6 +4,7 @@ import { onChangeState } from '../../../../utils/utils';
 import withRequest from '../../../../utils/requestService';
 import ProjectContext from '../../project-context';
 import ErrorModal from '../../../../components/error-modal';
+import ConfirmModal from '../../../../components/confirm-modal';
 import { categories as ticketStatus, ticketActions } from '../../../../utils';
 
 import ConfirmationButton from '../../../../components/confirmation-button';
@@ -24,7 +25,8 @@ class PopupTicket extends React.Component {
             name: name,
             body: (!body) ? "": body,
             header: header,
-            errors: null
+            errors: null,
+            confirm: null,
         }
     }
 
@@ -89,6 +91,9 @@ class PopupTicket extends React.Component {
                             await context.handleTicketCreated(
                                 this.state.header, this.state.body
                             );
+                            this.setState({
+                                confirm: "El ticket se creo correctamente"
+                            })
                             this.onChangeShow();
                         } catch (errors) {
                             this.setState({ errors });
@@ -118,7 +123,8 @@ class PopupTicket extends React.Component {
                             this.props.onChangeShow();
 
                             this.setState(state => ({
-                                edit: !state.edit
+                                edit: !state.edit,
+                                confirm: "El ticket se edito correctamente"
                             }));
                         } catch (errors) {
                             this.setState({ errors });
@@ -280,7 +286,7 @@ class PopupTicket extends React.Component {
 
     render() {
         const { show, forCreate } = this.props;
-        const { name, errors} = this.state;
+        const { name, errors, confirm } = this.state;
         return (
             <>
                 <ErrorModal
@@ -289,6 +295,13 @@ class PopupTicket extends React.Component {
                         this.setState({ errors: null });
                     }}
                     errors={errors}
+                />
+                <ConfirmModal
+                    show={confirm !== null}
+                    onClose={() => {
+                        this.setState({ confirm: null });
+                    }}
+                    message={confirm}
                 />
                 <ProjectContext.Consumer>
                     {
