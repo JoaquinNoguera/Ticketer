@@ -111,7 +111,7 @@ public class ProjectsController {
 
                 for (User user : project.getMembers()) {
                     if (user.getName().equals(action.getValue())) {
-                        if (!principal.getName().equals(user.getName()))
+                        if (!principal.getName().equals(project.getOwner().getName()))
                             throw new CustomException("No tienes permisos");
                         project.removeMember(user);
                         project = projectsRepository.save(project);
