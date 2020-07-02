@@ -1,4 +1,6 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
     mode: 'development',
@@ -15,12 +17,18 @@ module.exports = {
                 loader: 'babel-loader'
             },
             {
+                test: /\.html$/,
+                use: {
+                  loader: 'html-loader',
+                },
+            },
+            {
                 test: /.s[ac]ss$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+                use: [ { loader: MiniCssExtractPlugin.loader }, 'css-loader', 'sass-loader' ]
             }
         ]
     },
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     devServer: {
         open: true,
         historyApiFallback: true,
@@ -32,5 +40,17 @@ module.exports = {
                 changeOrigin: true
             }
         }
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+          template: './public/index.html',
+          filename: './index.html',
+          favicon: './public/favicon.png'
+        }),
+        new MiniCssExtractPlugin({
+          filename: 'assets/[name].css',
+          chunkFilename: '[id].css',
+          ignoreOrder: false,
+        })
+      ]
 }

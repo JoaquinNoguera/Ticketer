@@ -100,6 +100,9 @@ public class ProjectsController {
                 if (project.getOwner().getName().equals(action.getValue()))
                     throw new CustomException("El dueño de un proyecto no puede eliminarse a si mismo de un proyecto");
 
+                if (!principal.getName().equals(project.getOwner().getName()) && !principal.getName().equals(action.getValue()))
+                    throw new CustomException("No tienes permisos");
+
                 boolean deleted = false;
 
                 for(Ticket ticket : project.getTickets()){
@@ -111,8 +114,6 @@ public class ProjectsController {
 
                 for (User user : project.getMembers()) {
                     if (user.getName().equals(action.getValue())) {
-                        if (!principal.getName().equals(project.getOwner().getName()))
-                            throw new CustomException("No tienes permisos");
                         project.removeMember(user);
                         project = projectsRepository.save(project);
                         deleted = true;
